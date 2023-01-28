@@ -28,7 +28,7 @@ spec:
     image:
       repository: public.ecr.aws/emqx/emqx
 
-    replicaCount: 2
+    replicaCount: 3
     recreatePods: true
 
     emqxConfig:
@@ -84,7 +84,7 @@ spec:
 
     persistence:
       enabled: true
-      existingClaim: emqx-data-v2
+      existingClaim: emqx-data-v3
       # storageClass: ceph-block
       # size: 100Mi
 
