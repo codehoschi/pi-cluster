@@ -1,0 +1,142 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2beta1
+kind: HelmRelease
+metadata:
+  name: &app octoprint
+  namespace: printing
+spec:
+  interval: 15m
+  chart:
+    spec:
+      chart: octoprint
+      version: 6.4.2
+      sourceRef:
+        kind: HelmRepository
+        name: k8s-at-home
+        namespace: flux-system
+  maxHistory: 3
+  install:
+    createNamespace: true
+    remediation:
+      retries: 3
+  upgrade:
+    cleanupOnFail: true
+    remediation:
+      retries: 3
+  uninstall:
+    keepHistory: false
+  values:
+    affinity:
+      nodeAffinity:
+        requiredDuringSchedulingIgnoredDuringExecution:
+          nodeSelectorTerms:
+            - matchExpressions:
+                - key: octoprint
+                  operator: In
+                  values:
+                    - "true"
+
+    image:
+      tag: 1.8.6
+      # tag: bleeding
+
+    env:
+      TZ: "{$TZ}"
+      OCTOPRINT_PORT: 5000
+      # # -- Enable MJPG Streamer
+      # # Enable this to ensure camera streaming is enabled you add a video device.
+      ENABLE_MJPG_STREAMER: "true"
+      # # -- MJPG Streamer input parameters
+      MJPG_STREAMER_INPUT: "-n -r 640x480"
+      # # -- MJPG Streamer camera device
+      # CAMERA_DEV: /dev/hidraw0
+      CAMERA_DEV: /dev/video0
+
+    securityContext:
+      # -- (bool) Privileged securityContext may be required if USB devics are accessed directly through the host machine
+      privileged: true
+
+    persistence:
+      data:
+        enabled: true
+        existingClaim: octoprint-data-v2
+        mountPath: "/octoprint"
+      # -- Configure a hostPathMount to mount a USB device in the container.
+      # @default -- See values.yaml
+      printer:
+        enabled: true
+        type: hostPath
+        hostPath: /dev/ttyUSB0
+      webcam:
+        enabled: false
+        type: hostPath
+        hostPath: /dev/hidraw0
+        mountPath: /dev/video0
+
+    service:
+      main:
+        ports:
+          http:
+            port: 5000
+
+    ingress:
+      main:
+        enabled: true
+        ingressClassName: nginx
+        annotations:
+          # cert-manager.io/cluster-issuer: "letsencrypt-production"
+          # cert-manager.io/cluster-issuer: 'selfsigned-cluster-issuer'
+          hajimari.io/enable: "true"
+          hajimari.io/icon: "resistor-nodes"
+          hajimari.io/targetBlank: "true"
+        hosts:
+          - host: &host "{{ .Release.Name }}.${SECRET_INTERNAL_DOMAIN}"
+            paths:
+              - path: /
+                pathType: Prefix
+        # tls:
+        #   - hosts:
+        #       - *host
+        #     secretName: 'node-red-tls'
+
+    # podSecurityContext:
+    #   # runAsUser: 568
+    #   # runAsGroup: 568
+    #   # fsGroup: 568
+    #   runAsUser: 1
+    #   runAsGroup: 1
+    #   fsGroup: 1
+    #   fsGroupChangePolicy: "OnRootMismatch"
+
+    # resources:
+    #   requests:
+    #     cpu: 22m
+    #     memory: 164Mi
+    #   limits:
+    #     memory: 262Mi
+
+    addons:
+      codeserver:
+        enabled: true
+        image:
+          repository: ghcr.io/coder/code-server
+          tag: 4.9.1
+        env:
+          TZ: "${TZ}"
+        volumeMounts:
+          - name: data
+            mountPath: /octoprint
+        ingress:
+          enabled: true
+          ingressClassName: nginx
+          annotations:
+            # cert-manager.io/cluster-issuer: "letsencrypt-production"
+            # cert-manager.io/cluster-issuer: 'selfsigned-cluster-issuer'
+            hajimari.io/enable: "true"
+            hajimari.io/icon: "microsoft-visual-studio-code"
+            hajimari.io/targetBlank: "true"
+          hosts:
+            - host: &host "octoprint-code.${SECRET_DOMAIN}"
+              paths:
+                - path: /
+                  pathType: Prefix
