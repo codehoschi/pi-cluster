@@ -1,0 +1,56 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2beta1
+kind: HelmRelease
+metadata:
+  name: nfs-subdir-external-provisioner
+  namespace: kube-system
+spec:
+  interval: 1h
+  chart:
+    spec:
+      chart: nfs-subdir-external-provisioner
+      version: 4.0.17
+      sourceRef:
+        kind: HelmRepository
+        name: nfs-subdir-external-provisioner
+        namespace: flux-system
+  maxHistory: 3
+  install:
+    createNamespace: true
+    remediation:
+      retries: 3
+  upgrade:
+    cleanupOnFail: true
+    remediation:
+      retries: 3
+  uninstall:
+    keepHistory: false
+  values:
+    # image:
+    #   repository: gcr.io/k8s-staging-sig-storage/nfs-subdir-external-provisioner
+    #   tag: v4.0.2
+    nfs:
+      server: ${NAS_IP}
+      path: /volume1/kubedata/hekate
+      mountOptions:
+        - nfsvers=4
+        - hard
+        - noac
+        - nocto
+        - noacl
+        - rsize=8192
+        - wsize=8192
+        - async
+        - retrans=3
+        - timeo=600
+    storageClass:
+      defaultClass: false
+      # pathPattern: '${.PVC.namespace}-${.PVC.name}' # flux cannot resolve variable error
+
+    resources:
+      requests:
+        cpu: 15m
+        memory: 64M
+      limits:
+        cpu: 15m
+        memory: 64M
