@@ -9,7 +9,7 @@ spec:
   ref:
     branch: main
   # url: "https://github.com/CodeHoschi/pi-cluster"
-  url: "ssh://git@github.com/CodeHoschi/pi-cluster"
+  url: "ssh://git@github.com:CodeHoschi/pi-cluster"
   ignore: |
     # exclude all
     /*
