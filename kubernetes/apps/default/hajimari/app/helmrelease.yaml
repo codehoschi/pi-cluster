@@ -41,6 +41,7 @@ spec:
         matchNames:
           - default
           - printing
+          - home-automation
     ingress:
       main:
         enabled: true
