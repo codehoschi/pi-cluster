@@ -37,8 +37,8 @@ spec:
                     - "true"
 
     image:
-      # tag: 1.8.6
-      tag: bleeding
+      tag: 1.8.6
+      # tag: bleeding
 
     env:
       TZ: "{$TZ}"
