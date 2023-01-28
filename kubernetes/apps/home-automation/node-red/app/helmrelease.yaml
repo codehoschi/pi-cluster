@@ -78,7 +78,7 @@ spec:
         cpu: 22m
         memory: 164Mi
       limits:
-        memory: 262Mi
+        memory: 263Mi
 
     addons:
       codeserver:
