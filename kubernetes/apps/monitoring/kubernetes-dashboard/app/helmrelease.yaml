@@ -38,13 +38,14 @@ spec:
       className: nginx
       annotations:
         # cert-manager.io/cluster-issuer: letsencrypt-staging
+        cert-manager.io/cluster-issuer: selfsigned-cluster-issuer
         hajimari.io/icon: mdi:kubernetes
       hosts:
         - &host "kubernetes.${SECRET_INTERNAL_DOMAIN}"
-      # tls:
-      #   - hosts:
-      #       - *host
-      #     secretName: kubernetes-dashboard-tls
+      tls:
+        - hosts:
+            - *host
+          secretName: kubernetes-dashboard-tls
     metricsScraper:
       enabled: true
     serviceMonitor:
