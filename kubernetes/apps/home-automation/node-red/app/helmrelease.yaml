@@ -1,0 +1,107 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2beta1
+kind: HelmRelease
+metadata:
+  name: &app node-red
+  namespace: home-automation
+spec:
+  interval: 15m
+  chart:
+    spec:
+      chart: app-template
+      version: 1.0.1
+      sourceRef:
+        kind: HelmRepository
+        name: bjw-s
+        namespace: flux-system
+  maxHistory: 3
+  install:
+    createNamespace: true
+    remediation:
+      retries: 3
+  upgrade:
+    remediation:
+      retries: 3
+  uninstall:
+    keepHistory: false
+  values:
+    image:
+      repository: ghcr.io/k8s-at-home/node-red
+      tag: v3.0.2
+
+    env:
+      TZ: "{$TZ}"
+
+    persistence:
+      data:
+        enabled: true
+        existingClaim: node-red-data-v2
+        mountPath: "/data"
+
+    service:
+      main:
+        ports:
+          http:
+            port: 1880
+
+    ingress:
+      main:
+        enabled: true
+        ingressClassName: nginx
+        annotations:
+          # cert-manager.io/cluster-issuer: "letsencrypt-production"
+          # cert-manager.io/cluster-issuer: 'selfsigned-cluster-issuer'
+          hajimari.io/enable: "true"
+          hajimari.io/icon: "resistor-nodes"
+          hajimari.io/targetBlank: "true"
+        hosts:
+          - host: &host "{{ .Release.Name }}.${SECRET_INTERNAL_DOMAIN}"
+            paths:
+              - path: /
+                pathType: Prefix
+        # tls:
+        #   - hosts:
+        #       - *host
+        #     secretName: 'node-red-tls'
+
+    # podSecurityContext:
+    #   # runAsUser: 568
+    #   # runAsGroup: 568
+    #   # fsGroup: 568
+    #   runAsUser: 1
+    #   runAsGroup: 1
+    #   fsGroup: 1
+    #   fsGroupChangePolicy: "OnRootMismatch"
+
+    resources:
+      requests:
+        cpu: 22m
+        memory: 164Mi
+      limits:
+        memory: 262Mi
+
+    addons:
+      codeserver:
+        enabled: true
+        image:
+          repository: ghcr.io/coder/code-server
+          tag: 4.9.1
+        env:
+          TZ: "${TZ}"
+        volumeMounts:
+          - name: data
+            mountPath: /data
+        ingress:
+          enabled: true
+          ingressClassName: nginx
+          annotations:
+            # cert-manager.io/cluster-issuer: "letsencrypt-production"
+            # cert-manager.io/cluster-issuer: 'selfsigned-cluster-issuer'
+            hajimari.io/enable: "true"
+            hajimari.io/icon: "microsoft-visual-studio-code"
+            hajimari.io/targetBlank: "true"
+          hosts:
+            - host: &host "node-red-code.${SECRET_INTERNAL_DOMAIN}"
+              paths:
+                - path: /
+                  pathType: Prefix
