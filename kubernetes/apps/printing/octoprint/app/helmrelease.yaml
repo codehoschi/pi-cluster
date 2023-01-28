@@ -68,9 +68,9 @@ spec:
         type: hostPath
         hostPath: /dev/ttyUSB0
       webcam:
-        enabled: false
+        enabled: true
         type: hostPath
-        hostPath: /dev/hidraw0
+        hostPath: /dev/video0
         mountPath: /dev/video0
 
     service:
