@@ -45,12 +45,12 @@ spec:
       OCTOPRINT_PORT: 5000
       # # -- Enable MJPG Streamer
       # # Enable this to ensure camera streaming is enabled you add a video device.
-      ENABLE_MJPG_STREAMER: "true"
+      ENABLE_MJPG_STREAMER: "false"
       # # -- MJPG Streamer input parameters
       MJPG_STREAMER_INPUT: "-n -r 640x480"
       # # -- MJPG Streamer camera device
       # CAMERA_DEV: /dev/hidraw0
-      CAMERA_DEV: /dev/video0
+      # CAMERA_DEV: /dev/video0
 
     securityContext:
       # -- (bool) Privileged securityContext may be required if USB devics are accessed directly through the host machine
