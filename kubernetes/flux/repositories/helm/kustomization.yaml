@@ -6,6 +6,7 @@ resources:
   - ./bjw-s.yaml
   - ./emqx.yaml
   - ./external-dns.yaml
+  - ./fairwinds.yaml
   - ./hajimari.yaml
   - ./ingress-nginx.yaml
   - ./jetstack.yaml
@@ -14,6 +15,7 @@ resources:
   - ./kubernetes-dashboard.yaml
   - ./metallb.yaml
   - ./metrics-server.yaml
-  - ./nfs-subdir-external-provisioner-charts.yaml
+  - ./nfs-subdir-external-provisioner.yaml
+  - ./prometheus-community.yaml
   - ./stakater.yaml
   - ./weave-gitops.yaml
