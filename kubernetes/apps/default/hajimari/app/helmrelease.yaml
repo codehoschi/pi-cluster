@@ -40,8 +40,9 @@ spec:
       namespaceSelector:
         matchNames:
           - default
-          - printing
           - home-automation
+          - printing
+          - monitoring
     ingress:
       main:
         enabled: true
