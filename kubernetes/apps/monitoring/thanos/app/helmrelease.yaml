@@ -58,8 +58,9 @@ spec:
           hajimari.io/enable: "true"
           hajimari.io/icon: "archive-clock"
           hajimari.io/targetBlank: "true"
-        hosts:
-          - host: "thanos-cluster.${SECRET_INTERNAL_DOMAIN}"
+        hostname: "thanos-cluster.${SECRET_INTERNAL_DOMAIN}"
+        # hosts:
+        #   - host: "thanos-cluster.${SECRET_INTERNAL_DOMAIN}"
 
     queryFrontend:
       enabled: false
