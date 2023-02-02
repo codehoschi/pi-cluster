@@ -1,6 +1,6 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "username": "hoschi-bot[bot]",
-  "gitAuthor": "hoschi-bot <33785650+hoschi-bot[bot]@users.noreply.github.com>",
+  "gitAuthor": "hoschi-bot <13208657+hoschi-bot[bot]@users.noreply.github.com>",
   "repositories": ["codehoschi/pi-cluster"]
 }
