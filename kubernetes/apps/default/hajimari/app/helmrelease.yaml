@@ -42,6 +42,7 @@ spec:
           - default
           - home-automation
           - printing
+          - media
           - monitoring
     ingress:
       main:
