@@ -27,39 +27,14 @@ spec:
   uninstall:
     keepHistory: false
   values:
-    # controller:
-    #   type: statefulset
-    #   annotations:
-    #     reloader.stakater.com/auto: "true"
-
     image:
-      repository: lscr.io/linuxserver/radarr
-      tag: latest
+      # repository: lscr.io/linuxserver/radarr
+      # tag: latest
+      repository: ghcr.io/onedr0p/radarr
+      tag: 4.3.2.6857
 
     env:
       TZ: {$TZ}
-
-    # service:
-    #   main:
-    #     ports:
-    #       http:
-    #         port: &port 7878
-
-    # probes:
-    #   liveness: &probes
-    #     enabled: true
-    #     custom: true
-    #     spec:
-    #       httpGet:
-    #         path: /ping
-    #         port: *port
-    #       initialDelaySeconds: 0
-    #       periodSeconds: 10
-    #       timeoutSeconds: 1
-    #       failureThreshold: 3
-    #   readiness: *probes
-    #   startup:
-    #     enabled: false
 
     ingress:
       main:
