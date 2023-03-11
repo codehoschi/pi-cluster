@@ -27,10 +27,10 @@ spec:
     keepHistory: false
   values:
     image:
-      # repository: lscr.io/linuxserver/radarr
-      # tag: latest
-      repository: ghcr.io/onedr0p/radarr
-      tag: 4.3.2.6857
+      repository: lscr.io/linuxserver/radarr
+      tag: latest
+      # repository: ghcr.io/onedr0p/radarr
+      # tag: 4.3.2.6857
 
     env:
       TZ: ${TIMEZONE}
