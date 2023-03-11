@@ -27,13 +27,20 @@ spec:
     keepHistory: false
   values:
     image:
-      repository: lscr.io/linuxserver/sabnzbd
-      tag: latest
-      # repository: ghcr.io/onedr0p/radarr
-      # tag: 4.3.2.6857
+      # repository: lscr.io/linuxserver/sabnzbd
+      # tag: latest
+      repository: ghcr.io/onedr0p/sabnzbd
+      tag: 3.7.2@sha256:1650ac838f239899cb3701fd28ffb551e2abdc6b3001d6c19bd80dca0564ec2a
 
     env:
       TZ: ${TIMEZONE}
+      SABNZBD__HOST_WHITELIST_ENTRIES: >-
+        sabnzbd,
+        sabnzbd.media,
+        sabnzbd.media.svc,
+        sabnzbd.media.svc.cluster,
+        sabnzbd.media.svc.cluster.local,
+        sabnzbd.${SECRET_INTERNAL_DOMAIN}
 
     service:
       main:
