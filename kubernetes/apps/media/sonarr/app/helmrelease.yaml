@@ -68,9 +68,10 @@ spec:
         existingClaim: sonarr-config-v1
       media:
         enabled: true
-        type: nfs
-        server: ${NAS_IP}
-        path: /volume1/media
+        # type: nfs
+        # server: ${NAS_IP}
+        # path: /volume1/media
+        existingClaim: nfs-media-pvc
         mountPath: /media
 
     resources:
