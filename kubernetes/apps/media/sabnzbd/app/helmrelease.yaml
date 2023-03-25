@@ -27,10 +27,10 @@ spec:
     keepHistory: false
   values:
     image:
-      # repository: lscr.io/linuxserver/sabnzbd
-      # tag: latest
-      repository: ghcr.io/onedr0p/sabnzbd
-      tag: 3.7.2@sha256:c493413f6f333b3e4dfba1f740fcec8601e4c50f79af864448dc42836ba7f932
+      repository: lscr.io/linuxserver/sabnzbd
+      tag: latest
+      # repository: ghcr.io/onedr0p/sabnzbd
+      # tag: 3.7.2@sha256:c493413f6f333b3e4dfba1f740fcec8601e4c50f79af864448dc42836ba7f932
 
     env:
       TZ: ${TIMEZONE}
@@ -75,8 +75,18 @@ spec:
       config:
         enabled: true
         existingClaim: sabnzbd-config-v2
+      media:
+        enabled: true
+        existingClaim: nfs-media-pvc
+        mountPath: /media
+      incomplete:
+        enabled: true
+        type: emptyDir
 
-    # resources:
-    #   requests:
-    #     cpu: 10m
-    #     memory: 250Mi
+    resources:
+      requests:
+        cpu: 500m
+        memory: 350Mi
+      limits:
+        cpu: 2000m
+        memory: 500Mi
