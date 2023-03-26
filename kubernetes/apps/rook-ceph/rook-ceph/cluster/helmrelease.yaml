@@ -70,13 +70,13 @@ spec:
         nodes:
           - name: pi-02
             devices:
-              - name: /dev/sda3
+              - name: sda3
           - name: pi-03
             devices:
-              - name: /dev/sda3
+              - name: sda3
           - name: pi-04
             devices:
-              - name: /dev/sda3
+              - name: sda3
     cephBlockPools:
       - name: ceph-blockpool
         spec:
