@@ -44,6 +44,7 @@ spec:
           - printing
           - media
           - monitoring
+          - rook-ceph
     ingress:
       main:
         enabled: true
