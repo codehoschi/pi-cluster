@@ -54,12 +54,12 @@ spec:
       bdev_enable_discard = true
       bdev_async_discard = true
     cephClusterSpec:
-      network:
-        provider: host
-        connections:
-          compression:
-            # TODO: Test out enabling this on next cluster rebuild
-            enabled: false
+      # network:
+      #   provider: host
+      #   connections:
+      #     compression:
+      #       # TODO: Test out enabling this on next cluster rebuild
+      #       enabled: false
       crashCollector:
         disable: false
       dashboard:
