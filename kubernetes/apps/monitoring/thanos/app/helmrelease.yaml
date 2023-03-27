@@ -87,11 +87,11 @@ spec:
 
       resources:
         requests:
-          cpu: 23m
-          memory: 204M
+          cpu: 35m
+          memory: 110M
         limits:
-          cpu: 23m
-          memory: 204M
+          cpu: 35m
+          memory: 110M
 
     storegateway:
       enabled: true

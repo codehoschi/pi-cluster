@@ -28,3 +28,11 @@ spec:
   values:
     monitoring:
       enabled: true
+
+    resources:
+      requests:
+        cpu: 143m
+        memory: 164M
+      limits:
+        cpu: 143m
+        memory: 164M

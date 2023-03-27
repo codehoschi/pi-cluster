@@ -103,10 +103,11 @@ spec:
 
     resources:
       requests:
-        cpu: 10m
-        memory: 150Mi
+        cpu: 63m
+        memory: 226M
       limits:
-        memory: 512Mi
+        cpu: 63m
+        memory: 226M
 
   valuesFrom:
     - targetPath: emqxConfig.EMQX_DASHBOARD__DEFAULT_PASSWORD
