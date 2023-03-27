@@ -119,9 +119,9 @@ spec:
       startup:
         enabled: false
 
-    resources:
-      requests:
-        cpu: 48m
-        memory: 443M
-      limits:
-        memory: 709M
+    # resources:
+    #   requests:
+    #     cpu: 48m
+    #     memory: 443M
+    #   limits:
+    #     memory: 709M
