@@ -47,10 +47,10 @@ spec:
       defaultClass: false
       # pathPattern: '${.PVC.namespace}-${.PVC.name}' # flux cannot resolve variable error
 
-    resources:
-      requests:
-        cpu: 15m
-        memory: 64M
-      limits:
-        cpu: 15m
-        memory: 64M
+    # resources:
+    #   requests:
+    #     cpu: 15m
+    #     memory: 64M
+    #   limits:
+    #     cpu: 15m
+    #     memory: 64M

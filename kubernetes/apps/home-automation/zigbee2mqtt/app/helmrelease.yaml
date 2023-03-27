@@ -83,13 +83,13 @@ spec:
                   values:
                     - "true"
 
-    resources:
-      requests:
-        cpu: 63m
-        memory: 110M
-      limits:
-        cpu: 63m
-        memory: 110M
+    # resources:
+    #   requests:
+    #     cpu: 63m
+    #     memory: 110M
+    #   limits:
+    #     cpu: 63m
+    #     memory: 110M
 
     addons:
       codeserver:

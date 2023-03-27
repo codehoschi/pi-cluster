@@ -73,10 +73,10 @@ spec:
         existingClaim: nfs-media-pvc
         mountPath: /media
 
-    resources:
-      requests:
-        cpu: 49m
-        memory: 226Mi
-      limits:
-        cpu: 49m
-        memory: 226Mi
+    # resources:
+    #   requests:
+    #     cpu: 49m
+    #     memory: 226Mi
+    #   limits:
+    #     cpu: 49m
+    #     memory: 226Mi

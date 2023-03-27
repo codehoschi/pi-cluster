@@ -71,12 +71,12 @@ spec:
         secret.reloader.stakater.com/reload: *secret
 
       resources:
-        requests:
-          cpu: 15m
-          memory: 64M
-        limits:
-          cpu: 15m
-          memory: 64M
+        # requests:
+        #   cpu: 15m
+        #   memory: 64M
+        # limits:
+        #   cpu: 15m
+        #   memory: 64M
 
     compactor:
       enabled: true
@@ -86,12 +86,12 @@ spec:
         secret.reloader.stakater.com/reload: *secret
 
       resources:
-        requests:
-          cpu: 35m
-          memory: 110M
-        limits:
-          cpu: 35m
-          memory: 110M
+        # requests:
+        #   cpu: 35m
+        #   memory: 110M
+        # limits:
+        #   cpu: 35m
+        #   memory: 110M
 
     storegateway:
       enabled: true
