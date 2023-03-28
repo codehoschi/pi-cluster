@@ -108,9 +108,9 @@ spec:
           hajimari.io/icon: mdi:alert-decagram-outline
         hosts:
           - &host "alert-manager.${SECRET_INTERNAL_DOMAIN}"
-        tls:
-          - hosts:
-              - *host
+        # tls:
+        #   - hosts:
+        #       - *host
       alertmanagerSpec:
         replicas: 3
         storage:
@@ -201,9 +201,9 @@ spec:
         pathType: Prefix
         hosts:
           - &host "prometheus.${SECRET_INTERNAL_DOMAIN}"
-        tls:
-          - hosts:
-              - *host
+        # tls:
+        #   - hosts:
+        #       - *host
       thanosService:
         enabled: true
       thanosServiceMonitor:
