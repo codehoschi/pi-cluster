@@ -5,15 +5,15 @@ namespace: monitoring
 resources:
   - ./secret.sops.yaml
   - ./helmrelease.yaml
-configurations:
-  - kustomize-config.yaml
-configMapGenerator:
-  - name: kps-generic-values
-    files:
-      - values.yaml=generic-values.yaml
-  - name: kps-prometheus-values
-    files:
-      - values.yaml=prometheus-values.yaml
-  - name: kps-alertmanager-values
-    files:
-      - values.yaml=alertmanager-values.yaml
+# configurations:
+#   - kustomize-config.yaml
+# configMapGenerator:
+#   - name: kps-generic-values
+#     files:
+#       - values.yaml=generic-values.yaml
+#   - name: kps-prometheus-values
+#     files:
+#       - values.yaml=prometheus-values.yaml
+#   - name: kps-alertmanager-values
+#     files:
+#       - values.yaml=alertmanager-values.yaml

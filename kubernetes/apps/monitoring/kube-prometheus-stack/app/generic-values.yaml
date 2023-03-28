@@ -1,4 +1,5 @@
 ---
+cleanPrometheusOperatorObjectNames: true
 fullnameOverride: prometheus
 coreDns:
   enabled: true
