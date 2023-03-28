@@ -60,8 +60,10 @@ spec:
       #     compression:
       #       # TODO: Test out enabling this on next cluster rebuild
       #       enabled: false
+      mgr:
+        count: 1
       crashCollector:
-        disable: false
+        disable: true
       dashboard:
         enabled: true
         urlPrefix: /
