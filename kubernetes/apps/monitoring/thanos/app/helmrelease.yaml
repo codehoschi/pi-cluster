@@ -85,13 +85,13 @@ spec:
       podAnnotations:
         secret.reloader.stakater.com/reload: *secret
 
-      # resources:
-      #   requests:
-      #     cpu: 35m
-      #     memory: 110M
-      #   limits:
-      #     cpu: 35m
-      #     memory: 110M
+      resources:
+        requests:
+          cpu: 35m
+          memory: 110M
+        limits:
+          cpu: 35m
+          memory: 110M
 
     storegateway:
       enabled: true
