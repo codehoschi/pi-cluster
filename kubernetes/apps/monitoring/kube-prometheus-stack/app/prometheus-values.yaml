@@ -43,7 +43,7 @@ prometheus:
     thanos:
       image: quay.io/thanos/thanos:v0.31.0
       objectStorageConfig:
-        name: thanos-objstore-secret
+        name: &secret thanos-objstore-secret
         key: objstore.yml
 
     podAnnotations:
