@@ -1,79 +1,97 @@
 ---
 alertmanager:
   config:
+    global:
+      resolve_timeout: 5m
     receivers:
-      - name: "null"
-      # - name: "discord"
-      #   slack_configs:
-      #     - channel: "#prometheus"
-      #       icon_url: https://avatars3.githubusercontent.com/u/3380462
-      #       username: "Prometheus - ${CLUSTER_NAME}"
+      # - name: heartbeat
+      #   webhook_configs:
+      #     - url: "https://heartbeat.uptimerobot.com/${SECRET_ALERTMANAGER_UPTIMEROBOT_HEARTBEAT_TOKEN}"
       #       send_resolved: true
+      - name: "null" # quote
+      # - name: pushover
+      #   pushover_configs:
+      #     - url_title: View in Alertmanager
+      #       token: "${SECRET_ALERTMANAGER_PUSHOVER_TOKEN}"
+      #       user_key: "${SECRET_ALERTMANAGER_PUSHOVER_USER_KEY}"
+      #       send_resolved: true
+      #       html: true
+      #       sound: gamelan
+      #       priority: |-
+      #         {{ if eq .Status "firing" }}1{{ else }}0{{ end }}
       #       title: |-
-      #         [{{ .Status | toUpper }}{{ if eq .Status "firing" }}:{{ .Alerts.Firing | len }}{{ end }}] {{ if ne .CommonAnnotations.summary ""}}{{ .CommonAnnotations.summary }} {{ else if ne .CommonAnnotations.message ""}}{{ .CommonAnnotations.message }} {{ else if ne .CommonAnnotations.description ""}}{{ .CommonAnnotations.description }} {{ else }}{{ .CommonLabels.alertname }}{{ end }}
-      #       text: >-
-      #         {{ range .Alerts -}}
-      #           *Alert:* {{ .Annotations.title }}{{ if .Labels.severity }} - `{{ .Labels.severity }}`{{ end }}
-      #         {{ if ne .Annotations.summary ""}}*Summary:* {{ .Annotations.summary }} {{ else if ne .Annotations.message ""}}*Message:* {{ .Annotations.message }} {{ else if ne .Annotations.description ""}}*Description:* {{ .Annotations.description }}{{ end }}
-      #         *Details:*
-      #           {{ range .Labels.SortedPairs }} • *{{ .Name }}:* `{{ .Value }}`
-      #           {{ end }}
-      #         {{ end }}
-
+      #          {{ .CommonLabels.alertname }} [{{ .Status | toUpper }}{{ if eq .Status "firing" }}:{{ .Alerts.Firing | len }}{{ end }}]
+      #       message: |-
+      #         {{- range .Alerts }}
+      #           {{- if ne .Annotations.description "" }}
+      #             {{ .Annotations.description }}
+      #           {{- else if ne .Annotations.summary "" }}
+      #             {{ .Annotations.summary }}
+      #           {{- else if ne .Annotations.message "" }}
+      #             {{ .Annotations.message }}
+      #           {{- else }}
+      #             Alert description not available
+      #           {{- end }}
+      #           {{- if gt (len .Labels.SortedPairs) 0 }}
+      #             <small>
+      #             {{- range .Labels.SortedPairs }}
+      #               <b>{{ .Name }}:</b> {{ .Value }}
+      #             {{- end }}
+      #             </small>
+      #           {{- end }}
+      #         {{- end }}
     route:
       group_by: ["alertname", "job"]
-      group_wait: 30s
-      group_interval: 5m
+      group_wait: 1m
+      group_interval: 10m
       repeat_interval: 12h
-      # receiver: "discord"
+      # receiver: pushover
       receiver: "null"
       routes:
         - receiver: "null"
           matchers:
             - alertname =~ "InfoInhibitor|Watchdog"
-        # - receiver: "discord"
-        #   match_re:
-        #     # severity: critical|warning
-        #     severity: critical
+        # - receiver: heartbeat
+        #   group_wait: 0s
+        #   group_interval: 2m
+        #   repeat_interval: 2m
+        #   matchers:
+        #     - alertname =~ "Watchdog"
+        # - receiver: "null" # quote
+        #   matchers:
+        #     - alertname =~ "InfoInhibitor"
+        # - receiver: pushover
+        #   matchers:
+        #     - severity = "critical"
         #   continue: true
-
     inhibit_rules:
-      - source_match:
-          severity: "critical"
-        target_match:
-          severity: "warning"
+      - source_matchers:
+          - severity = "critical"
+        target_matchers:
+          - severity = "warning"
         equal: ["alertname", "namespace"]
 
   ingress:
     enabled: true
     pathType: Prefix
+    ingressClassName: nginx
     annotations:
-      kubernetes.io/ingress.class: nginx
-      # cert-manager.io/cluster-issuer: ${CLUSTER_CERT}
-      # external-dns/is-public: "false"
-      hajimari.io/enable: "true"
-      hajimari.io/icon: bell-alert
-      hajimari.io/appName: Alertmanager
-
+      nginx.ingress.kubernetes.io/whitelist-source-range: |
+        10.0.0.0/8,172.16.0.0/12,192.168.0.0/16
+      hajimari.io/appName: "Alert Manager"
+      hajimari.io/icon: mdi:alert-decagram-outline
     hosts:
-      - &host alertmanager.${SECRET_INTERNAL_DOMAIN}
+      - &host "alert-manager.${SECRET_INTERNAL_DOMAIN}"
     # tls:
-    #   - secretName: tls.alertmanager
-    #     hosts:
+    #   - hosts:
     #       - *host
 
   alertmanagerSpec:
+    replicas: 1
     storage:
       volumeClaimTemplate:
         spec:
-          storageClassName: nfs-client
+          storageClassName: local-path
           resources:
             requests:
               storage: 1Gi
-
-    resources:
-      requests:
-        cpu: 11m
-        memory: 37M
-      limits:
-        memory: 99M
