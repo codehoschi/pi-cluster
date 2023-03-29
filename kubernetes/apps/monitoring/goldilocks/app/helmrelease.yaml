@@ -27,7 +27,7 @@ spec:
     keepHistory: false
 
   values:
-    controller:
+    # controller:
       # resources:
       #   requests:
       #     cpu: 25m
