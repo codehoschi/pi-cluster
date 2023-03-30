@@ -4,10 +4,10 @@ prometheusOperator:
     resources:
       requests:
         cpu: 11m
-        memory: 22M
+        memory: 32M
       limits:
         cpu: 11m
-        memory: 22M
+        memory: 32M
 
 prometheus:
   ingress:

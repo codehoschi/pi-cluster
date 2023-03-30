@@ -25,10 +25,10 @@ kube-state-metrics:
   resources:
     requests:
       cpu: 15m
-      memory: 64M
+      memory: 79M
     limits:
       cpu: 15m
-      memory: 64M
+      memory: 79M
 
 kubelet:
   enabled: true

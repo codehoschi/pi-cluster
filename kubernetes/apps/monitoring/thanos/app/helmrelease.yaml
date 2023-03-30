@@ -104,10 +104,10 @@ spec:
 
       resources:
         requests:
-          cpu: 182m
+          cpu: 15m
           memory: 298M
         limits:
-          cpu: 182m
+          cpu: 15m
           memory: 298M
 
     ruler:
