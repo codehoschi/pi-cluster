@@ -22,6 +22,14 @@ kube-state-metrics:
           replacement: $1
           sourceLabels: ["__meta_kubernetes_pod_node_name"]
           targetLabel: kubernetes_node
+  resources:
+    requests:
+      cpu: 15m
+      memory: 64M
+    limits:
+      cpu: 15m
+      memory: 64M
+
 kubelet:
   enabled: true
   serviceMonitor:

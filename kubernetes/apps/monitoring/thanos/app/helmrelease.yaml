@@ -42,13 +42,13 @@ spec:
         sidecarsService: prometheus-thanos-discovery
         sidecarsNamespace: monitoring
 
-      # resources:
-      #   requests:
-      #     cpu: 15m
-      #     memory: 64M
-      #   limits:
-      #     cpu: 15m
-      #     memory: 64M
+      resources:
+        requests:
+          cpu: 15m
+          memory: 64M
+        limits:
+          cpu: 15m
+          memory: 64M
 
       ingress:
         # main:
@@ -70,13 +70,13 @@ spec:
       podAnnotations:
         secret.reloader.stakater.com/reload: *secret
 
-      # resources:
-      #   requests:
-      #     cpu: 15m
-      #     memory: 64M
-      #   limits:
-      #     cpu: 15m
-      #     memory: 64M
+      resources:
+        requests:
+          cpu: 15m
+          memory: 94M
+        limits:
+          cpu: 15m
+          memory: 94M
 
     compactor:
       enabled: true
@@ -87,11 +87,11 @@ spec:
 
       resources:
         requests:
-          cpu: 35m
-          memory: 110M
+          cpu: 49m
+          memory: 127M
         limits:
-          cpu: 35m
-          memory: 110M
+          cpu: 49m
+          memory: 127M
 
     storegateway:
       enabled: true
@@ -102,13 +102,13 @@ spec:
       podAnnotations:
         configmap.reloader.stakater.com/reload: *secret
 
-      # resources:
-      #   requests:
-      #     cpu: 35m
-      #     memory: 204M
-      #   limits:
-      #     cpu: 35m
-      #     memory: 204M
+      resources:
+        requests:
+          cpu: 182m
+          memory: 298M
+        limits:
+          cpu: 182m
+          memory: 298M
 
     ruler:
       enabled: false

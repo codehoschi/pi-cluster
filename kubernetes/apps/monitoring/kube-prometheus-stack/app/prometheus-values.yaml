@@ -1,4 +1,14 @@
 ---
+prometheusOperator:
+  prometheusConfigReloader:
+    resources:
+      requests:
+        cpu: 11m
+        memory: 22M
+      limits:
+        cpu: 11m
+        memory: 22M
+
 prometheus:
   ingress:
     enabled: true
@@ -18,6 +28,7 @@ prometheus:
 
   thanosService:
     enabled: true
+
   thanosServiceMonitor:
     enabled: true
 
@@ -40,6 +51,15 @@ prometheus:
           resources:
             requests:
               storage: 10Gi
+
+    # resources:
+    #   requests:
+    #     cpu: 323m
+    #     memory: 1739M
+    #   limits:
+    #     cpu: 323m
+    #     memory: 1739M
+
     thanos:
       image: quay.io/thanos/thanos:v0.31.0
       objectStorageConfig:

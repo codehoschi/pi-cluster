@@ -46,7 +46,25 @@ spec:
         - hosts:
             - *host
           secretName: kubernetes-dashboard-tls
+
+    resources:
+      requests:
+        cpu: 11m
+        memory: 50M
+      limits:
+        cpu: 11m
+        memory: 50M
+
     metricsScraper:
       enabled: true
+
+      resources:
+        requests:
+          cpu: 11m
+          memory: 50M
+        limits:
+          cpu: 11m
+          memory: 50M
+
     serviceMonitor:
       enabled: false
