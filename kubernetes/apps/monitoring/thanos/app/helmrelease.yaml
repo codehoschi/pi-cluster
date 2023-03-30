@@ -71,13 +71,8 @@ spec:
         annotations:
           nginx.ingress.kubernetes.io/whitelist-source-range: |
             10.0.0.0/8,172.16.0.0/12,192.168.0.0/16
-          # hajimari.io/enable: "false"
           hajimari.io/targetBlank: "true"
-        hosts:
-          - &host "thanos-query-frontend.${SECRET_INTERNAL_DOMAIN}"
-        # tls:
-        #   - hosts:
-        #       - *host
+        hostname: "thanos-query-frontend.${SECRET_INTERNAL_DOMAIN}"
 
     bucketweb:
       enabled: true
