@@ -116,13 +116,13 @@ spec:
       podAnnotations:
         configmap.reloader.stakater.com/reload: *secret
 
-      resources:
-        requests:
-          cpu: 15m
-          memory: 298M
-        limits:
-          cpu: 15m
-          memory: 298M
+      # resources:
+      #   requests:
+      #     cpu: 15m
+      #     memory: 298M
+      #   limits:
+      #     cpu: 15m
+      #     memory: 298M
 
     ruler:
       enabled: false
