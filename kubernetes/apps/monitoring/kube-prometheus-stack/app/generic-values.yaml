@@ -12,6 +12,7 @@ grafana:
           enabled: true
 
 kube-state-metrics:
+  fullnameOverride: kube-state-metrics
   metricLabelsAllowlist: ["persistentvolumeclaims=[*]"]
   prometheus:
     monitor:
