@@ -44,10 +44,10 @@ spec:
 
       resources:
         requests:
-          cpu: 15m
+          cpu: 100m
           memory: 64M
         limits:
-          cpu: 15m
+          cpu: 100m
           memory: 64M
 
       ingress:
@@ -81,10 +81,10 @@ spec:
 
       resources:
         requests:
-          cpu: 15m
+          cpu: 100m
           memory: 94M
         limits:
-          cpu: 15m
+          cpu: 100m
           memory: 94M
 
     compactor:
@@ -96,11 +96,11 @@ spec:
 
       resources:
         requests:
-          cpu: 49m
-          memory: 127M
+          cpu: 100m
+          memory: 128M
         limits:
-          cpu: 49m
-          memory: 127M
+          cpu: 100m
+          memory: 256M
 
     storegateway:
       enabled: true
