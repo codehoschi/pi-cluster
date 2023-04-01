@@ -24,11 +24,11 @@ kube-state-metrics:
           targetLabel: kubernetes_node
   resources:
     requests:
-      cpu: 15m
-      memory: 79M
+      cpu: 100m
+      memory: 250M
     limits:
-      cpu: 15m
-      memory: 79M
+      cpu: 100m
+      memory: 250M
 
 kubelet:
   enabled: true
