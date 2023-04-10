@@ -74,13 +74,13 @@ spec:
         config:
           osdsPerDevice: "1"
         nodes:
-          - name: pi-02
+          - name: brix-02
             devices:
               - name: sda3
-          - name: pi-03
+          - name: brix-03
             devices:
               - name: sda3
-          - name: pi-04
+          - name: brix-04
             devices:
               - name: sda3
     cephBlockPools:
