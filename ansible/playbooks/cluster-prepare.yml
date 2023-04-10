@@ -27,32 +27,43 @@
               127.0.1.1   {{ inventory_hostname }}
     - name: Packages | Fedora
       block:
-        - name: Packages | Install required packages
+        - name: Packages Fedora | Install required packages
           ansible.builtin.dnf:
             name: "{{ fedora.packages | default([]) }}"
             state: present
             update_cache: true
-        - name: Packages | Remove leaf packages
+        - name: Packages Fedora | Remove leaf packages
           ansible.builtin.dnf:
             autoremove: true
       when: ansible_facts['distribution'] == 'Fedora'
     - name: Packages | Ubuntu
       block:
-        - name: Packages | Install required packages
+        - name: Packages Ubuntu Pi | Install required packages
           ansible.builtin.apt:
             name: "{{ ubuntu.packages | default([]) }}"
             state: present
             update_cache: true
-        - name: Packages | Remove leaf packages
+        - name: Packages Ubuntu Pi | Remove leaf packages
           ansible.builtin.apt:
             autoremove: true
-        - name: Packages | RasPi packages
+        - name: Packages Ubuntu Pi | RasPi packages
           ansible.builtin.apt:
             name: ["linux-modules-extra-raspi"]
             install_recommends: false
           notify: Reboot
           when: "'raspi' in ansible_kernel"
       when: ansible_facts['distribution'] == 'Ubuntu'
+    - name: Packages | Debian
+      block:
+        - name: Packages Debian | Install required packages
+          ansible.builtin.apt:
+            name: "{{ debian.packages | default([]) }}"
+            state: present
+            update_cache: true
+        - name: Packages Debian | Remove leaf packages
+          ansible.builtin.apt:
+            autoremove: true
+      when: ansible_facts['distribution'] == 'Debian'
     - name: User Configuration
       block:
         - name: User Configuration | Add additional SSH public keys
