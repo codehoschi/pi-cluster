@@ -45,6 +45,7 @@ spec:
           - media
           - monitoring
           - rook-ceph
+          - flux-system
     ingress:
       main:
         enabled: true
