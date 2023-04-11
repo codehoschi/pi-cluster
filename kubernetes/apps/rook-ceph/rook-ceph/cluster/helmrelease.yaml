@@ -74,6 +74,9 @@ spec:
         config:
           osdsPerDevice: "1"
         nodes:
+          - name: brix-01
+            devices:
+              - name: sda3
           - name: brix-02
             devices:
               - name: sda3
