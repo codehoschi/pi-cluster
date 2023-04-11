@@ -98,8 +98,8 @@ alertmanager:
 
     resources:
       requests:
-        cpu: 100m
-        memory: 64M
+        cpu: 10m
+        memory: 50M
       limits:
-        cpu: 100m
-        memory: 64M
+        cpu: 26m
+        memory: 120M

@@ -49,22 +49,22 @@ spec:
 
     resources:
       requests:
-        cpu: 11m
-        memory: 50M
+        cpu: 10m
+        memory: 32M
       limits:
-        cpu: 11m
-        memory: 50M
+        cpu: 26m
+        memory: 57M
 
     metricsScraper:
       enabled: true
 
       resources:
         requests:
-          cpu: 11m
+          cpu: 10m
           memory: 50M
         limits:
-          cpu: 11m
-          memory: 50M
+          cpu: 26m
+          memory: 120M
 
     serviceMonitor:
       enabled: false

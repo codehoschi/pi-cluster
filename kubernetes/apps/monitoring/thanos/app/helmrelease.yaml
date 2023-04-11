@@ -44,11 +44,11 @@ spec:
 
       resources:
         requests:
-          cpu: 100m
+          cpu: 15m
           memory: 64M
         limits:
-          cpu: 100m
-          memory: 64M
+          cpu: 26m
+          memory: 189M
 
       ingress:
         # main:
@@ -74,6 +74,14 @@ spec:
           hajimari.io/targetBlank: "true"
         hostname: "thanos-query-frontend.${SECRET_INTERNAL_DOMAIN}"
 
+      resources:
+        requests:
+          cpu: 15m
+          memory: 94M
+        limits:
+          cpu: 26m
+          memory: 226M
+
     bucketweb:
       enabled: true
       podAnnotations:
@@ -81,11 +89,11 @@ spec:
 
       resources:
         requests:
-          cpu: 100m
-          memory: 94M
+          cpu: 15m
+          memory: 26M
         limits:
-          cpu: 100m
-          memory: 94M
+          cpu: 26m
+          memory: 88M
 
     compactor:
       enabled: true
@@ -96,11 +104,11 @@ spec:
 
       resources:
         requests:
-          cpu: 100m
-          memory: 128M
+          cpu: 15m
+          memory: 64M
         limits:
-          # cpu: 100m
-          memory: 256M
+          cpu: 26m
+          memory: 306M
 
     storegateway:
       enabled: true
@@ -111,13 +119,13 @@ spec:
       podAnnotations:
         configmap.reloader.stakater.com/reload: *secret
 
-      # resources:
-      #   requests:
-      #     cpu: 15m
-      #     memory: 298M
-      #   limits:
-      #     cpu: 15m
-      #     memory: 298M
+      resources:
+        requests:
+          cpu: 15m
+          memory: 64M
+        limits:
+          cpu: 55m
+          memory: 153M
 
     ruler:
       enabled: false
