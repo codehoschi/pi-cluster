@@ -61,7 +61,7 @@ kubeApiServer:
 
 kubeControllerManager:
   enabled: true
-  endpoints: ["10.200.0.102", "10.200.0.103", "10.200.0.104"]
+  endpoints: ["10.200.0.32", "10.200.0.33", "10.200.0.34"]
   serviceMonitor:
     metricRelabelings:
       # Remove duplicate metrics
@@ -71,15 +71,15 @@ kubeControllerManager:
 
 kubeEtcd:
   enabled: true
-  endpoints: ["10.200.0.102", "10.200.0.103", "10.200.0.104"]
+  endpoints: ["10.200.0.32", "10.200.0.33", "10.200.0.34"]
 
 kubeProxy:
   enabled: false # Disabled because eBPF
-  endpoints: ["10.200.0.102", "10.200.0.103", "10.200.0.104"]
+  endpoints: ["10.200.0.32", "10.200.0.33", "10.200.0.34"]
 
 kubeScheduler:
   enabled: true
-  endpoints: ["10.200.0.102", "10.200.0.103", "10.200.0.104"]
+  endpoints: ["10.200.0.32", "10.200.0.33", "10.200.0.34"]
   serviceMonitor:
     metricRelabelings:
       # Remove duplicate metrics

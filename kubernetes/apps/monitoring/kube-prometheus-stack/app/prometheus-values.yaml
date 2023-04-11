@@ -35,7 +35,7 @@ prometheus:
   prometheusSpec:
     replicas: 1
     replicaExternalLabelName: __replica__
-    scrapeInterval: 1m
+    # scrapeInterval: 1m
     ruleSelectorNilUsesHelmValues: false
     serviceMonitorSelectorNilUsesHelmValues: false
     podMonitorSelectorNilUsesHelmValues: false
