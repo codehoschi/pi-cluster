@@ -87,22 +87,22 @@ spec:
             devices:
               - name: sda3
 
-        resources:
-          mon:
-            requests:
-              cpu: 77m
-            limits:
-              cpu: 429m
-          mgr:
-            requests:
-              cpu: 108m
-            limits:
-              cpu: 659m
-          osd:
-            requests:
-              cpu: 77m
-            limits:
-              cpu: 429m
+      resources:
+        mon:
+          requests:
+            cpu: 77m
+          limits:
+            cpu: 429m
+        mgr:
+          requests:
+            cpu: 108m
+          limits:
+            cpu: 659m
+        osd:
+          requests:
+            cpu: 77m
+          limits:
+            cpu: 429m
 
     cephBlockPools:
       - name: ceph-blockpool
