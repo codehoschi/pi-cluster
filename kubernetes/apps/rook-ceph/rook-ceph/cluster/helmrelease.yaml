@@ -103,6 +103,11 @@ spec:
             cpu: 77m
           limits:
             cpu: 429m
+        logcollector:
+          requests:
+            cpu: 10m
+          limits:
+            cpu: 42m
 
     cephBlockPools:
       - name: ceph-blockpool
