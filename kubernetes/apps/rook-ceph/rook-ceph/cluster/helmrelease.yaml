@@ -51,12 +51,12 @@ spec:
       enabled: true
 
       resources:
-      requests:
-        cpu: 15m
-        memory: 64M
-      limits:
-        cpu: 41m
-        memory: 64M
+        requests:
+          cpu: 15m
+          memory: 64M
+        limits:
+          cpu: 41m
+          memory: 64M
 
     configOverride: |
       [global]
