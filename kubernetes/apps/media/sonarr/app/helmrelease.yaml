@@ -26,6 +26,11 @@ spec:
   uninstall:
     keepHistory: false
   values:
+    controller:
+      type: statefulset
+      annotations:
+        reloader.stakater.com/auto: "true"
+
     image:
       repository: lscr.io/linuxserver/sonarr
       tag: latest
@@ -38,6 +43,22 @@ spec:
         ports:
           http:
             port: 8989
+
+    probes:
+      liveness: &probes
+        enabled: true
+        custom: true
+        spec:
+          httpGet:
+            path: /ping
+            port: *port
+          initialDelaySeconds: 0
+          periodSeconds: 10
+          timeoutSeconds: 1
+          failureThreshold: 3
+      readiness: *probes
+      startup:
+        enabled: false
 
     ingress:
       main:
@@ -62,10 +83,17 @@ spec:
         #   - hosts:
         #       - *host
 
+    volumeClaimTemplates:
+      - name: config
+        mountPath: /config
+        accessMode: ReadWriteOnce
+        size: 10Gi
+        storageClass: ceph-block
+
     persistence:
-      config:
-        enabled: true
-        existingClaim: sonarr-config-v1
+      # config:
+      #   enabled: true
+      #   existingClaim: sonarr-config-v1
       media:
         enabled: true
         # type: nfs
@@ -74,10 +102,10 @@ spec:
         existingClaim: nfs-media-pvc
         mountPath: /media
 
-    # resources:
-    #   requests:
-    #     cpu: 476m
-    #     memory: 249M
-    #   limits:
-    #     cpu: 476m
-    #     memory: 249M
+    resources:
+      requests:
+        cpu: 10m
+        memory: 250Mi
+      limits:
+        # cpu: 476m
+        memory: 2000Mi
