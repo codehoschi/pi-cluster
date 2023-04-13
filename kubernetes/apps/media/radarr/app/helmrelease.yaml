@@ -32,10 +32,10 @@ spec:
         reloader.stakater.com/auto: "true"
 
     image:
-      # repository: lscr.io/linuxserver/radarr
-      # tag: latest
-      repository: ghcr.io/onedr0p/radarr
-      tag: 4.3.2.6857
+      repository: lscr.io/linuxserver/radarr
+      tag: latest
+      # repository: ghcr.io/onedr0p/radarr
+      # tag: 4.3.2.6857
 
     env:
       TZ: ${TIMEZONE}
@@ -85,12 +85,12 @@ spec:
         #   - hosts:
         #       - *host
 
-    podSecurityContext:
-      runAsUser: 568
-      runAsGroup: 568
-      fsGroup: 568
-      fsGroupChangePolicy: OnRootMismatch
-      supplementalGroups: [10000]
+    # podSecurityContext:
+    #   runAsUser: 568
+    #   runAsGroup: 568
+    #   fsGroup: 568
+    #   fsGroupChangePolicy: OnRootMismatch
+    #   supplementalGroups: [10000]
 
     volumeClaimTemplates:
       - name: config
@@ -108,9 +108,9 @@ spec:
         existingClaim: nfs-media-pvc
         mountPath: /media
 
-    resources:
-      requests:
-        cpu: 10m
-        memory: 250Mi
-      limits:
-        memory: 2000Mi
+    # resources:
+    #   requests:
+    #     cpu: 10m
+    #     memory: 250Mi
+    #   limits:
+    #     memory: 2000Mi
