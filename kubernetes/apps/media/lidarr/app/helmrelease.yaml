@@ -26,6 +26,11 @@ spec:
   uninstall:
     keepHistory: false
   values:
+    controller:
+      type: statefulset
+      annotations:
+        reloader.stakater.com/auto: "true"
+
     image:
       repository: lscr.io/linuxserver/lidarr
       tag: latest
@@ -39,7 +44,7 @@ spec:
       main:
         ports:
           http:
-            port: 8686
+            port: &port 8686
 
     ingress:
       main:
@@ -64,10 +69,17 @@ spec:
         #   - hosts:
         #       - *host
 
+    volumeClaimTemplates:
+      - name: config
+        mountPath: /config
+        accessMode: ReadWriteOnce
+        size: 10Gi
+        storageClass: ceph-block
+
     persistence:
-      config:
-        enabled: true
-        existingClaim: lidarr-config-v1
+      # config:
+      #   enabled: true
+      #   existingClaim: lidarr-config-v1
       media:
         enabled: true
         existingClaim: nfs-media-pvc
