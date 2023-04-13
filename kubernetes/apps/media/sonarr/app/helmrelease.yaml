@@ -42,7 +42,7 @@ spec:
       main:
         ports:
           http:
-            port: 8989
+            port: &port 8989
 
     probes:
       liveness: &probes
