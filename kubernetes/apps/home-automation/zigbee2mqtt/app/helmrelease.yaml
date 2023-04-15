@@ -60,14 +60,14 @@ spec:
       ZIGBEE2MQTT_CONFIG_MQTT_REJECT_UNAUTHORIZED: "false"
       ZIGBEE2MQTT_CONFIG_MQTT_SERVER: mqtt://emqx
       ZIGBEE2MQTT_CONFIG_MQTT_VERSION: 4
-      ZIGBEE2MQTT_CONFIG_PERMIT_JOIN: "false"
+      ZIGBEE2MQTT_CONFIG_PERMIT_JOIN: "true"
       # ZIGBEE2MQTT_CONFIG_SERIAL_BAUDRATE: 115200
       # ZIGBEE2MQTT_CONFIG_SERIAL_DISABLE_LED: "false"
       ZIGBEE2MQTT_CONFIG_SERIAL_PORT: /dev/ttyACM0
       ZIGBEE2MQTT_CONFIG_SERIAL_ADAPTER: deconz
-    envFrom:
-      - secretRef:
-          name: zigbee2mqtt-secret
+    # envFrom:
+    #   - secretRef:
+    #       name: zigbee2mqtt-secret
 
 
     securityContext:
@@ -143,7 +143,7 @@ spec:
 
     addons:
       codeserver:
-        enabled: true
+        enabled: false
         image:
           repository: ghcr.io/coder/code-server
           tag: 4.10.1
