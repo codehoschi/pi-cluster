@@ -31,17 +31,46 @@ spec:
 
     env:
       TZ: "{$TZ}"
-      ZIGBEE2MQTT_DATA: /data
+      ZIGBEE2MQTT_DATA: /config
+      ZIGBEE2MQTT_CONFIG_ADVANCED_HOMEASSISTANT_DISCOVERY_TOPIC: homeassistant
+      ZIGBEE2MQTT_CONFIG_ADVANCED_HOMEASSISTANT_LEGACY_ENTITY_ATTRIBUTES: "false"
+      ZIGBEE2MQTT_CONFIG_ADVANCED_HOMEASSISTANT_LEGACY_TRIGGERS: "false"
+      ZIGBEE2MQTT_CONFIG_ADVANCED_HOMEASSISTANT_STATUS_TOPIC: homeassistant/status
+      ZIGBEE2MQTT_CONFIG_ADVANCED_LAST_SEEN: ISO_8601
+      ZIGBEE2MQTT_CONFIG_ADVANCED_LEGACY_API: "false"
+      ZIGBEE2MQTT_CONFIG_ADVANCED_LEGACY_AVAILABILITY_PAYLOAD: "false"
+      ZIGBEE2MQTT_CONFIG_ADVANCED_LOG_LEVEL: info # debug
+      ZIGBEE2MQTT_CONFIG_ADVANCED_LOG_OUTPUT: '["console"]'
+      ZIGBEE2MQTT_CONFIG_AVAILABILITY_ACTIVE_TIMEOUT: 60
+      ZIGBEE2MQTT_CONFIG_AVAILABILITY_PASSIVE_TIMEOUT: 2000
+      ZIGBEE2MQTT_CONFIG_DEVICE_OPTIONS_LEGACY: "false"
+      ZIGBEE2MQTT_CONFIG_DEVICE_OPTIONS_RETAIN: "true"
+      ZIGBEE2MQTT_CONFIG_EXPERIMENTAL_NEW_API: "true"
+      ZIGBEE2MQTT_CONFIG_FRONTEND_PORT: &port 8080
+      ZIGBEE2MQTT_CONFIG_FRONTEND: "true"
+      ZIGBEE2MQTT_CONFIG_HOMEASSISTANT: "true"
+      ZIGBEE2MQTT_CONFIG_MQTT_BASE_TOPIC: "zigbee2mqtt"
+      ZIGBEE2MQTT_CONFIG_MQTT_INCLUDE_DEVICE_INFORMATION: "true"
+      ZIGBEE2MQTT_CONFIG_MQTT_KEEPALIVE: 60
+      ZIGBEE2MQTT_CONFIG_MQTT_REJECT_UNAUTHORIZED: "false"
+      ZIGBEE2MQTT_CONFIG_MQTT_SERVER: mqtt://emqx
+      ZIGBEE2MQTT_CONFIG_MQTT_VERSION: 4
+      ZIGBEE2MQTT_CONFIG_PERMIT_JOIN: "false"
+      # ZIGBEE2MQTT_CONFIG_SERIAL_BAUDRATE: 115200
+      # ZIGBEE2MQTT_CONFIG_SERIAL_DISABLE_LED: "false"
+      ZIGBEE2MQTT_CONFIG_SERIAL_PORT: /dev/ttyACM0
+      ZIGBEE2MQTT_CONFIG_SERIAL_ADAPTER: "deconz"
+
 
     securityContext:
       # -- (bool) Privileged securityContext may be required if USB controller is accessed directly through the host machine
       privileged: true
 
-    persistence:
-      config:
-        enabled: true
-        existingClaim: zigbee2mqtt-config-v2
-        mountPath: "/data"
+    # persistence:
+    #   config:
+    #     enabled: true
+    #     existingClaim: zigbee2mqtt-config-v2
+    #     mountPath: "/data"
       # usb:
       #   enabled: true
       #   type: hostPath
@@ -51,7 +80,7 @@ spec:
       main:
         ports:
           http:
-            port: 8080
+            port: *port
 
     ingress:
       main:
@@ -61,7 +90,7 @@ spec:
           # cert-manager.io/cluster-issuer: "letsencrypt-production"
           # cert-manager.io/cluster-issuer: 'selfsigned-cluster-issuer'
           hajimari.io/enable: "true"
-          hajimari.io/icon: "zigbee"
+          hajimari.io/icon: mdi:zigbee
           hajimari.io/targetBlank: "true"
         hosts:
           - host: &host "{{ .Release.Name }}.${SECRET_INTERNAL_DOMAIN}"
@@ -83,6 +112,13 @@ spec:
                   values:
                     - "true"
 
+    volumeClaimTemplates:
+      - name: config
+        mountPath: /config
+        accessMode: ReadWriteOnce
+        size: 1Gi
+        storageClass: ceph-block
+
     # resources:
     #   requests:
     #     cpu: 63m
@@ -101,7 +137,7 @@ spec:
           TZ: "${TZ}"
         volumeMounts:
           - name: config
-            mountPath: /data
+            mountPath: /config
         ingress:
           enabled: true
           ingressClassName: nginx
