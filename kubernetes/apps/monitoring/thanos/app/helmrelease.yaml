@@ -114,8 +114,8 @@ spec:
       enabled: true
       persistence:
         enabled: true
-        storageClass: nfs-client
-        size: 10Gi
+        storageClass: ceph-block
+        size: 20Gi
       podAnnotations:
         configmap.reloader.stakater.com/reload: *secret
 

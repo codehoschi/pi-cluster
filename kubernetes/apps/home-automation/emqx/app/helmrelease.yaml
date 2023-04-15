@@ -82,9 +82,9 @@ spec:
     metrics:
       enabled: false
 
-    persistence:
-      enabled: true
-      existingClaim: emqx-data-v4
+    # persistence:
+    #   enabled: true
+    #   existingClaim: emqx-data-v4
       # storageClass: ceph-block
       # size: 100Mi
 
