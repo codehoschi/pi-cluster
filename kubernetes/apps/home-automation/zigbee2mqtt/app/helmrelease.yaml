@@ -71,11 +71,11 @@ spec:
       # -- (bool) Privileged securityContext may be required if USB controller is accessed directly through the host machine
       privileged: true
 
-    persistence:
-      config:
-        enabled: true
-        existingClaim: zigbee2mqtt-config-v3
-        mountPath: "/config"
+    # persistence:
+    #   config:
+    #     enabled: true
+    #     existingClaim: zigbee2mqtt-config-v3
+    #     mountPath: "/config"
       # usb:
       #   enabled: true
       #   type: hostPath
@@ -123,12 +123,12 @@ spec:
     #   fsGroup: 568
     #   fsGroupChangePolicy: OnRootMismatch
 
-    # volumeClaimTemplates:
-    #   - name: config
-    #     mountPath: /config
-    #     accessMode: ReadWriteOnce
-    #     size: 1Gi
-    #     storageClass: ceph-block
+    volumeClaimTemplates:
+      - name: config
+        mountPath: /config
+        accessMode: ReadWriteOnce
+        size: 1Gi
+        storageClass: ceph-block
 
     # resources:
     #   requests:
