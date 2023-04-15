@@ -37,45 +37,45 @@ spec:
     env:
       TZ: "{$TZ}"
       ZIGBEE2MQTT_DATA: /config
-      ZIGBEE2MQTT_CONFIG_ADVANCED_HOMEASSISTANT_DISCOVERY_TOPIC: homeassistant
-      ZIGBEE2MQTT_CONFIG_ADVANCED_HOMEASSISTANT_LEGACY_ENTITY_ATTRIBUTES: "false"
-      ZIGBEE2MQTT_CONFIG_ADVANCED_HOMEASSISTANT_LEGACY_TRIGGERS: "false"
-      ZIGBEE2MQTT_CONFIG_ADVANCED_HOMEASSISTANT_STATUS_TOPIC: homeassistant/status
-      ZIGBEE2MQTT_CONFIG_ADVANCED_LAST_SEEN: ISO_8601
-      ZIGBEE2MQTT_CONFIG_ADVANCED_LEGACY_API: "false"
-      ZIGBEE2MQTT_CONFIG_ADVANCED_LEGACY_AVAILABILITY_PAYLOAD: "false"
-      ZIGBEE2MQTT_CONFIG_ADVANCED_LOG_LEVEL: info # debug
-      ZIGBEE2MQTT_CONFIG_ADVANCED_LOG_OUTPUT: '["console"]'
-      ZIGBEE2MQTT_CONFIG_AVAILABILITY_ACTIVE_TIMEOUT: 60
-      ZIGBEE2MQTT_CONFIG_AVAILABILITY_PASSIVE_TIMEOUT: 2000
-      ZIGBEE2MQTT_CONFIG_DEVICE_OPTIONS_LEGACY: "false"
-      ZIGBEE2MQTT_CONFIG_DEVICE_OPTIONS_RETAIN: "true"
-      ZIGBEE2MQTT_CONFIG_EXPERIMENTAL_NEW_API: "true"
-      ZIGBEE2MQTT_CONFIG_FRONTEND_PORT: &port 8080
-      ZIGBEE2MQTT_CONFIG_FRONTEND: "true"
-      ZIGBEE2MQTT_CONFIG_HOMEASSISTANT: "true"
-      ZIGBEE2MQTT_CONFIG_MQTT_BASE_TOPIC: "zigbee2mqtt"
-      ZIGBEE2MQTT_CONFIG_MQTT_INCLUDE_DEVICE_INFORMATION: "true"
-      ZIGBEE2MQTT_CONFIG_MQTT_KEEPALIVE: 60
-      ZIGBEE2MQTT_CONFIG_MQTT_REJECT_UNAUTHORIZED: "false"
-      ZIGBEE2MQTT_CONFIG_MQTT_SERVER: mqtt://emqx
-      ZIGBEE2MQTT_CONFIG_MQTT_VERSION: 4
-      ZIGBEE2MQTT_CONFIG_PERMIT_JOIN: "false"
-      # ZIGBEE2MQTT_CONFIG_SERIAL_BAUDRATE: 115200
-      # ZIGBEE2MQTT_CONFIG_SERIAL_DISABLE_LED: "false"
-      ZIGBEE2MQTT_CONFIG_SERIAL_PORT: /dev/ttyACM0
-      ZIGBEE2MQTT_CONFIG_SERIAL_ADAPTER: "deconz"
+      # ZIGBEE2MQTT_CONFIG_ADVANCED_HOMEASSISTANT_DISCOVERY_TOPIC: homeassistant
+      # ZIGBEE2MQTT_CONFIG_ADVANCED_HOMEASSISTANT_LEGACY_ENTITY_ATTRIBUTES: "false"
+      # ZIGBEE2MQTT_CONFIG_ADVANCED_HOMEASSISTANT_LEGACY_TRIGGERS: "false"
+      # ZIGBEE2MQTT_CONFIG_ADVANCED_HOMEASSISTANT_STATUS_TOPIC: homeassistant/status
+      # ZIGBEE2MQTT_CONFIG_ADVANCED_LAST_SEEN: ISO_8601
+      # ZIGBEE2MQTT_CONFIG_ADVANCED_LEGACY_API: "false"
+      # ZIGBEE2MQTT_CONFIG_ADVANCED_LEGACY_AVAILABILITY_PAYLOAD: "false"
+      # ZIGBEE2MQTT_CONFIG_ADVANCED_LOG_LEVEL: info # debug
+      # ZIGBEE2MQTT_CONFIG_ADVANCED_LOG_OUTPUT: '["console"]'
+      # ZIGBEE2MQTT_CONFIG_AVAILABILITY_ACTIVE_TIMEOUT: 60
+      # ZIGBEE2MQTT_CONFIG_AVAILABILITY_PASSIVE_TIMEOUT: 2000
+      # ZIGBEE2MQTT_CONFIG_DEVICE_OPTIONS_LEGACY: "false"
+      # ZIGBEE2MQTT_CONFIG_DEVICE_OPTIONS_RETAIN: "true"
+      # ZIGBEE2MQTT_CONFIG_EXPERIMENTAL_NEW_API: "true"
+      # ZIGBEE2MQTT_CONFIG_FRONTEND_PORT: &port 8080
+      # ZIGBEE2MQTT_CONFIG_FRONTEND: "true"
+      # ZIGBEE2MQTT_CONFIG_HOMEASSISTANT: "true"
+      # ZIGBEE2MQTT_CONFIG_MQTT_BASE_TOPIC: "zigbee2mqtt"
+      # ZIGBEE2MQTT_CONFIG_MQTT_INCLUDE_DEVICE_INFORMATION: "true"
+      # ZIGBEE2MQTT_CONFIG_MQTT_KEEPALIVE: 60
+      # ZIGBEE2MQTT_CONFIG_MQTT_REJECT_UNAUTHORIZED: "false"
+      # ZIGBEE2MQTT_CONFIG_MQTT_SERVER: mqtt://emqx
+      # ZIGBEE2MQTT_CONFIG_MQTT_VERSION: 4
+      # ZIGBEE2MQTT_CONFIG_PERMIT_JOIN: "false"
+      # # ZIGBEE2MQTT_CONFIG_SERIAL_BAUDRATE: 115200
+      # # ZIGBEE2MQTT_CONFIG_SERIAL_DISABLE_LED: "false"
+      # ZIGBEE2MQTT_CONFIG_SERIAL_PORT: /dev/ttyACM0
+      # ZIGBEE2MQTT_CONFIG_SERIAL_ADAPTER: "deconz"
 
 
     securityContext:
       # -- (bool) Privileged securityContext may be required if USB controller is accessed directly through the host machine
       privileged: true
 
-    # persistence:
-    #   config:
-    #     enabled: true
-    #     existingClaim: zigbee2mqtt-config-v2
-    #     mountPath: "/data"
+    persistence:
+      config:
+        enabled: true
+        existingClaim: zigbee2mqtt-config-v3
+        mountPath: "/config"
       # usb:
       #   enabled: true
       #   type: hostPath
@@ -85,7 +85,7 @@ spec:
       main:
         ports:
           http:
-            port: *port
+            port: 8080
 
     ingress:
       main:
@@ -117,18 +117,18 @@ spec:
                   values:
                     - "true"
 
-    podSecurityContext:
-      runAsUser: 568
-      runAsGroup: 568
-      fsGroup: 568
-      fsGroupChangePolicy: OnRootMismatch
+    # podSecurityContext:
+    #   runAsUser: 568
+    #   runAsGroup: 568
+    #   fsGroup: 568
+    #   fsGroupChangePolicy: OnRootMismatch
 
-    volumeClaimTemplates:
-      - name: config
-        mountPath: /config
-        accessMode: ReadWriteOnce
-        size: 1Gi
-        storageClass: ceph-block
+    # volumeClaimTemplates:
+    #   - name: config
+    #     mountPath: /config
+    #     accessMode: ReadWriteOnce
+    #     size: 1Gi
+    #     storageClass: ceph-block
 
     # resources:
     #   requests:
