@@ -25,11 +25,11 @@ spec:
   uninstall:
     keepHistory: false
 
-  valuesFrom:
-    - kind: Secret
-      name: zigbee2mqtt-devices
-      valuesKey: devices
-      targetPath: devices.yaml
+  # valuesFrom:
+  #   - kind: Secret
+  #     name: zigbee2mqtt-devices
+  #     valuesKey: devices
+  #     targetPath: devices.yaml
 
   values:
     controller:
@@ -51,7 +51,7 @@ spec:
       ZIGBEE2MQTT_CONFIG_ADVANCED_LAST_SEEN: ISO_8601
       ZIGBEE2MQTT_CONFIG_ADVANCED_LEGACY_API: "false"
       ZIGBEE2MQTT_CONFIG_ADVANCED_LEGACY_AVAILABILITY_PAYLOAD: "false"
-      ZIGBEE2MQTT_CONFIG_ADVANCED_LOG_LEVEL: info # debug
+      ZIGBEE2MQTT_CONFIG_ADVANCED_LOG_LEVEL: debug # info
       ZIGBEE2MQTT_CONFIG_ADVANCED_LOG_OUTPUT: '["console"]'
       ZIGBEE2MQTT_CONFIG_AVAILABILITY_ACTIVE_TIMEOUT: 60
       ZIGBEE2MQTT_CONFIG_AVAILABILITY_PASSIVE_TIMEOUT: 2000
@@ -67,13 +67,13 @@ spec:
       ZIGBEE2MQTT_CONFIG_MQTT_REJECT_UNAUTHORIZED: "false"
       ZIGBEE2MQTT_CONFIG_MQTT_SERVER: mqtt://emqx
       ZIGBEE2MQTT_CONFIG_MQTT_VERSION: 4
-      ZIGBEE2MQTT_CONFIG_PERMIT_JOIN: "true"
+      ZIGBEE2MQTT_CONFIG_PERMIT_JOIN: "false"
       # ZIGBEE2MQTT_CONFIG_SERIAL_BAUDRATE: 115200
       # ZIGBEE2MQTT_CONFIG_SERIAL_DISABLE_LED: "false"
       ZIGBEE2MQTT_CONFIG_SERIAL_PORT: /dev/ttyACM0
       ZIGBEE2MQTT_CONFIG_SERIAL_ADAPTER: deconz
 
-      ZIGBEE2MQTT_CONFIG_DEVICES: devices.yaml
+      # ZIGBEE2MQTT_CONFIG_DEVICES: devices.yaml
     # envFrom:
     #   - secretRef:
     #       name: zigbee2mqtt-secret
@@ -151,7 +151,7 @@ spec:
 
     addons:
       codeserver:
-        enabled: false
+        enabled: true
         image:
           repository: ghcr.io/coder/code-server
           tag: 4.10.1
