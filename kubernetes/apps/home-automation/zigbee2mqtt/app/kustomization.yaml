@@ -4,6 +4,4 @@ kind: Kustomization
 namespace: home-automation
 resources:
   # - ./pvc-config.yaml
-  - ./zigbee2mqtt-devices.sops.yaml
-  - ./secret.sops.yaml
   - ./helmrelease.yaml
