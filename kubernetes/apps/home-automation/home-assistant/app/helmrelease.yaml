@@ -76,17 +76,19 @@ spec:
     #   fsGroup: 1000
     #   fsGroupChangePolicy: "OnRootMismatch"
 
-    # persistence:
-    #   config:
-    #     enabled: true
-    #     existingClaim: home-assistant-config-v2
-
-    volumeClaimTemplates:
-      - name: config
-        mountPath: /config
+    persistence:
+      config:
+        enabled: true
+        storageClass: ceph-block
         accessMode: ReadWriteOnce
         size: 5Gi
-        storageClass: ceph-block
+
+    # volumeClaimTemplates:
+    #   - name: config
+    #     mountPath: /config
+    #     accessMode: ReadWriteOnce
+    #     size: 5Gi
+    #     storageClass: ceph-block
 
     addons:
       codeserver:
