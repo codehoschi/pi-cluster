@@ -31,8 +31,10 @@ spec:
     #     reloader.stakater.com/auto: "true"
 
     image:
-      repository: ghcr.io/onedr0p/home-assistant
-      tag: 2023.3.6@sha256:5f61d3fe876824d980c17f9a085a46b97ee838421abe50b43e4a8386292a35ad
+      # repository: ghcr.io/onedr0p/home-assistant
+      # tag: 2023.3.6@sha256:5f61d3fe876824d980c17f9a085a46b97ee838421abe50b43e4a8386292a35ad
+      repository: homeassistant/home-assistant
+      tag: 2023.3.6
 
     env:
       TZ: ${TIMEZONE}
@@ -40,6 +42,9 @@ spec:
     # envFrom:
     #   - secretRef:
     #       name: *app
+
+    hostNetwork: true
+    dnsPolicy: ClusterFirstWithHostNet
 
     service:
       main:
@@ -89,6 +94,20 @@ spec:
     #     accessMode: ReadWriteOnce
     #     size: 5Gi
     #     storageClass: ceph-block
+    probes:
+      liveness:
+        enabled: false
+      readiness:
+        enabled: false
+      startup:
+        enabled: false
+
+    # resources:
+    #   requests:
+    #     cpu: 48m
+    #     memory: 443M
+    #   limits:
+    #     memory: 709M
 
     addons:
       codeserver:
@@ -124,18 +143,3 @@ spec:
         volumeMounts:
           - name: config
             mountPath: /config
-
-    probes:
-      liveness:
-        enabled: false
-      readiness:
-        enabled: false
-      startup:
-        enabled: false
-
-    # resources:
-    #   requests:
-    #     cpu: 48m
-    #     memory: 443M
-    #   limits:
-    #     memory: 709M
