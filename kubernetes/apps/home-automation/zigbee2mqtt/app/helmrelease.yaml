@@ -24,6 +24,13 @@ spec:
       retries: 3
   uninstall:
     keepHistory: false
+
+  valuesFrom:
+    - kind: Secret
+      name: zigbee2mqtt-devices
+      valuesKey: devices
+      targetPath: devices.yaml
+
   values:
     controller:
       type: statefulset
@@ -65,10 +72,11 @@ spec:
       # ZIGBEE2MQTT_CONFIG_SERIAL_DISABLE_LED: "false"
       ZIGBEE2MQTT_CONFIG_SERIAL_PORT: /dev/ttyACM0
       ZIGBEE2MQTT_CONFIG_SERIAL_ADAPTER: deconz
+
+      ZIGBEE2MQTT_CONFIG_DEVICES: devices.yaml
     # envFrom:
     #   - secretRef:
     #       name: zigbee2mqtt-secret
-
 
     securityContext:
       # -- (bool) Privileged securityContext may be required if USB controller is accessed directly through the host machine
