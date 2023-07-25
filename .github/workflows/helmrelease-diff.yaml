@@ -71,6 +71,7 @@ jobs:
       - name: Setup Tools
         run: |
           brew install helm homeport/tap/dyff kustomize yq
+
       - name: Diff
         id: diff
         run: |
@@ -81,6 +82,7 @@ jobs:
           echo "diff<<EOF" >> "${GITHUB_OUTPUT}"
           echo "${diff}" >> "${GITHUB_OUTPUT}"
           echo "EOF" >> "${GITHUB_OUTPUT}"
+
       - name: Find Comment
         if: ${{ always() && steps.diff.outputs.diff != '' }}
         uses: peter-evans/find-comment@a54c31d7fa095754bfef525c0c8e5e5674c4b4b1 # v2.4.0
