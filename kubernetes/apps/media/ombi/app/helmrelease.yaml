@@ -1,0 +1,111 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2beta1
+kind: HelmRelease
+metadata:
+  name: &app ombi
+  namespace: media
+spec:
+  interval: 15m
+  chart:
+    spec:
+      chart: app-template
+      version: 1.5.1
+      sourceRef:
+        kind: HelmRepository
+        name: bjw-s
+        namespace: flux-system
+  maxHistory: 3
+  install:
+    createNamespace: true
+    remediation:
+      retries: 3
+  upgrade:
+    cleanupOnFail: true
+    remediation:
+      retries: 3
+  uninstall:
+    keepHistory: false
+  values:
+    controller:
+      type: statefulset
+      annotations:
+        reloader.stakater.com/auto: "true"
+
+    image:
+      repository: lscr.io/linuxserver/ombi
+      tag: latest
+
+    env:
+      TZ: ${TIMEZONE}
+
+    service:
+      main:
+        ports:
+          http:
+            port: &port 8989
+
+    probes:
+      liveness: &probes
+        enabled: true
+        custom: true
+        spec:
+          httpGet:
+            path: /ping
+            port: *port
+          initialDelaySeconds: 0
+          periodSeconds: 10
+          timeoutSeconds: 1
+          failureThreshold: 3
+      readiness: *probes
+      startup:
+        enabled: false
+
+    ingress:
+      main:
+        enabled: true
+        ingressClassName: nginx
+        annotations:
+          # nginx.ingress.kubernetes.io/configuration-snippet: |
+          #   proxy_set_header Accept-Encoding "";
+          #   sub_filter '</head>' '<link rel="stylesheet" type="text/css" href="http://theme-park.${SECRET_INTERNAL_DOMAIN}/css/base/sonarr/nord.css"></head>';
+          #   sub_filter_once on;
+          nginx.ingress.kubernetes.io/whitelist-source-range: |
+            10.0.0.0/8,172.16.0.0/12,192.168.0.0/16
+          # hajimari.io/enable: "true"
+          hajimari.io/icon: mdi:frequently-asked-questions
+          hajimari.io/targetBlank: "true"
+        hosts:
+          - host: &host "{{ .Release.Name }}.${SECRET_INTERNAL_DOMAIN}"
+            paths:
+              - path: /
+                pathType: Prefix
+        # tls:
+        #   - hosts:
+        #       - *host
+
+    volumeClaimTemplates:
+      - name: config
+        mountPath: /config
+        accessMode: ReadWriteOnce
+        size: 1Gi
+        storageClass: ceph-block
+
+    # persistence:
+    #   # config:
+    #   #   enabled: true
+    #   #   existingClaim: sonarr-config-v1
+    #   media:
+    #     enabled: true
+    #     # type: nfs
+    #     # server: ${NAS_IP}
+    #     # path: /volume1/media
+    #     existingClaim: nfs-media-pvc
+    #     mountPath: /media
+
+    # resources:
+    #   requests:
+    #     cpu: 10m
+    #     memory: 250Mi
+    #   limits:
+    #     # cpu: 476m
+    #     memory: 2000Mi
