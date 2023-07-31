@@ -8,7 +8,7 @@ metadata:
     substitution.flux.home.arpa/enabled: "true"
 spec:
   dependsOn:
-    - name: cluster-apps-nfs-pv
+    - name: cluster-apps-rook-ceph
   path: ./kubernetes/apps/networking/omada-controller/app
   prune: true
   sourceRef:
