@@ -26,10 +26,10 @@ spec:
   uninstall:
     keepHistory: false
   values:
-    controller:
-      type: statefulset
-      annotations:
-        reloader.stakater.com/auto: "true"
+    # controller:
+    #   type: statefulset
+    #   annotations:
+    #     reloader.stakater.com/auto: "true"
 
     image:
       repository: mbentley/omada-controller
@@ -90,7 +90,7 @@ spec:
 
     probes:
       liveness: &probes
-        enabled: true
+        enabled: false
         custom: true
         spec:
           httpGet:
