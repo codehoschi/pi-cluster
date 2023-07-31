@@ -36,8 +36,8 @@ spec:
       tag: 5.9
 
     env:
-      TZ: ${TIMEZONE}
-      # TZ: Europe/Amsterdam
+      # TZ: ${TIMEZONE}
+      TZ: Europe/Amsterdam
       # PUID: 508
       # PGID: 508
       SHOW_SERVER_LOGS: true
