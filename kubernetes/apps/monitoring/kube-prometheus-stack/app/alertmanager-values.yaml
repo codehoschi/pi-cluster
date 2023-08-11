@@ -81,7 +81,7 @@ alertmanager:
       hajimari.io/appName: "Alert Manager"
       hajimari.io/icon: mdi:alert-decagram-outline
     hosts:
-      - &host "alert-manager.${SECRET_INTERNAL_DOMAIN}"
+      - &host "alert-manager.${SECRET_DOMAIN}"
     # tls:
     #   - hosts:
     #       - *host

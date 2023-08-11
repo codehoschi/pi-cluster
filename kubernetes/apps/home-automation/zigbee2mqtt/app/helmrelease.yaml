@@ -2,7 +2,7 @@
 apiVersion: helm.toolkit.fluxcd.io/v2beta1
 kind: HelmRelease
 metadata:
-  name: &app zigbee2mqtt
+  name: zigbee2mqtt
   namespace: home-automation
 spec:
   interval: 15m
@@ -109,7 +109,7 @@ spec:
           hajimari.io/icon: mdi:zigbee
           hajimari.io/targetBlank: "true"
         hosts:
-          - host: &host "{{ .Release.Name }}.${SECRET_INTERNAL_DOMAIN}"
+          - host: &host "{{ .Release.Name }}.${SECRET_DOMAIN}"
             paths:
               - path: /
                 pathType: Prefix
@@ -170,7 +170,7 @@ spec:
             hajimari.io/icon: "microsoft-visual-studio-code"
             hajimari.io/targetBlank: "true"
           hosts:
-            - host: &host "zigbee2mqtt-code.${SECRET_INTERNAL_DOMAIN}"
+            - host: &host "zigbee2mqtt-code.${SECRET_DOMAIN}"
               paths:
                 - path: /
                   pathType: Prefix

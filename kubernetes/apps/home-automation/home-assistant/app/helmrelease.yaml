@@ -2,7 +2,7 @@
 apiVersion: helm.toolkit.fluxcd.io/v2beta1
 kind: HelmRelease
 metadata:
-  name: &app home-assistant
+  name: home-assistant
   namespace: home-automation
 spec:
   interval: 15m
@@ -62,7 +62,7 @@ spec:
           hajimari.io/icon: "home-assistant"
           hajimari.io/targetBlank: "true"
         hosts:
-          - host: &host "hass.${SECRET_INTERNAL_DOMAIN}"
+          - host: &host "hass.${SECRET_DOMAIN}"
             paths:
               - path: /
                 pathType: Prefix
@@ -133,7 +133,7 @@ spec:
             hajimari.io/icon: "microsoft-visual-studio-code"
             hajimari.io/targetBlank: "true"
           hosts:
-            - host: &host "hass-code.${SECRET_INTERNAL_DOMAIN}"
+            - host: &host "hass-code.${SECRET_DOMAIN}"
               paths:
                 - path: /
                   pathType: Prefix

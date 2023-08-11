@@ -54,7 +54,7 @@ spec:
           hajimari.io/icon: ruler
 
         hosts:
-          - host: &host "goldilocks.${SECRET_INTERNAL_DOMAIN}"
+          - host: &host "{{ .Release.Name }}.${SECRET_DOMAIN}"
             paths:
               - path: /
                 type: Prefix

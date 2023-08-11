@@ -21,7 +21,7 @@ prometheus:
       hajimari.io/icon: simple-icons:prometheus
 
     hosts:
-      - &host "prometheus.${SECRET_INTERNAL_DOMAIN}"
+      - &host "prometheus.${SECRET_DOMAIN}"
     # tls:
     #   - hosts:
     #       - *host

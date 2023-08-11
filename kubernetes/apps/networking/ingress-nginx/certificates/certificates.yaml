@@ -32,14 +32,14 @@
 apiVersion: cert-manager.io/v1
 kind: Certificate
 metadata:
-  name: "${SECRET_INTERNAL_DOMAIN/./-}-selfsigned"
+  name: "${SECRET_DOMAIN/./-}-selfsigned"
   namespace: networking
 spec:
-  secretName: "${SECRET_INTERNAL_DOMAIN/./-}-selfsigned-tls"
+  secretName: "${SECRET_DOMAIN/./-}-selfsigned-tls"
   issuerRef:
     name: selfsigned-cluster-issuer
     kind: ClusterIssuer
-  commonName: "${SECRET_INTERNAL_DOMAIN}"
+  commonName: "${SECRET_DOMAIN}"
   dnsNames:
-    - "${SECRET_INTERNAL_DOMAIN}"
-    - "*.${SECRET_INTERNAL_DOMAIN}"
+    - "${SECRET_DOMAIN}"
+    - "*.${SECRET_DOMAIN}"

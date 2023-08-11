@@ -2,7 +2,7 @@
 apiVersion: helm.toolkit.fluxcd.io/v2beta1
 kind: HelmRelease
 metadata:
-  name: &app node-red
+  name: node-red
   namespace: home-automation
 spec:
   interval: 15m
@@ -57,7 +57,7 @@ spec:
           hajimari.io/icon: "resistor-nodes"
           hajimari.io/targetBlank: "true"
         hosts:
-          - host: &host "{{ .Release.Name }}.${SECRET_INTERNAL_DOMAIN}"
+          - host: &host "{{ .Release.Name }}.${SECRET_DOMAIN}"
             paths:
               - path: /
                 pathType: Prefix
@@ -104,7 +104,7 @@ spec:
             hajimari.io/icon: "microsoft-visual-studio-code"
             hajimari.io/targetBlank: "true"
           hosts:
-            - host: &host "node-red-code.${SECRET_INTERNAL_DOMAIN}"
+            - host: &host "node-red-code.${SECRET_DOMAIN}"
               paths:
                 - path: /
                   pathType: Prefix

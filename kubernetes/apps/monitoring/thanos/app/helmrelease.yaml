@@ -58,7 +58,7 @@ spec:
           hajimari.io/enable: "true"
           hajimari.io/icon: "archive-clock"
           hajimari.io/targetBlank: "true"
-        hostname: "thanos-cluster.${SECRET_INTERNAL_DOMAIN}"
+        hostname: "thanos-cluster.${SECRET_DOMAIN}"
         # hosts:
         #   - host: "thanos-cluster.${SECRET_INTERNAL_DOMAIN}"
 
@@ -72,7 +72,7 @@ spec:
           nginx.ingress.kubernetes.io/whitelist-source-range: |
             10.0.0.0/8,172.16.0.0/12,192.168.0.0/16
           hajimari.io/targetBlank: "true"
-        hostname: "thanos-query-frontend.${SECRET_INTERNAL_DOMAIN}"
+        hostname: "thanos-query-frontend.${SECRET_DOMAIN}"
 
       resources:
         requests:
