@@ -229,7 +229,7 @@ spec:
         hajimari.io/icon: simple-icons:grafana
         hajimari.io/targetBlank: "true"
       hosts:
-        - &host "{{ .Release.Name }}.${SECRET_DOMAIN}"
+        - &host "grafana.${SECRET_DOMAIN}"
       # tls:
       #   - hosts:
       #       - *host
