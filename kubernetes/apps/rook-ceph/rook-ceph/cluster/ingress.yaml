@@ -19,7 +19,7 @@ spec:
   #    - rook-ceph.example.com
   #    secretName: rook-ceph.example.com
   rules:
-  - host: rook.${SECRET_DOMAIN}
+  - host: rook.lmwpva.net
     http:
       paths:
       - path: /
