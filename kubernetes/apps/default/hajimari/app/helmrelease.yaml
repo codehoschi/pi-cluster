@@ -54,7 +54,7 @@ spec:
           nginx.ingress.kubernetes.io/whitelist-source-range: |
             10.0.0.0/8,172.16.0.0/12,192.168.0.0/16
           hajimari.io/enable: "false"
-          cert-manager.io/cluster-issuer: "hekate-ca-tls-issuer"
+          # cert-manager.io/cluster-issuer: "hekate-ca-tls-issuer"
         hosts:
           - host: &host "www.${SECRET_DOMAIN}"
             paths:
@@ -64,11 +64,11 @@ spec:
             paths:
               - path: /
                 pathType: Prefix
-        tls:
-          - hosts:
-              - *host
-              - "${SECRET_DOMAIN}"
-            secretName: "{{ .Release.Name }}-tls"
+        # tls:
+        #   - hosts:
+        #       - *host
+        #       - "${SECRET_DOMAIN}"
+        #     secretName: "{{ .Release.Name }}-tls"
     podAnnotations:
       configmap.reloader.stakater.com/reload: hajimari-settings
     persistence:
