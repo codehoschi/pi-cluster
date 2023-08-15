@@ -67,6 +67,7 @@ spec:
         tls:
           - hosts:
               - *host
+              - "${SECRET_DOMAIN}"
             secretName: "{{ .Release.Name }}-tls"
     podAnnotations:
       configmap.reloader.stakater.com/reload: hajimari-settings
