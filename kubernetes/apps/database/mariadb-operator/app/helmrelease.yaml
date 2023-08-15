@@ -5,6 +5,7 @@ metadata:
   name: mariadb-operator
   namespace: database
 spec:
+  interval: 15m
   chart:
     spec:
       chart: mariadb-operator
