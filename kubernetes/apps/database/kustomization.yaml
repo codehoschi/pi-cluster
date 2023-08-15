@@ -4,4 +4,7 @@ kind: Kustomization
 resources:
   - ./namespace.yaml
   - ./mariadb-operator/ks.yaml
-  - ./rbac/kustomization.yaml
+  # - ./rbac/kustomization.yaml
+  - ./rbac/flux-bookstack-clusterrole.yaml
+  - ./rbac/flux-bookstack-clusterrolebinding.yaml
+  - ./rbac/flux-bookstack-serviceaccount.yaml
