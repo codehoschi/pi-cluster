@@ -4,4 +4,5 @@ kind: Kustomization
 resources:
   - ./namespace.yaml
   - ./mariadb-operator/ks.yaml
+  - ./mariadb/ks.yaml
   - ./rbac/ks.yaml
