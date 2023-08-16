@@ -8,3 +8,4 @@ resources:
   - ./bookstack-database.yaml
   - ./bookstack-grant.yaml
   - ./bookstack-user.yaml
+  - ./bookstack.yaml

@@ -1,0 +1,38 @@
+---
+apiVersion: mariadb.mmontes.io/v1alpha1
+kind: Database
+metadata:
+  name: bookstack-db
+spec:
+  mariaDbRef:
+    name: mariadb
+  characterSet: utf8
+  collate: utf8_general_ci
+---
+apiVersion: mariadb.mmontes.io/v1alpha1
+kind: User
+metadata:
+  name: bookstack-user
+spec:
+  mariaDbRef:
+    name: mariadb
+  passwordSecretKeyRef:
+    name: bookstack
+    key: password
+  maxUserConnections: 10
+---
+apiVersion: mariadb.mmontes.io/v1alpha1
+kind: Grant
+metadata:
+  name: bookstack-grant
+spec:
+  mariaDbRef:
+    name: mariadb
+  privileges:
+    - "CREATE"
+    - "SELECT"
+    - "INSERT"
+    - "UPDATE"
+  database: "*"
+  table: "*"
+  username: bookstack-user
