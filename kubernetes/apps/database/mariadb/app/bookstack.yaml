@@ -2,7 +2,7 @@
 apiVersion: mariadb.mmontes.io/v1alpha1
 kind: Database
 metadata:
-  name: bookstack-app
+  name: bookstack-app2
 spec:
   mariaDbRef:
     name: mariadb
@@ -12,7 +12,7 @@ spec:
 apiVersion: mariadb.mmontes.io/v1alpha1
 kind: User
 metadata:
-  name: bookstack-app
+  name: bookstack-app2
 spec:
   mariaDbRef:
     name: mariadb
@@ -24,7 +24,7 @@ spec:
 apiVersion: mariadb.mmontes.io/v1alpha1
 kind: Grant
 metadata:
-  name: bookstack-app
+  name: bookstack-app2
 spec:
   mariaDbRef:
     name: mariadb
@@ -34,6 +34,6 @@ spec:
     - "INSERT"
     - "UPDATE"
     - "ALTER"
-  database: "bookstack-app"
+  database: "bookstack-app2"
   table: "*"
-  username: bookstack-user
+  username: bookstack-app2
