@@ -33,6 +33,7 @@ spec:
     - "SELECT"
     - "INSERT"
     - "UPDATE"
+    - "ALTER"
   database: "*"
   table: "*"
   username: bookstack-user
