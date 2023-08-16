@@ -1,0 +1,114 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2beta1
+kind: HelmRelease
+metadata:
+  name: bookstack
+  namespace: default
+spec:
+  interval: 15m
+  chart:
+    spec:
+      chart: app-template
+      version: 1.5.1
+      sourceRef:
+        kind: HelmRepository
+        name: bjw-s
+        namespace: flux-system
+  maxHistory: 3
+  install:
+    createNamespace: true
+    remediation:
+      retries: 3
+  upgrade:
+    cleanupOnFail: true
+    remediation:
+      retries: 3
+  uninstall:
+    keepHistory: false
+  values:
+    controller:
+      type: statefulset
+      annotations:
+        reloader.stakater.com/auto: "true"
+
+    image:
+      repository: lscr.io/linuxserver/bookstack
+      tag: latest
+      # repository: ghcr.io/onedr0p/radarr
+      # tag: 4.3.2.6857
+
+    env:
+      TZ: ${TIMEZONE}
+      APP_URL: https://{{ .Release.Name }}.${SECRET_DOMAIN}
+    envFromSecrets:
+      - name: bockstack-secret
+
+    service:
+      main:
+        ports:
+          http:
+            port: &port 80
+
+    # probes:
+    #   liveness: &probes
+    #     enabled: true
+    #     custom: true
+    #     spec:
+    #       httpGet:
+    #         path: /ping
+    #         port: *port
+    #       initialDelaySeconds: 0
+    #       periodSeconds: 10
+    #       timeoutSeconds: 1
+    #       failureThreshold: 3
+    #   readiness: *probes
+    #   startup:
+    #     enabled: false
+
+    ingress:
+      main:
+        enabled: true
+        ingressClassName: nginx
+        annotations:
+          nginx.ingress.kubernetes.io/whitelist-source-range: |
+            10.0.0.0/8,172.16.0.0/12,192.168.0.0/16
+          hajimari.io/icon: mdi:bookshelf
+          hajimari.io/targetBlank: "true"
+        hosts:
+          - host: &host "{{ .Release.Name }}.${SECRET_DOMAIN}"
+            paths:
+              - path: /
+                pathType: Prefix
+        # tls:
+        #   - hosts:
+        #       - *host
+
+    # podSecurityContext:
+    #   runAsUser: 568
+    #   runAsGroup: 568
+    #   fsGroup: 568
+    #   fsGroupChangePolicy: OnRootMismatch
+    #   supplementalGroups: [10000]
+
+    volumeClaimTemplates:
+      - name: config
+        mountPath: /config
+        accessMode: ReadWriteOnce
+        size: 10Gi
+        storageClass: ceph-block
+
+    # persistence:
+    #   # config:
+    #   #   enabled: true
+    #   #   existingClaim: radarr-config-v1
+    #   media:
+    #     enabled: true
+    #     existingClaim: nfs-media-pvc
+    #     mountPath: /media
+
+    # resources:
+    #   requests:
+    #     cpu: 10m
+    #     memory: 250Mi
+    #   limits:
+    #     memory: 2000Mi

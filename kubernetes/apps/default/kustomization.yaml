@@ -4,5 +4,6 @@ kind: Kustomization
 resources:
   - ./namespace.yaml
   # - ./echo-server/ks.yaml
+  - ./bookstack/ks.yaml
   - ./hajimari/ks.yaml
   - ./theme-park/ks.yaml
