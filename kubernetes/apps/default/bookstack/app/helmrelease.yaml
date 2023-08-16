@@ -34,8 +34,6 @@ spec:
     image:
       repository: lscr.io/linuxserver/bookstack
       tag: latest
-      # repository: ghcr.io/onedr0p/radarr
-      # tag: 4.3.2.6857
 
     env:
       TZ: ${TIMEZONE}
@@ -81,16 +79,6 @@ spec:
             paths:
               - path: /
                 pathType: Prefix
-        # tls:
-        #   - hosts:
-        #       - *host
-
-    # podSecurityContext:
-    #   runAsUser: 568
-    #   runAsGroup: 568
-    #   fsGroup: 568
-    #   fsGroupChangePolicy: OnRootMismatch
-    #   supplementalGroups: [10000]
 
     volumeClaimTemplates:
       - name: config
@@ -98,15 +86,6 @@ spec:
         accessMode: ReadWriteOnce
         size: 10Gi
         storageClass: ceph-block
-
-    # persistence:
-    #   # config:
-    #   #   enabled: true
-    #   #   existingClaim: radarr-config-v1
-    #   media:
-    #     enabled: true
-    #     existingClaim: nfs-media-pvc
-    #     mountPath: /media
 
     # resources:
     #   requests:
