@@ -40,6 +40,7 @@ spec:
     env:
       TZ: ${TIMEZONE}
       APP_URL: https://{{ .Release.Name }}.${SECRET_DOMAIN}
+      APP_DEFAULT_DARK_MODE: true
     envFrom:
       - secretRef:
           name: bookstack-secret

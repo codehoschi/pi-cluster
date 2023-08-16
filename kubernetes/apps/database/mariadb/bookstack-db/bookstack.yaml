@@ -2,7 +2,7 @@
 apiVersion: mariadb.mmontes.io/v1alpha1
 kind: Database
 metadata:
-  name: bookstack-db2
+  name: bookstack-db
 spec:
   mariaDbRef:
     name: mariadb
@@ -24,7 +24,7 @@ spec:
 apiVersion: mariadb.mmontes.io/v1alpha1
 kind: Grant
 metadata:
-  name: bookstack-grant3
+  name: bookstack-grant
 spec:
   mariaDbRef:
     name: mariadb
@@ -36,6 +36,6 @@ spec:
     - "ALTER"
     - "DELETE"
     - "DROP"
-  database: "bookstack-db2"
+  database: "bookstack-db"
   table: "*"
   username: bookstack-user
