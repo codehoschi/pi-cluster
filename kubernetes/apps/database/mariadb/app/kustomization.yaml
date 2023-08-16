@@ -5,7 +5,7 @@ namespace: database
 resources:
   - ./secrets.sops.yaml
   - ./mariadb.yaml
-  - ./bookstack-database.yaml
-  - ./bookstack-grant.yaml
-  - ./bookstack-user.yaml
-  - ./bookstack.yaml
+  # - ./bookstack-database.yaml
+  # - ./bookstack-grant.yaml
+  # - ./bookstack-user.yaml
+  # - ./bookstack.yaml

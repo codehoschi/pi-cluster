@@ -8,7 +8,7 @@ metadata:
     substitution.flux.home.arpa/enabled: "true"
 spec:
   dependsOn:
-    - name: cluster-apps-mariadb
+    - name: cluster-apps-mariadb-bookstack-db
   path: ./kubernetes/apps/default/bookstack/app
   prune: true
   sourceRef:
