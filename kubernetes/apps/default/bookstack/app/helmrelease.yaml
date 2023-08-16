@@ -40,8 +40,9 @@ spec:
     env:
       TZ: ${TIMEZONE}
       APP_URL: https://{{ .Release.Name }}.${SECRET_DOMAIN}
-    envFromSecrets:
-      - name: bookstack-secret
+    envFrom:
+      - secretRef:
+          name: bookstack-secret
 
     service:
       main:
