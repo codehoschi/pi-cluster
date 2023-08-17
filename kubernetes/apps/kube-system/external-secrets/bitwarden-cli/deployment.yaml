@@ -22,20 +22,20 @@ spec:
     spec:
       containers:
         - name: bitwarden-cli
-          image: registry.gitlab.com/ttblt-oss/docker-bw:2023.1.0
+          image: ghcr.io/codehoschi/bitwarden-cli:rolling@sha256:7818e7e83484fba6f3fc2a62e93aa8b2ee37cec91c87708113146a155cb8ab29
           imagePullPolicy: IfNotPresent
           env:
-            - name: BW_HOST
+            - name: BW__HOST
               valueFrom:
                 secretKeyRef:
                   name: bitwarden-connect-secret
                   key: BW_HOST
-            - name: BW_USER
+            - name: BW__USER
               valueFrom:
                 secretKeyRef:
                   name: bitwarden-connect-secret
-                  key: BW_USERNAME
-            - name: BW_PASSWORD
+                  key: BW_USER
+            - name: BW__PASSWORD
               valueFrom:
                 secretKeyRef:
                   name: bitwarden-connect-secret
