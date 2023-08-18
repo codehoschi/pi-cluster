@@ -8,8 +8,8 @@ spec:
   interval: 30m
   ref:
     branch: main
-  # url: "https://github.com/CodeHoschi/pi-cluster"
-  url: "ssh://git@github.com/CodeHoschi/pi-cluster"
+  # url: "https://github.com/codehoschi/pi-cluster"
+  url: "ssh://git@github.com/codehoschi/pi-cluster"
   secretRef:
     name: github-deploy-key
   ignore: |
