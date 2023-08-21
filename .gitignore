@@ -19,3 +19,4 @@ xanmanning.k3s*
 terraform.tfstate*
 
 *.pwd
+.private/
