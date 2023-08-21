@@ -141,6 +141,9 @@ spec:
         subPath: configuration.yaml
         mountPath: /config/configuration.yaml
         readOnly: false
+      # smtp-auth:
+      #   enabled: true
+      #   type: sec
     # topologySpreadConstraints:
     #   - maxSkew: 1
     #     topologyKey: kubernetes.io/hostname

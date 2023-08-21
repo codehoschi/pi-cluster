@@ -1,4 +1,6 @@
 ---
+notifier:
+  password: ${AUTHELIA_NOTIFIER_SMTP_PASSWORD}
 session:
   redis:
     high_availability:
