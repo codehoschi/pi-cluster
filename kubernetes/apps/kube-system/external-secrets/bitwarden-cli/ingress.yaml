@@ -1,0 +1,25 @@
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: bitwarden-cli
+  namespace: kube-system
+  annotations:
+    nginx.ingress.kubernetes.io/whitelist-source-range: |
+      10.0.0.0/8,172.16.0.0/12,192.168.0.0/16
+spec:
+  ingressClassName: nginx
+  rules:
+    - host: &host bw-cli.${SECRET_DOMAIN}
+      http:
+        paths:
+          - backend:
+              service:
+                name: bitwarden-cli
+                port:
+                  number: 8087
+            path: /
+            pathType: Prefix
+  # tls:
+  #   - hosts:
+  #       - *host

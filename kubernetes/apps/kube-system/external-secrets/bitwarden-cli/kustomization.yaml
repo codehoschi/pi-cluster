@@ -7,3 +7,4 @@ resources:
   # - ./helmrelease.yaml
   - ./deployment.yaml
   - ./secret.sops.yaml
+  - ./ingress.yaml
