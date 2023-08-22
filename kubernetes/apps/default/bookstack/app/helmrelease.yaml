@@ -99,6 +99,11 @@ spec:
             mountPath: /etc/ssl/certs/mkcert-trust-bundle.pem
             readonly: true
 
+    configMaps:
+      config:
+        # -- Enables or disables the configMap
+        enabled: true
+
     # resources:
     #   requests:
     #     cpu: 10m
