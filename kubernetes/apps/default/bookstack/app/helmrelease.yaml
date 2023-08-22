@@ -88,7 +88,7 @@ spec:
         storageClass: ceph-block
 
     persistence:
-      ca-cert:
+      cacert:
         enable: true
         type: custom
         volumeSpec:
