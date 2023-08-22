@@ -88,7 +88,7 @@ spec:
         storageClass: ceph-block
 
     persistence:
-      config:
+      ca-cert:
         enabled: true
         # type: configMap
         # name: mkcert-bundle
@@ -100,7 +100,7 @@ spec:
             name: mkcert-bundle
         subPath:
           - path: mkcert-trust-bundle.pem
-            mountPath: /etc/ssl/certs/mkcert-trust-bundle.pem
+            mountPath: /etc/ssl/certs/
             readOnly: true
 
     # configMaps:
