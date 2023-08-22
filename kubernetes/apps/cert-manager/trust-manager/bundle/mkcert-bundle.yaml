@@ -5,7 +5,7 @@ metadata:
 spec:
   sources:
   # - useDefaultCAs: true
-  -secret:
+  - secret:
     name: hekate-ca-tls-secret
     key: tls.crt
   target:
