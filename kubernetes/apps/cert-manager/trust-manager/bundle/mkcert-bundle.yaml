@@ -1,0 +1,13 @@
+apiVersion: trust.cert-manager.io/v1alpha1
+kind: Bundle
+metadata:
+  name: mkcert-bundle
+spec:
+  sources:
+  # - useDefaultCAs: true
+  -secret:
+    name: hekate-ca-tls-secret
+    key: tls.crt
+  target:
+    configMap:
+      key: "mkcert-trust-bundle.pem"
