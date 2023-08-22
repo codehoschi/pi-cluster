@@ -6,8 +6,8 @@ spec:
   sources:
   # - useDefaultCAs: true
   - secret:
-    name: hekate-ca-tls-secret
-    key: tls.crt
+      name: hekate-ca-tls-secret
+      key: tls.crt
   target:
     configMap:
       key: "mkcert-trust-bundle.pem"
