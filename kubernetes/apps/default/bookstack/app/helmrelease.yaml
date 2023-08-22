@@ -89,7 +89,7 @@ spec:
 
     persistence:
       config:
-        enable: true
+        enabled: true
         # type: configMap
         # name: mkcert-bundle
         # mountPath: /etc/ssl/certs
