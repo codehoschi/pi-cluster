@@ -90,6 +90,10 @@ spec:
     persistence:
       config:
         enable: true
+        # type: configMap
+        # name: mkcert-bundle
+        # mountPath: /etc/ssl/certs
+        # readOnly: true
         type: custom
         volumeSpec:
           configMap:
@@ -97,12 +101,12 @@ spec:
         subPath:
           - path: mkcert-trust-bundle.pem
             mountPath: /etc/ssl/certs/mkcert-trust-bundle.pem
-            readonly: true
+            readOnly: true
 
-    configMaps:
-      config:
-        # -- Enables or disables the configMap
-        enabled: true
+    # configMaps:
+    #   config:
+    #     # -- Enables or disables the configMap
+    #     enabled: true
 
     # resources:
     #   requests:
