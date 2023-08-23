@@ -33,7 +33,7 @@ spec:
 
     image:
       repository: lscr.io/linuxserver/ombi
-      tag: latest
+      tag: 4.39.1
 
     env:
       TZ: ${TIMEZONE}
