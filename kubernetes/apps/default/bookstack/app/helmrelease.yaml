@@ -101,7 +101,7 @@ spec:
         subPath:
           - path: mkcert-trust-bundle.pem
             mountPath: /etc/ssl/certs/mkcert-trust-bundle.pem
-            readOnly: true
+            # readOnly: true
 
     # configMaps:
     #   config:
