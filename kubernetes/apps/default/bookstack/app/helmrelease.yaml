@@ -90,18 +90,18 @@ spec:
     persistence:
       ca-cert:
         enabled: true
-        # type: configMap
-        # name: mkcert-bundle
-        # mountPath: /etc/ssl/certs
-        # readOnly: true
-        type: custom
-        volumeSpec:
-          configMap:
-            name: mkcert-bundle
-        subPath:
-          - path: mkcert-trust-bundle.pem
-            mountPath: /etc/ssl/certs/mkcert-trust-bundle.pem
-            readOnly: true
+        type: configMap
+        name: mkcert-bundle
+        mountPath: /etc/ssl/certs
+        readOnly: true
+        # type: custom
+        # volumeSpec:
+        #   configMap:
+        #     name: mkcert-bundle
+        # subPath:
+        #   - path: mkcert-trust-bundle.pem
+        #     mountPath: /etc/ssl/certs/mkcert-trust-bundle.pem
+        #     readOnly: true
 
     # configMaps:
     #   config:
