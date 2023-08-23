@@ -87,27 +87,6 @@ spec:
         size: 10Gi
         storageClass: ceph-block
 
-    persistence:
-      ca-cert:
-        enabled: true
-        # type: configMap
-        # name: mkcert-bundle
-        # mountPath: /etc/ssl/certs
-        # readOnly: true
-        type: custom
-        volumeSpec:
-          configMap:
-            name: mkcert-bundle
-        subPath:
-          - path: mkcert-trust-bundle.pem
-            mountPath: /usr/local/share/ca-certificates/mkcert-trust-bundle.pem
-            # readOnly: true
-
-    # configMaps:
-    #   config:
-    #     # -- Enables or disables the configMap
-    #     enabled: true
-
     # resources:
     #   requests:
     #     cpu: 10m
