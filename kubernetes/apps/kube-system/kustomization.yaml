@@ -10,3 +10,4 @@ resources:
   - ./nfs-subdir-external-provisioner/ks.yaml
   - ./nfs-pv/ks.yaml
   - ./reloader/ks.yaml
+  - ./snapshot-controller/ks.yaml

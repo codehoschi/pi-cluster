@@ -4,6 +4,7 @@ kind: Kustomization
 resources:
   - ./bitnami.yaml
   - ./bjw-s.yaml
+  - ./backube.yaml
   - ./cloudnative-pg.yaml
   - ./emqx.yaml
   - ./external-dns.yaml
@@ -20,6 +21,7 @@ resources:
   - ./metallb.yaml
   - ./metrics-server.yaml
   - ./nfs-subdir-external-provisioner.yaml
+  - ./piraeus.yaml
   - ./prometheus-community.yaml
   - ./rook-ceph.yaml
   - ./stakater.yaml
