@@ -105,10 +105,10 @@ spec:
       resources:
         requests:
           cpu: 15m
-          memory: 64M
+          memory: 164M
         limits:
-          cpu: 26m
-          memory: 306M
+          cpu: 38m
+          memory: 179M
 
     storegateway:
       enabled: true
