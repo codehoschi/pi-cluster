@@ -104,7 +104,7 @@ spec:
             cpu: 429m
         mgr:
           requests:
-            cpu: 108m
+            cpu: 150m
           limits:
             cpu: 659m
         osd:
