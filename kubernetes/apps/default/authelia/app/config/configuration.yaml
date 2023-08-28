@@ -43,7 +43,7 @@ identity_providers:
         description: Grafana
         secret: "${GRAFANA_OAUTH_CLIENT_SECRET}"
         public: false
-        authorization_policy: two_factor
+        authorization_policy: one_factor
         redirect_uris: ["https://grafana.${AUTHELIA_SESSION_DOMAIN}/login/generic_oauth"]
         scopes: ["openid", "profile", "groups", "email"]
         userinfo_signing_algorithm: none
@@ -56,4 +56,4 @@ identity_providers:
         redirect_uris: ["https://bookstack.${AUTHELIA_SESSION_DOMAIN}/oidc/callback"]
         scopes: ["openid", "profile", "email"]
         userinfo_signing_algorithm: none
-        pre_configured_consent_duration: 1h
+        pre_configured_consent_duration: 1y
