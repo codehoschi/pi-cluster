@@ -1,38 +1,38 @@
-# ---
-# apiVersion: volsync.backube/v1alpha1
-# kind: ReplicationSource
-# metadata:
-#   name: home-assistant-backup
-#   namespace: default
-# spec:
-#   trigger:
-#     schedule: "0 7 * * *"
-#   sourcePVC: home-assistant-config
-#   restic:
-#     repository: home-assistant-restic-secret
-#     copyMethod: Snapshot
-#     volumeSnapshotClassName: csi-ceph-blockpool
-#     cacheCapacity: 8Gi
-#     cacheStorageClassName: local-path
-#     storageClassName: ceph-block
-#     pruneIntervalDays: 7
-#     retain:
-#       daily: 7
-#       within: 3d
 ---
 apiVersion: volsync.backube/v1alpha1
-kind: ReplicationDestination
+kind: ReplicationSource
 metadata:
-  name: home-assistant-restore
+  name: home-assistant-backup
   namespace: default
 spec:
   trigger:
-    manual: restore-once
+    schedule: "0 7 * * *"
+  sourcePVC: home-assistant-config
   restic:
     repository: home-assistant-restic-secret
-    destinationPVC: home-assistant-config
     copyMethod: Snapshot
     volumeSnapshotClassName: csi-ceph-blockpool
     cacheCapacity: 8Gi
     cacheStorageClassName: local-path
     storageClassName: ceph-block
+    pruneIntervalDays: 7
+    retain:
+      daily: 7
+      within: 3d
+# ---
+# apiVersion: volsync.backube/v1alpha1
+# kind: ReplicationDestination
+# metadata:
+#   name: home-assistant-restore
+#   namespace: default
+# spec:
+#   trigger:
+#     manual: restore-once
+#   restic:
+#     repository: home-assistant-restic-secret
+#     destinationPVC: home-assistant-config
+#     copyMethod: Snapshot
+#     volumeSnapshotClassName: csi-ceph-blockpool
+#     cacheCapacity: 8Gi
+#     cacheStorageClassName: local-path
+#     storageClassName: ceph-block
