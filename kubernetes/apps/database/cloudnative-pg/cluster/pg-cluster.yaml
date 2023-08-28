@@ -18,44 +18,61 @@ spec:
     storageClass: local-path
   superuserSecret:
     name: cloudnative-pg-secret
-  # bootstrap:
-  #   recovery:
-  #     source: &previousCluster postgres-v3
   postgresql:
     parameters:
       max_connections: "600"
       shared_buffers: 512MB
   monitoring:
     enablePodMonitor: true
-  # backup:
-  #   retentionPolicy: 30d
-  #   barmanObjectStore:
-  #     wal:
-  #       compression: bzip2
-  #       maxParallel: 8
-  #     destinationPath: s3://cnpg-zd6qkutg/
-  #     endpointURL: https://${SECRET_CLOUDFLARE_ACCOUNT_ID}.r2.cloudflarestorage.com
-  #     serverName: &currentCluster postgres-v4
-  #     s3Credentials:
-  #       accessKeyId:
-  #         name: cloudnative-pg-secret
-  #         key: aws-access-key-id
-  #       secretAccessKey:
-  #         name: cloudnative-pg-secret
-  #         key: aws-secret-access-key
-  # # Note: externalClusters is needed when recovering from an existing cnpg cluster
-  # externalClusters:
-  #   - name: *previousCluster
-  #     barmanObjectStore:
-  #       wal:
-  #         compression: bzip2
-  #         maxParallel: 8
-  #       destinationPath: s3://cnpg-zd6qkutg/
-  #       endpointURL: https://${SECRET_CLOUDFLARE_ACCOUNT_ID}.r2.cloudflarestorage.com
-  #       s3Credentials:
-  #         accessKeyId:
-  #           name: cloudnative-pg-secret
-  #           key: aws-access-key-id
-  #         secretAccessKey:
-  #           name: cloudnative-pg-secret
-  #           key: aws-secret-access-key
+  backup:
+    retentionPolicy: 30d
+    barmanObjectStore:
+      wal:
+        compression: bzip2
+        maxParallel: 8
+      destinationPath: s3://postgresql/
+      endpointURL: http://${NAS_IP}:9000
+      # serverName: &currentCluster postgres-v4
+      serverName: postgres
+      s3Credentials:
+        accessKeyId:
+          name: cloudnative-pg-secret
+          key: aws-access-key-id
+        secretAccessKey:
+          name: cloudnative-pg-secret
+          key: aws-secret-access-key
+
+  bootstrap:
+    # use this to recover a net-new cluster from a backup
+    recovery:
+      # source: &previousCluster postgres-v3
+      source: postgres-backup
+
+  externalClusters:
+    # this represents the s3 backup to restore from. *nota-bene: the backup must be the same major version of the target cluster
+    # - name: *previousCluster
+    - name: postgres-backup
+      barmanObjectStore:
+        wal:
+          compression: bzip2
+          maxParallel: 8
+        destinationPath: s3://postgresql/
+        endpointURL: http://${NAS_IP}:9000
+        s3Credentials:
+          accessKeyId:
+            name: cloudnative-pg-secret
+            key: aws-access-key-id
+          secretAccessKey:
+            name: cloudnative-pg-secret
+            key: aws-secret-access-key
+
+    # # this represents an existing cnpg cluster to migrate from (e.g. upgrading from postgres v14 to postgres v15)
+    # - name: cluster-pg14
+    #   connectionParameters:
+    #     host: postgres-rw.default.svc.cluster.local
+    #     user: postgres
+    #     dbname: postgres
+    #     sslmode: require
+    #   password:
+    #     name: cloudnative-pg-secret
+    #     key: password
