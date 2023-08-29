@@ -5,6 +5,6 @@ kind: Kustomization
 namespace: database
 resources:
   - ./pg-cluster.yaml
-  - ./scheduledbackup.yaml
+  # - ./scheduledbackup.yaml
   # - ./prometheusrule.yaml
   - ./service.yaml
