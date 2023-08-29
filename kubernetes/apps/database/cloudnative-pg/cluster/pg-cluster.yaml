@@ -7,7 +7,7 @@ metadata:
   # annotations:
   #   kyverno.io/ignore: "true"
 spec:
-  instances: 3
+  instances: 2
   imageName: ghcr.io/cloudnative-pg/postgresql:14.9-3
   inheritedMetadata:
     labels:
@@ -25,7 +25,7 @@ spec:
   monitoring:
     enablePodMonitor: true
   backup:
-    retentionPolicy: 29d
+    retentionPolicy: 30d
     barmanObjectStore:
       wal:
         compression: bzip2
