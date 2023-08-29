@@ -2,7 +2,7 @@
 apiVersion: postgresql.cnpg.io/v1
 kind: Cluster
 metadata:
-  name: postgres
+  name: postgres-v14
   namespace: database
   # annotations:
   #   kyverno.io/ignore: "true"
@@ -46,7 +46,7 @@ spec:
     # use this to recover a net-new cluster from a backup
     recovery:
       # source: &previousCluster postgres-v3
-      source: postgres-backup
+      source: postgres
 
     # # use this to 'migrate' from an existing cnpg cluster (e.g. "cluster-pg14") to the new cluster
     # initdb:
@@ -62,7 +62,7 @@ spec:
   externalClusters:
     # this represents the s3 backup to restore from. *nota-bene: the backup must be the same major version of the target cluster
     # - name: *previousCluster
-    - name: postgres-backup
+    - name: postgres
       barmanObjectStore:
         wal:
           compression: bzip2
