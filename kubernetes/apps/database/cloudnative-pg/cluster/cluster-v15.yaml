@@ -80,7 +80,7 @@ spec:
     # this represents an existing cnpg cluster to migrate from (e.g. upgrading from postgres v14 to postgres v15)
     - name: cluster-pg14
       connectionParameters:
-        host: postgres-v14-rw.default.svc.cluster.local
+        host: postgres-v14-rw.database.svc.cluster.local
         user: postgres
         dbname: postgres
         sslmode: require
