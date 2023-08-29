@@ -2,17 +2,17 @@
 apiVersion: volsync.backube/v1alpha1
 kind: ReplicationSource
 metadata:
-  name: lidarr
+  name: ombi
   namespace: media
 spec:
-  sourcePVC: config-lidarr-0
+  sourcePVC: config-ombi-0
   trigger:
     schedule: "0 7 * * *"
   restic:
     copyMethod: Snapshot
     pruneIntervalDays: 7
-    repository: lidarr-restic-secret
-    cacheCapacity: 5Gi
+    repository: ombi-restic-secret
+    cacheCapacity: 1Gi
     cacheStorageClassName: local-path
     volumeSnapshotClassName: csi-ceph-blockpool
     storageClassName: ceph-block
