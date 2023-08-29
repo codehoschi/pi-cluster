@@ -2,16 +2,16 @@
 apiVersion: volsync.backube/v1alpha1
 kind: ReplicationSource
 metadata:
-  name: lidarr
+  name: radarr
   namespace: media
 spec:
-  sourcePVC: config-lidarr-0
+  sourcePVC: config-radarr-0
   trigger:
     schedule: "0 7 * * *"
   restic:
     copyMethod: Snapshot
     pruneIntervalDays: 7
-    repository: lidarr-restic-secret
+    repository: radarr-restic-secret
     cacheCapacity: 10Gi
     cacheStorageClassName: local-path
     volumeSnapshotClassName: csi-ceph-blockpool
