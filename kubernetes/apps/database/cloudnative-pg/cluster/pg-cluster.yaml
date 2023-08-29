@@ -2,7 +2,7 @@
 apiVersion: postgresql.cnpg.io/v1
 kind: Cluster
 metadata:
-  name: postgres-v14
+  name: postgres
   namespace: database
   # annotations:
   #   kyverno.io/ignore: "true"
@@ -33,7 +33,7 @@ spec:
       destinationPath: s3://postgresql/
       endpointURL: http://${NAS_IP}:9000
       # serverName: &currentCluster postgres-v4
-      serverName: postgres-v14
+      serverName: postgres
       s3Credentials:
         accessKeyId:
           name: cloudnative-pg-secret
