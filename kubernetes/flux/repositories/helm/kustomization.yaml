@@ -5,6 +5,8 @@ resources:
   - ./bitnami.yaml
   - ./bjw-s.yaml
   - ./backube.yaml
+  - ./cilium.yaml
+  - ./coredns.yaml
   - ./cloudnative-pg.yaml
   - ./emqx.yaml
   - ./external-dns.yaml
