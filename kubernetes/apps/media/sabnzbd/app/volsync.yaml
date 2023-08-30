@@ -2,7 +2,7 @@
 apiVersion: volsync.backube/v1alpha1
 kind: ReplicationSource
 metadata:
-  name: sabnzbd
+  name: sabnzbd-backup
   namespace: media
 spec:
   sourcePVC: config-sabnzbd-0
@@ -24,3 +24,25 @@ spec:
     retain:
       daily: 7
       within: 3d
+---
+apiVersion: volsync.backube/v1alpha1
+kind: ReplicationDestination
+metadata:
+  name: sabnzbd-restore
+  namespace: default
+spec:
+  trigger:
+    manual: restore-once
+  restic:
+    repository: sabnzbd-restic-secret
+    destinationPVC: config-sabnzbd-0
+    copyMethod: Snapshot
+    volumeSnapshotClassName: csi-ceph-blockpool
+    cacheCapacity: 1Gi
+    cacheStorageClassName: local-path
+    storageClassName: ceph-block
+    moverSecurityContext:
+      runAsUser: 568
+      runAsGroup: 568
+      fsGroup: 568
+    restoreAsOf: 2023-08-30T10:00:00+02:00

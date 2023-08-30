@@ -2,7 +2,7 @@
 apiVersion: volsync.backube/v1alpha1
 kind: ReplicationSource
 metadata:
-  name: ombi
+  name: ombi-backup
   namespace: media
 spec:
   sourcePVC: config-ombi-0
@@ -24,3 +24,25 @@ spec:
     retain:
       daily: 7
       within: 3d
+---
+apiVersion: volsync.backube/v1alpha1
+kind: ReplicationDestination
+metadata:
+  name: ombi-restore
+  namespace: default
+spec:
+  trigger:
+    manual: restore-once
+  restic:
+    repository: ombi-restic-secret
+    destinationPVC: config-ombi-0
+    copyMethod: Snapshot
+    volumeSnapshotClassName: csi-ceph-blockpool
+    cacheCapacity: 1Gi
+    cacheStorageClassName: local-path
+    storageClassName: ceph-block
+    moverSecurityContext:
+      runAsUser: 911
+      runAsGroup: 911
+      fsGroup: 911
+    restoreAsOf: 2023-08-30T10:00:00+02:00
