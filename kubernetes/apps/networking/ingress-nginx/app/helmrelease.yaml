@@ -34,7 +34,8 @@ spec:
         annotations:
           # metallb.universe.tf/loadBalancerIPs: "${METALLB_INGRESS_ADDR}"
           io.cilium/lb-ipam-ips: ${LB_NGINX}
-        externalTrafficPolicy: Local
+        # externalTrafficPolicy: Local
+        externalTrafficPolicy: Cluster
       publishService:
         enabled: true
       ingressClassResource:
