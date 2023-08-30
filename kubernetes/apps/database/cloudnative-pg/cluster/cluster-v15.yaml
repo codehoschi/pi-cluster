@@ -2,7 +2,7 @@
 apiVersion: postgresql.cnpg.io/v1
 kind: Cluster
 metadata:
-  name: postgres-v15
+  name: postgres-v15-restored
   namespace: database
   # annotations:
   #   kyverno.io/ignore: "true"
