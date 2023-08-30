@@ -33,7 +33,7 @@ spec:
 
     image:
       repository: lscr.io/linuxserver/bookstack
-      tag: 23.06.2
+      tag: 23.08.20230830
 
     env:
       TZ: ${TIMEZONE}
