@@ -2,7 +2,7 @@
 apiVersion: volsync.backube/v1alpha1
 kind: ReplicationSource
 metadata:
-  name: node-red
+  name: node-red-backup
   namespace: default
 spec:
   sourcePVC: node-red-data
@@ -12,7 +12,7 @@ spec:
     copyMethod: Snapshot
     pruneIntervalDays: 7
     repository: node-red-restic-secret
-    cacheCapacity: 8Gi
+    cacheCapacity: 5Gi
     cacheStorageClassName: local-path
     volumeSnapshotClassName: csi-ceph-blockpool
     storageClassName: ceph-block
@@ -23,3 +23,20 @@ spec:
     retain:
       daily: 7
       within: 3d
+---
+apiVersion: volsync.backube/v1alpha1
+kind: ReplicationDestination
+metadata:
+  name: node-red-restore
+  namespace: default
+spec:
+  trigger:
+    manual: restore-once
+  restic:
+    repository: node-red-restic-secret
+    destinationPVC: node-red-data
+    copyMethod: Snapshot
+    volumeSnapshotClassName: csi-ceph-blockpool
+    cacheCapacity: 5Gi
+    cacheStorageClassName: local-path
+    storageClassName: ceph-block
