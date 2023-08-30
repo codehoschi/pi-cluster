@@ -50,13 +50,13 @@ spec:
     toolbox:
       enabled: true
 
-      resources:
-        requests:
-          cpu: 20m
-          memory: 64M
-        limits:
-          cpu: 41m
-          memory: 64M
+      # resources:
+      #   requests:
+      #     cpu: 20m
+      #     memory: 64M
+      #   limits:
+      #     cpu: 41m
+      #     memory: 64M
 
     configOverride: |
       [global]
