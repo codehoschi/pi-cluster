@@ -9,6 +9,7 @@ metadata:
 spec:
   dependsOn:
     - name: cluster-apps-rook-ceph
+    - name: cluster-apps-volsync
   path: ./kubernetes/apps/networking/omada-controller/app
   prune: true
   sourceRef:
