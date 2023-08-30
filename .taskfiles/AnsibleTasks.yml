@@ -63,13 +63,13 @@ tasks:
     cmds:
       - ansible-playbook -i {{.ANSIBLE_INVENTORY_DIR}}/hosts.yml {{.ANSIBLE_PLAYBOOK_DIR}}/cluster-rollout-reboot.yml
 
-  force-reboot:
+  reboot:
     desc: Reboot all the k8s nodes
     dir: "{{.ANSIBLE_DIR}}"
     cmds:
       - ansible-playbook -i {{.ANSIBLE_INVENTORY_DIR}}/hosts.yml {{.ANSIBLE_PLAYBOOK_DIR}}/cluster-reboot.yml
 
-  force-poweroff:
+  poweroff:
     desc: Shutdown all the k8s nodes
     dir: "{{.ANSIBLE_DIR}}"
     cmds:
