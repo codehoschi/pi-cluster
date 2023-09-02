@@ -6,3 +6,4 @@ namespace: kube-system
 resources:
   - ./clustersecretstore.yaml
   - ./secret.sops.yaml
+  - ./externalsecret.yaml
