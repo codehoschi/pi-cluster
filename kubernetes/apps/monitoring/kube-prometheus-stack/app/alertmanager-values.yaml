@@ -91,15 +91,15 @@ alertmanager:
     storage:
       volumeClaimTemplate:
         spec:
-          storageClassName: local-path
+          storageClassName: ceph-block
           resources:
             requests:
               storage: 1Gi
 
-    resources:
-      requests:
-        cpu: 10m
-        memory: 50M
-      limits:
-        cpu: 26m
-        memory: 120M
+    # resources:
+    #   requests:
+    #     cpu: 10m
+    #     memory: 50M
+    #   limits:
+    #     cpu: 26m
+    #     memory: 120M

@@ -1,13 +1,13 @@
 ---
 prometheusOperator:
   prometheusConfigReloader:
-    resources:
-      requests:
-        cpu: 11m
-        memory: 32M
-      limits:
-        cpu: 11m
-        memory: 32M
+    # resources:
+    #   requests:
+    #     cpu: 11m
+    #     memory: 32M
+    #   limits:
+    #     cpu: 11m
+    #     memory: 32M
 
 prometheus:
   ingress:
@@ -40,14 +40,25 @@ prometheus:
     serviceMonitorSelectorNilUsesHelmValues: false
     podMonitorSelectorNilUsesHelmValues: false
     probeSelectorNilUsesHelmValues: false
+    scrapeConfigSelectorNilUsesHelmValues: false
     enableAdminAPI: true
     walCompression: true
+    enableFeatures:
+      - auto-gomaxprocs
+      - memory-snapshot-on-shutdown
+      - new-service-discovery-manager
+
+    thanos:
+      image: quay.io/thanos/thanos:v0.31.0
+      objectStorageConfig:
+        name: &secret thanos-objstore-secret
+        key: objstore.yml
     retention: 2d
     retentionSize: 6GB
     storageSpec:
       volumeClaimTemplate:
         spec:
-          storageClassName: local-path
+          storageClassName: ceph-block
           resources:
             requests:
               storage: 10Gi
@@ -59,12 +70,6 @@ prometheus:
     #   limits:
     #     cpu: 323m
     #     memory: 1739M
-
-    thanos:
-      image: quay.io/thanos/thanos:v0.31.0
-      objectStorageConfig:
-        name: &secret thanos-objstore-secret
-        key: objstore.yml
 
     podAnnotations:
       secret.reloader.stakater.com/reload: *secret

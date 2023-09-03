@@ -9,7 +9,7 @@ spec:
   chart:
     spec:
       chart: thanos
-      version: 12.11.0
+      version: 12.13.1
       sourceRef:
         kind: HelmRepository
         name: bitnami
@@ -30,37 +30,8 @@ spec:
     image:
       registry: quay.io
       repository: thanos/thanos
-      tag: v0.31.0
+      tag: v0.32.2
     existingObjstoreSecret: &secret thanos-objstore-secret
-
-    query:
-      enabled: true
-      replicaLabels:
-        - replica
-
-      dnsDiscovery:
-        sidecarsService: prometheus-thanos-discovery
-        sidecarsNamespace: monitoring
-
-      resources:
-        requests:
-          cpu: 15m
-          memory: 64M
-        limits:
-          cpu: 26m
-          memory: 189M
-
-      ingress:
-        # main:
-        enabled: true
-        ingressClassName: nginx
-        annotations:
-          hajimari.io/enable: "true"
-          hajimari.io/icon: "archive-clock"
-          hajimari.io/targetBlank: "true"
-        hostname: "thanos-cluster.${SECRET_DOMAIN}"
-        # hosts:
-        #   - host: "thanos-cluster.${SECRET_INTERNAL_DOMAIN}"
 
     queryFrontend:
       enabled: true
@@ -74,13 +45,33 @@ spec:
           hajimari.io/targetBlank: "true"
         hostname: "thanos-query-frontend.${SECRET_DOMAIN}"
 
-      resources:
-        requests:
-          cpu: 15m
-          memory: 94M
-        limits:
-          cpu: 26m
-          memory: 226M
+    query:
+      enabled: true
+      replicaLabels: ["__replica__"]
+      dnsDiscovery:
+        sidecarsService: kube-prometheus-stack-thanos-discovery
+        sidecarsNamespace: monitoring
+
+      # ingress:
+      #   # main:
+      #   enabled: true
+      #   ingressClassName: nginx
+      #   annotations:
+      #     hajimari.io/enable: "true"
+      #     hajimari.io/icon: "archive-clock"
+      #     hajimari.io/targetBlank: "true"
+      #   hostname: "thanos-cluster.${SECRET_DOMAIN}"
+      #   # hosts:
+      #   #   - host: "thanos-cluster.${SECRET_INTERNAL_DOMAIN}"
+
+
+      # resources:
+      #   requests:
+      #     cpu: 15m
+      #     memory: 94M
+      #   limits:
+      #     cpu: 26m
+      #     memory: 226M
 
     bucketweb:
       enabled: true
@@ -97,38 +88,65 @@ spec:
 
     compactor:
       enabled: true
+      extraFlags:
+        - --compact.concurrency=4
+        - --delete-delay=30m
+      retentionResolutionRaw: 30d
+      retentionResolution5m: 60d
+      retentionResolution1h: 90d
       persistence:
-        enabled: false
+        enabled: true
+        storageClass: ceph-block
+        size: 10Gi
       podAnnotations:
         secret.reloader.stakater.com/reload: *secret
 
-      resources:
-        requests:
-          cpu: 20m
-          memory: 164M
-        limits:
-          cpu: 38m
-          memory: 179M
+      # resources:
+      #   requests:
+      #     cpu: 20m
+      #     memory: 164M
+      #   limits:
+      #     cpu: 38m
+      #     memory: 179M
 
     storegateway:
       enabled: true
       persistence:
         enabled: true
         storageClass: ceph-block
-        size: 20Gi
+        size: 10Gi
       podAnnotations:
         configmap.reloader.stakater.com/reload: *secret
 
-      resources:
-        requests:
-          cpu: 15m
-          memory: 64M
-        limits:
-          cpu: 55m
-          memory: 153M
-
     ruler:
-      enabled: false
+      enabled: true
+      replicaCount: 2
+      replicaLabel: __replica__
+      alertmanagers: ["http://alertmanager-operated.monitoring.svc.cluster.local:9093"]
+      extraFlags: ["--web.prefix-header=X-Forwarded-Prefix"]
+      config: |-
+        groups:
+          - name: PrometheusWatcher
+            rules:
+              - alert: PrometheusDown
+                annotations:
+                  summary: A Prometheus has disappeared from Prometheus target discovery
+                expr: absent(up{job="kube-prometheus-stack-prometheus"})
+                for: 5m
+                labels:
+                  severity: critical
+      persistence:
+        enabled: true
+        storageClass: ceph-block
+        size: 10Gi
+
+      # resources:
+      #   requests:
+      #     cpu: 15m
+      #     memory: 64M
+      #   limits:
+      #     cpu: 55m
+      #     memory: 153M
 
     metrics:
       enabled: true
