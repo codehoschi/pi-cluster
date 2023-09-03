@@ -1,6 +1,6 @@
 ---
-prometheusOperator:
-  prometheusConfigReloader:
+# prometheusOperator:
+  # prometheusConfigReloader:
     # resources:
     #   requests:
     #     cpu: 11m
