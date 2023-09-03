@@ -97,16 +97,16 @@ spec:
               - name: sda3
 
       resources:
+        mgr:
+          requests:
+            cpu: 108m
+          limits:
+            cpu: 162m
         mon:
           requests:
             cpu: 77m
           limits:
             cpu: 429m
-        mgr:
-          requests:
-            cpu: "150m"
-          limits:
-            cpu: "600m"
         osd:
           requests:
             cpu: 77m
