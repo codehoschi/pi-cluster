@@ -41,7 +41,7 @@ kubeProxy:
   enabled: false # Disabled because eBPF
 
 kubelet:
-  enabled: true
+  enabled: false
   serviceMonitor:
     metricRelabelings:
       # Remove duplicate labels provided by k3s
