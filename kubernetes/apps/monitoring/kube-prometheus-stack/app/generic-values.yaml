@@ -1,6 +1,6 @@
 ---
-crds:
-  enabled: true
+# crds:
+#   enabled: true
 cleanPrometheusOperatorObjectNames: true
 # fullnameOverride: prometheus
 
