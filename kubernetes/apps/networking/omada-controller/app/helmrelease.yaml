@@ -121,6 +121,8 @@ spec:
             paths:
               - path: /
                 pathType: Prefix
+                service:
+                  name: portal-https
         # tls:
         #   - hosts:
         #       - *host
