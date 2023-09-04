@@ -122,7 +122,8 @@ spec:
               - path: /
                 pathType: Prefix
                 service:
-                  name: portal-https
+                  name: manage-https
+                  port: 8043
         # tls:
         #   - hosts:
         #       - *host
