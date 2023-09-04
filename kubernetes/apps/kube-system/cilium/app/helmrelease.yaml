@@ -95,7 +95,7 @@ spec:
             kubernetes.io/ingress.class: cilium
             # cert-manager.io/cluster-issuer: letsencrypt-production
           # className: internal
-          className: cilium
+          className: nginx
           hosts:
             - &host hubble.${SECRET_DOMAIN}
           # tls:
