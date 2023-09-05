@@ -33,8 +33,6 @@ prometheus:
     enabled: true
 
   prometheusSpec:
-    #test fpr lens
-    hostNetwork: true
     replicas: 1
     replicaExternalLabelName: __replica__
     # scrapeInterval: 1m

@@ -37,14 +37,14 @@ spec:
         enabled: true
         jobLabel: jobLabel
         metricRelabelings:
-        #   # - action: drop
-        #   #   sourceLabels: ["mountpoint"]
-        #   #   regex: /var/lib/kubelet/pods.+
           - action: replace
             regex: (.*)
             replacement: $1
             sourceLabels:
             - __meta_kubernetes_pod_node_name
             targetLabel: kubernetes_node
+          - action: drop
+            sourceLabels: ["mountpoint"]
+            regex: /var/lib/kubelet/pods.+
     rbac:
       pspEnabled: false
