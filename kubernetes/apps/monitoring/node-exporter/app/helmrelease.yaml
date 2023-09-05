@@ -37,9 +37,9 @@ spec:
         enabled: true
         jobLabel: jobLabel
         metricRelabelings:
-          - action: drop
-            sourceLabels: ["mountpoint"]
-            regex: /var/lib/kubelet/pods.+
+          # - action: drop
+          #   sourceLabels: ["mountpoint"]
+          #   regex: /var/lib/kubelet/pods.+
           - action: replace
             regex: (.*)
             replacement: $1
