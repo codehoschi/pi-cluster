@@ -9,6 +9,7 @@ resources:
   # - ./scrapeconfigs
   # - ./prometheusrules
   # - ./gatus.yaml
+  - ./secret.sops.yaml
 configMapGenerator:
   - name: alertmanager-config-tpl
     files:
