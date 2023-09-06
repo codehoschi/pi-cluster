@@ -1,19 +1,17 @@
 ---
+# yaml-language-server: $schema=https://json.schemastore.org/kustomization
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 namespace: monitoring
 resources:
-  - ./secret.sops.yaml
+  # - ./externalsecret.yaml
   - ./helmrelease.yaml
-configurations:
-  - kustomize-config.yaml
+  # - ./scrapeconfigs
+  # - ./prometheusrules
+  # - ./gatus.yaml
 configMapGenerator:
-  - name: kps-generic-values
+  - name: alertmanager-config-tpl
     files:
-      - values.yaml=generic-values.yaml
-  - name: kps-prometheus-values
-    files:
-      - values.yaml=prometheus-values.yaml
-  - name: kps-alertmanager-values
-    files:
-      - values.yaml=alertmanager-values.yaml
+      - alertmanager.yaml=./config/alertmanager.yaml
+generatorOptions:
+  disableNameSuffixHash: true
