@@ -43,7 +43,7 @@ kubeProxy:
 kubelet:
   enabled: true
   serviceMonitor:
-    metricRelabelings:
+    relabelings:
       # Lens Metrics
       - action: replace
         sourceLabels: ["node"]
