@@ -36,7 +36,8 @@ spec:
       monitor:
         enabled: true
         jobLabel: jobLabel
-        metricRelabelings:
+        # metricRelabelings:
+        relabelings:
           - action: replace
             regex: (.*)
             replacement: $1
