@@ -22,7 +22,7 @@ spec:
     spec:
       containers:
         - name: bitwarden-cli
-          image: ghcr.io/codehoschi/bitwarden-cli:rolling@sha256:7818e7e83484fba6f3fc2a62e93aa8b2ee37cec91c87708113146a155cb8ab29
+          image: ghcr.io/codehoschi/bitwarden-cli:rolling@sha256:29c1d10d759bba49fa41bdff6c9fbc2ae5d6abe2d52b5f7f9b10abed035fab74
           imagePullPolicy: IfNotPresent
           env:
             - name: BW__HOST
