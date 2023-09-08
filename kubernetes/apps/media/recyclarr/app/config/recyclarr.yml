@@ -75,9 +75,11 @@ radarr:
 
     quality_profiles:
       - name: SD
-        reset_unmatched_scores: true
+        reset_unmatched_scores:
+          enabled: true
       - name: HD
-        reset_unmatched_scores: true
+        reset_unmatched_scores:
+          enabled: true
 
     custom_formats:
       - trash_ids:
