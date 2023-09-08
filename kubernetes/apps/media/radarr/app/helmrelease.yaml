@@ -26,53 +26,68 @@ spec:
   uninstall:
     keepHistory: false
   values:
+    initContainers:
+      01-init-db:
+        image: ghcr.io/codehoschi/postgres-init:15.4@sha256:17620a5e514c4518ac25f75915afa45a82361bce2f945bdadac7f1c33f82db91
+        imagePullPolicy: IfNotPresent
+        envFrom: &envFrom
+          - secretRef:
+              name: &secret radarr-secret
     controller:
-      type: statefulset
+      # type: statefulset
       annotations:
         reloader.stakater.com/auto: "true"
 
     image:
-      repository: lscr.io/linuxserver/radarr
-      tag: 4.7.5
-      # repository: ghcr.io/onedr0p/radarr
-      # tag: 4.3.2.6857
+      # repository: lscr.io/linuxserver/radarr
+      # tag: 4.7.5
+      repository: ghcr.io/onedr0p/radarr-develop
+      tag: 5.0.1.7993@sha256:10a6c584b77dbd447df5f6c3f9fd55466c67b1734ded718b89a38e92bfbae197
 
     env:
       TZ: ${TIMEZONE}
+      RADARR__AUTHENTICATION_METHOD: External
+      RADARR__AUTHENTICATION_REQUIRED: DisabledForLocalAddresses
+      RADARR__INSTANCE_NAME: Radarr
+      RADARR__PORT: &port 80
+      RADARR__LOG_LEVEL: info
+      RADARR__THEME: dark
+    envFrom:
+      *envFrom
 
     service:
       main:
         ports:
           http:
-            port: &port 7878
+            port: *port
 
-    # probes:
-    #   liveness: &probes
-    #     enabled: true
-    #     custom: true
-    #     spec:
-    #       httpGet:
-    #         path: /ping
-    #         port: *port
-    #       initialDelaySeconds: 0
-    #       periodSeconds: 10
-    #       timeoutSeconds: 1
-    #       failureThreshold: 3
-    #   readiness: *probes
-    #   startup:
-    #     enabled: false
+    probes:
+      liveness: &probes
+        enabled: true
+        custom: true
+        spec:
+          httpGet:
+            path: /ping
+            port: *port
+          initialDelaySeconds: 0
+          periodSeconds: 10
+          timeoutSeconds: 1
+          failureThreshold: 3
+      readiness: *probes
+      startup:
+        enabled: false
 
     ingress:
       main:
         enabled: true
         ingressClassName: nginx
         annotations:
-          nginx.ingress.kubernetes.io/configuration-snippet: |
-            proxy_set_header Accept-Encoding "";
-            sub_filter '</head>' '<link rel="stylesheet" type="text/css" href="http://theme-park.${SECRET_DOMAIN}/css/base/radarr/nord.css"></head>';
-            sub_filter_once on;
-          nginx.ingress.kubernetes.io/whitelist-source-range: |
-            10.0.0.0/8,172.16.0.0/12,192.168.0.0/16
+          # nginx.ingress.kubernetes.io/configuration-snippet: |
+          #   proxy_set_header Accept-Encoding "";
+          #   sub_filter '</head>' '<link rel="stylesheet" type="text/css" href="http://theme-park.${SECRET_DOMAIN}/css/base/radarr/nord.css"></head>';
+          #   sub_filter_once on;
+          # nginx.ingress.kubernetes.io/whitelist-source-range: |
+          #   10.0.0.0/8,172.16.0.0/12,192.168.0.0/16
           hajimari.io/icon: mdi:filmstrip
           hajimari.io/targetBlank: "true"
         hosts:
@@ -84,24 +99,25 @@ spec:
         #   - hosts:
         #       - *host
 
-    # podSecurityContext:
-    #   runAsUser: 568
-    #   runAsGroup: 568
-    #   fsGroup: 568
-    #   fsGroupChangePolicy: OnRootMismatch
-    #   supplementalGroups: [10000]
+    podSecurityContext:
+      runAsUser: 568
+      runAsGroup: 568
+      fsGroup: 568
+      fsGroupChangePolicy: OnRootMismatch
+      supplementalGroups: [65537]
 
-    volumeClaimTemplates:
-      - name: config
-        mountPath: /config
-        accessMode: ReadWriteOnce
-        size: 10Gi
-        storageClass: ceph-block
+    # volumeClaimTemplates:
+    #   - name: config
+    #     mountPath: /config
+    #     accessMode: ReadWriteOnce
+    #     size: 10Gi
+    #     storageClass: ceph-block
 
     persistence:
-      # config:
-      #   enabled: true
-      #   existingClaim: radarr-config-v1
+      config:
+        enabled: true
+        storageClass: ceph-block
+        size: 1Gi
       media:
         enabled: true
         existingClaim: nfs-media-pvc
