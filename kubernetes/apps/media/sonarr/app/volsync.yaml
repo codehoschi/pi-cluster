@@ -1,48 +1,70 @@
 ---
+apiVersion: external-secrets.io/v1beta1
+kind: ExternalSecret
+metadata:
+  name: sonarr-restic
+  namespace: media
+spec:
+  secretStoreRef:
+    kind: ClusterSecretStore
+    name: vault-kv
+  target:
+    name: sonarr-restic-secret
+    creationPolicy: Owner
+    template:
+      engineVersion: v2
+      data:
+        RESTIC_REPOSITORY: '{{ .REPOSITORY_TEMPLATE }}/radarr'
+        RESTIC_PASSWORD: '{{ .RESTIC_PASSWORD }}'
+        AWS_ACCESS_KEY_ID: '{{ .MINIO_ACCESS_KEY }}'
+        AWS_SECRET_ACCESS_KEY: '{{ .MINIO_SECRET_KEY }}'
+  dataFrom:
+    - extract:
+        key: minio
+---
 apiVersion: volsync.backube/v1alpha1
 kind: ReplicationSource
 metadata:
   name: sonarr-backup
   namespace: media
 spec:
-  sourcePVC: config-sonarr-0
+  sourcePVC: sonarr-config
   trigger:
     schedule: "0 7 * * *"
   restic:
     copyMethod: Snapshot
     pruneIntervalDays: 7
     repository: sonarr-restic-secret
-    cacheCapacity: 10Gi
+    cacheCapacity: 1Gi
     cacheStorageClassName: local-path
     volumeSnapshotClassName: csi-ceph-blockpool
     storageClassName: ceph-block
-    # default lsio user abc
     moverSecurityContext:
-      runAsUser: 911
-      runAsGroup: 911
-      fsGroup: 911
+      runAsUser: 568
+      runAsGroup: 568
+      fsGroup: 568
     retain:
       daily: 7
       within: 3d
----
-apiVersion: volsync.backube/v1alpha1
-kind: ReplicationDestination
-metadata:
-  name: sonarr-restore
-  namespace: default
-spec:
-  trigger:
-    manual: restore-once
-  restic:
-    repository: sonarr-restic-secret
-    destinationPVC: config-sonarr-0
-    copyMethod: Snapshot
-    volumeSnapshotClassName: csi-ceph-blockpool
-    cacheCapacity: 10Gi
-    cacheStorageClassName: local-path
-    storageClassName: ceph-block
-    moverSecurityContext:
-      runAsUser: 911
-      runAsGroup: 911
-      fsGroup: 911
-    restoreAsOf: 2023-08-30T10:00:00+02:00
+# ---
+# apiVersion: volsync.backube/v1alpha1
+# kind: ReplicationDestination
+# metadata:
+#   name: sonarr-restore
+#   namespace: media
+# spec:
+#   trigger:
+#     manual: restore-once
+#   restic:
+#     repository: sonarr-restic-secret
+#     destinationPVC: sonarr-config
+#     copyMethod: Snapshot
+#     volumeSnapshotClassName: csi-ceph-blockpool
+#     cacheCapacity: 10Gi
+#     cacheStorageClassName: local-path
+#     storageClassName: ceph-block
+#     moverSecurityContext:
+#       runAsUser: 568
+#       runAsGroup: 568
+#       fsGroup: 568
+#     # restoreAsOf: 2023-08-30T10:00:00+02:00

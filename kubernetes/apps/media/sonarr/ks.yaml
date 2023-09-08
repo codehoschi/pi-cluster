@@ -8,6 +8,9 @@ metadata:
     substitution.flux.home.arpa/enabled: "true"
 spec:
   dependsOn:
+    - name: cluster-apps-external-secrets-stores
+    - name: cluster-apps-volsync
+    - name: cluster-apps-rook-ceph-cluster
     - name: cluster-apps-nfs-pv
   path: ./kubernetes/apps/media/sonarr/app
   prune: true
