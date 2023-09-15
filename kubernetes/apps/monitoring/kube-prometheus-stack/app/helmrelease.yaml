@@ -54,6 +54,14 @@ spec:
               resources:
                 requests:
                   storage: 1Gi
+        resources:
+          requests:
+            cpu: 10m
+            memory: 50M
+          limits:
+            cpu: 12m
+            memory: 55M
+
     kubelet:
       enabled: true
       serviceMonitor:
