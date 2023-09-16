@@ -36,10 +36,10 @@ spec:
       resources:
         requests:
           cpu: 15m
-          memory: 94M
+          memory: 127M
         limits:
-          cpu: 26m
-          memory: 226M
+          cpu: 15m
+          memory: 135M
 
       extraArgs:
         pod-recommendation-min-cpu-millicores: 15
