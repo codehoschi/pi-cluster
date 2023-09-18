@@ -6,10 +6,10 @@ metadata:
   namespace: flux-system
 spec:
   interval: 30m
-  ref:
-    branch: main
   # url: "https://github.com/codehoschi/pi-cluster"
   url: "ssh://git@github.com/codehoschi/pi-cluster"
+  ref:
+    branch: main
   secretRef:
     name: github-deploy-key
   ignore: |
@@ -25,12 +25,15 @@ metadata:
   namespace: flux-system
 spec:
   interval: 30m
-  path: ./kubernetes/flux
+  wait: true
+  timeout: 3m
+  retryInterval: 2m
   prune: true
-  wait: false
+  force: false
   sourceRef:
     kind: GitRepository
     name: home-kubernetes
+  path: ./kubernetes/flux
   decryption:
     provider: sops
     secretRef:

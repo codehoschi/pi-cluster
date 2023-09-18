@@ -6,7 +6,6 @@ namespace: default
 resources:
   - ./externalsecret.yaml
   - ./helmrelease.yaml
-  # - ./secret.sops.yaml
 configMapGenerator:
   - name: authelia-configmap
     files:
