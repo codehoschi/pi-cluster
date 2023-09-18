@@ -5,7 +5,7 @@ metadata:
   name: arc-pi-cluster
   namespace: actions-runner-system
 spec:
-  interval: 30m
+  interval: 1h
   chart:
     spec:
       chart: gha-runner-scale-set
