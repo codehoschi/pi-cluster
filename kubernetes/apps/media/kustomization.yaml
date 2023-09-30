@@ -5,6 +5,7 @@ resources:
   - ./namespace.yaml
   - ./autobrr/ks.yaml
   - ./lidarr/ks.yaml
+  - ./prowlarr/ks.yaml
   - ./ombi/ks.yaml
   - ./overseerr/ks.yaml
   - ./radarr/ks.yaml
