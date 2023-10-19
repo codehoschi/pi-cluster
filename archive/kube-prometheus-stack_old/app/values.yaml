@@ -2212,7 +2212,7 @@ prometheusOperator:
   thanosImage:
     registry: quay.io
     repository: thanos/thanos
-    tag: v0.32.2
+    tag: v0.32.5
     sha: ""
 
   ## Set a Field Selector to filter watched secrets
@@ -3555,7 +3555,7 @@ thanosRuler:
     image:
       registry: quay.io
       repository: thanos/thanos
-      tag: v0.32.2
+      tag: v0.32.5
       sha: ""
 
     ## Namespaces to be selected for PrometheusRules discovery.
