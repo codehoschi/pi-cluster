@@ -13,7 +13,7 @@ spec:
         kind: HelmRepository
         name: mariadb-operator
         namespace: flux-system
-      version: "0.20.0"
+      version: "0.22.0"
 
   maxHistory: 3
   install:
