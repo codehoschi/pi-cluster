@@ -1,0 +1,70 @@
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/fluxcd-community/flux2-schemas/main/helmrelease-helm-v2beta1.json
+apiVersion: helm.toolkit.fluxcd.io/v2beta1
+kind: HelmRelease
+metadata:
+  name: authentik
+  namespace: default
+spec:
+  interval: 30m
+  chart:
+    spec:
+      chart: &app authentik
+      version: 2023.10.2
+      interval: 30m
+      sourceRef:
+        kind: HelmRepository
+        name: authentik
+        namespace: flux-system
+  values:
+    annotations:
+      secret.reloader.stakater.com/reload: authentik-secret
+
+    initContainers:
+      01-init-db:
+        image: ghcr.io/codehoschi/postgres-init:15.4@sha256:17620a5e514c4518ac25f75915afa45a82361bce2f945bdadac7f1c33f82db91
+        imagePullPolicy: IfNotPresent
+        envFrom: &envFrom
+          - secretRef:
+              name: authentik-secret
+
+    authentik:
+      log_level: info
+      # email:
+      #   port: 587
+      #   use_tls: true
+      error_reporting:
+        enabled: false
+        send_pii: false
+      redis:
+        host: "redis.database.svc.cluster.local"
+        password: ""
+
+    envFrom: *envFrom
+
+    ingress:
+      enabled: true
+      ingressClassName: nginx
+      annotations:
+        # external-dns.alpha.kubernetes.io/target: ingress-ext.bjw-s.dev
+        nginx.ingress.kubernetes.io/proxy-read-timeout: "3600"
+        nginx.ingress.kubernetes.io/proxy-send-timeout: "3600"
+      hosts:
+        - host: &host auth2.${SECRET_DOMAIN}
+          paths:
+            - path: /
+      # tls:
+      #   - hosts:
+      #       - *host
+
+    postgresql:
+      enabled: false
+
+    prometheus:
+      rules:
+        create: true
+      serviceMonitor:
+        create: true
+
+    redis:
+      enabled: false
