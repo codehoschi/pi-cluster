@@ -30,7 +30,7 @@ spec:
     auth:
       enabled: true
       sentinel: true
-      existingSecretPasswordKey: "redis-secret"
+      existingSecret: "redis-secret"
 
     master:
       persistence:
