@@ -28,8 +28,9 @@ spec:
   values:
 
     auth:
-      enabled: false
-      sentinel: false
+      enabled: true
+      sentinel: true
+      existingSecretPasswordKey: "redis-secret"
 
     master:
       persistence:
