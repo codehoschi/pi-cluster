@@ -9,11 +9,11 @@ spec:
   timeout: 15m
   chart:
     spec:
-      chart: redis
-      version: 18.2.0
+      chart: app-template
+      version: 2.0.3
       sourceRef:
         kind: HelmRepository
-        name: bitnami
+        name: bjw-s
         namespace: flux-system
   maxHistory: 2
   install:
@@ -26,31 +26,44 @@ spec:
   uninstall:
     keepHistory: false
   values:
+    controllers:
+      main:
+        annotations:
+          secret.reloader.stakater.com/reload: &secret redis-secret
 
-    auth:
-      enabled: true
-      sentinel: true
-      existingSecret: "redis-secret"
+        pod:
+          automountServiceAccountToken: false
 
-    master:
-      persistence:
-        enabled: false
+        containers:
+          main:
+            image:
+              repository: public.ecr.aws/docker/library/redis
+              tag: 7.2.3
+            command:
+              - sh
+            args:
+              - -c
+              - >-
+                redis-server --requirepass $REDIS_PASSWORD
+            env:
+              REDIS_PORT: &port 6379
+              REDIS_PASSWORD:
+                valueFrom:
+                  secretKeyRef:
+                    name: *secret
+                    key: redis-password
+            resources:
+              requests:
+                cpu: 5m
+                memory: 128M
+              limits:
+                memory: 256M
 
-    replica:
-      persistence:
-        enabled: false
-
-    sentinel:
-      enabled: true
-      masterSet: redis-master
-      getMasterTimeout: 10
-      startupProbe:
-        failureThreshold: 2
-      persistence:
-        enabled: false
-
-    metrics:
-      enabled: true
-      serviceMonitor:
-        enabled: true
-        interval: 1m
+    service:
+      main:
+        ports:
+          http:
+            enabled: false
+          redis:
+            enabled: true
+            port: *port
