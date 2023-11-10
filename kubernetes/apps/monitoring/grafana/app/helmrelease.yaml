@@ -215,9 +215,10 @@ spec:
           gnetId: 7845 # https://grafana.com/grafana/dashboards/7845?tab=revisions
           revision: 4
           datasource: Prometheus
-        cloudnative-pg:
-          url: https://raw.githubusercontent.com/cloudnative-pg/cloudnative-pg/main/docs/src/samples/monitoring/grafana-dashboard.json
-          datasource: Prometheus
+        # error="could not resolve dashboards:uid:cloudnative-pg: Dashboard not found"
+        # cloudnative-pg:
+        #   url: https://raw.githubusercontent.com/cloudnative-pg/cloudnative-pg/main/docs/src/samples/monitoring/grafana-dashboard.json
+        #   datasource: Prometheus
         cert-manager:
           url: https://raw.githubusercontent.com/monitoring-mixins/website/master/assets/cert-manager/dashboards/cert-manager.json
           datasource: Prometheus
