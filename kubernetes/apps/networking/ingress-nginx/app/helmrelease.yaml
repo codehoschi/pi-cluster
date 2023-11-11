@@ -65,6 +65,10 @@ spec:
         force-ssl-redirect: "true"
       metrics:
         enabled: false
+        serviceMonitor:
+          enabled: true
+          additionalLabels:
+            release: kube-prometheus-stack-prometheus
       extraArgs:
         # default-ssl-certificate: "networking/${SECRET_DOMAIN/./-}-hekate-ca-tls"
         default-ssl-certificate: "networking/${SECRET_DOMAIN/./-}-production-tls"
