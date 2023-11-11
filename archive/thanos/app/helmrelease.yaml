@@ -1,0 +1,154 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2beta1
+kind: HelmRelease
+metadata:
+  name: thanos
+  namespace: monitoring
+spec:
+  interval: 15m
+  chart:
+    spec:
+      chart: thanos
+      version: 12.13.3
+      sourceRef:
+        kind: HelmRepository
+        name: bitnami
+        namespace: flux-system
+  maxHistory: 3
+  install:
+    createNamespace: true
+    remediation:
+      retries: 3
+  upgrade:
+    cleanupOnFail: true
+    remediation:
+      retries: 3
+  uninstall:
+    keepHistory: false
+
+  values:
+    image:
+      registry: quay.io
+      repository: thanos/thanos
+      tag: v0.32.2
+    existingObjstoreSecret: &secret thanos-objstore-secret
+
+    queryFrontend:
+      enabled: true
+      replicas: 1
+      ingress:
+        enabled: true
+        ingressClassName: nginx
+        annotations:
+          nginx.ingress.kubernetes.io/whitelist-source-range: |
+            10.0.0.0/8,172.16.0.0/12,192.168.0.0/16
+          hajimari.io/targetBlank: "true"
+        hostname: "thanos-query-frontend.${SECRET_DOMAIN}"
+
+    query:
+      enabled: true
+      replicaLabels: ["__replica__"]
+      dnsDiscovery:
+        sidecarsService: kube-prometheus-stack-thanos-discovery
+        sidecarsNamespace: monitoring
+
+      # ingress:
+      #   # main:
+      #   enabled: true
+      #   ingressClassName: nginx
+      #   annotations:
+      #     hajimari.io/enable: "true"
+      #     hajimari.io/icon: "archive-clock"
+      #     hajimari.io/targetBlank: "true"
+      #   hostname: "thanos-cluster.${SECRET_DOMAIN}"
+      #   # hosts:
+      #   #   - host: "thanos-cluster.${SECRET_INTERNAL_DOMAIN}"
+
+
+      # resources:
+      #   requests:
+      #     cpu: 15m
+      #     memory: 94M
+      #   limits:
+      #     cpu: 26m
+      #     memory: 226M
+
+    bucketweb:
+      enabled: true
+      podAnnotations:
+        secret.reloader.stakater.com/reload: *secret
+
+      resources:
+        requests:
+          cpu: 15m
+          memory: 26M
+        limits:
+          cpu: 26m
+          memory: 88M
+
+    compactor:
+      enabled: true
+      extraFlags:
+        - --compact.concurrency=4
+        - --delete-delay=30m
+      retentionResolutionRaw: 30d
+      retentionResolution5m: 60d
+      retentionResolution1h: 90d
+      persistence:
+        enabled: true
+        storageClass: ceph-block
+        size: 10Gi
+      podAnnotations:
+        secret.reloader.stakater.com/reload: *secret
+
+      # resources:
+      #   requests:
+      #     cpu: 20m
+      #     memory: 164M
+      #   limits:
+      #     cpu: 38m
+      #     memory: 179M
+
+    storegateway:
+      enabled: true
+      persistence:
+        enabled: true
+        storageClass: ceph-block
+        size: 10Gi
+      podAnnotations:
+        configmap.reloader.stakater.com/reload: *secret
+
+    ruler:
+      enabled: true
+      replicaCount: 2
+      replicaLabel: __replica__
+      alertmanagers: ["http://alertmanager-operated.monitoring.svc.cluster.local:9093"]
+      extraFlags: ["--web.prefix-header=X-Forwarded-Prefix"]
+      config: |-
+        groups:
+          - name: PrometheusWatcher
+            rules:
+              - alert: PrometheusDown
+                annotations:
+                  summary: A Prometheus has disappeared from Prometheus target discovery
+                expr: absent(up{job="kube-prometheus-stack-prometheus"})
+                for: 5m
+                labels:
+                  severity: critical
+      persistence:
+        enabled: true
+        storageClass: ceph-block
+        size: 10Gi
+
+      # resources:
+      #   requests:
+      #     cpu: 15m
+      #     memory: 64M
+      #   limits:
+      #     cpu: 55m
+      #     memory: 153M
+
+    metrics:
+      enabled: true
+      serviceMonitor:
+        enabled: true
