@@ -25,12 +25,15 @@ spec:
   uninstall:
     keepHistory: false
   values:
+
     crds:
       install: true
+
     grafana:
       enabled: true
       annotations:
         grafana_folder: System
+
     backgroundController:
       serviceMonitor:
         enabled: true
@@ -50,16 +53,25 @@ spec:
                 - delete
                 - get
                 - list
+
     cleanupController:
       serviceMonitor:
         enabled: true
+        additionalLabels:
+          release: prometheus-kube-prom-prometheus
+
     reportsController:
       serviceMonitor:
         enabled: true
+        additionalLabels:
+          release: prometheus-kube-prom-prometheus
+
     admissionController:
       replicas: 3
       serviceMonitor:
         enabled: true
+        additionalLabels:
+          release: prometheus-kube-prom-prometheus
       rbac:
         clusterRole:
           extraResources:
