@@ -60,18 +60,24 @@ spec:
                 - list
 
     cleanupController:
+      podLabels:
+        release: *app
       serviceMonitor:
         enabled: true
         additionalLabels:
           release: *app
 
     reportsController:
+      podLabels:
+        release: *app
       serviceMonitor:
         enabled: true
         additionalLabels:
           release: *app
 
     admissionController:
+      podLabels:
+        release: *app
       replicas: 3
       serviceMonitor:
         enabled: true
