@@ -66,6 +66,7 @@ spec:
       leaseDuration: 120s
       leaseRenewDeadline: 60s
       leaseRetryPeriod: 1s
+
     hubble:
       enabled: true
       metrics:

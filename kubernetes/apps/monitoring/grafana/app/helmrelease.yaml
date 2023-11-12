@@ -148,6 +148,14 @@ spec:
             editable: true
             options:
               path: /var/lib/grafana/dashboards/thanos
+          - name: cilium
+            orgId: 1
+            folder: Cilium
+            type: file
+            disableDeletion: false
+            editable: true
+            options:
+              path: /var/lib/grafana/dashboards/cilium
 
     datasources:
       datasources.yaml:
@@ -288,6 +296,11 @@ spec:
           datasource: Prometheus
         thanos-store:
           url: https://raw.githubusercontent.com/monitoring-mixins/website/master/assets/thanos/dashboards/store.json
+          datasource: Prometheus
+
+      cilium:
+        cilium-dashboard:
+          url: https://raw.githubusercontent.com/cilium/cilium/main/install/kubernetes/cilium/files/cilium-agent/dashboards/cilium-dashboard.json
           datasource: Prometheus
 
     sidecar:
