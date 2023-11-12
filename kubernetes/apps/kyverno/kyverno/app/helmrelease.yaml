@@ -2,7 +2,7 @@
 apiVersion: helm.toolkit.fluxcd.io/v2beta1
 kind: HelmRelease
 metadata:
-  name: kyverno
+  name: &app kyverno
   namespace: kyverno
 spec:
   interval: 30m
@@ -38,7 +38,7 @@ spec:
       serviceMonitor:
         enabled: true
         additionalLabels:
-          release: kube-prometheus-stack-prometheus
+          release: *app
       rbac:
         clusterRole:
           extraResources:
