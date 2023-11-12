@@ -29,6 +29,9 @@ spec:
     crds:
       install: true
 
+    customLabels:
+      release: *app
+
     grafana:
       enabled: true
       annotations:
