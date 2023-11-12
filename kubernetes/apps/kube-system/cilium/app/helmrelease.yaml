@@ -81,7 +81,7 @@ spec:
         serviceMonitor:
           enabled: true
         dashboards:
-          enabled: true
+          enabled: false
           annotations:
             grafana_folder: Cilium
       relay:
@@ -141,7 +141,7 @@ spec:
         serviceMonitor:
           enabled: true
       dashboards:
-        enabled: true
+        enabled: false
         annotations:
           grafana_folder: Cilium
 
@@ -152,7 +152,7 @@ spec:
         trustCRDsExist: true
 
     dashboards:
-      enabled: true
+      enabled: false
       annotations:
         grafana_folder: Cilium
 
