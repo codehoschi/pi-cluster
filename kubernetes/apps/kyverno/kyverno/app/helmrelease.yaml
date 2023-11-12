@@ -29,8 +29,8 @@ spec:
     crds:
       install: true
 
-    customLabels:
-      release: *app
+    # customLabels:
+    #   release: *app
 
     grafana:
       enabled: true
@@ -38,6 +38,8 @@ spec:
         grafana_folder: System
 
     backgroundController:
+      podLabels:
+        release: *app
       serviceMonitor:
         enabled: true
         additionalLabels:
