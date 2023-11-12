@@ -58,20 +58,20 @@ spec:
       serviceMonitor:
         enabled: true
         additionalLabels:
-          release: kube-prometheus-stack-prometheus
+          release: *app
 
     reportsController:
       serviceMonitor:
         enabled: true
         additionalLabels:
-          release: kube-prometheus-stack-prometheus
+          release: *app
 
     admissionController:
       replicas: 3
       serviceMonitor:
         enabled: true
         additionalLabels:
-          release: kube-prometheus-stack-prometheus
+          release: *app
       rbac:
         clusterRole:
           extraResources:
