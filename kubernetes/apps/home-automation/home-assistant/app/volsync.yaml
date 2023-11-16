@@ -32,7 +32,7 @@ spec:
   dataSourceRef:
     kind: ReplicationDestination
     apiGroup: volsync.backube
-    name: home-assistant-rdst
+    name: home-assistant-restore
   resources:
     requests:
       storage: 5Gi # must match the ReplicationDestination `.spec.capacity` below
