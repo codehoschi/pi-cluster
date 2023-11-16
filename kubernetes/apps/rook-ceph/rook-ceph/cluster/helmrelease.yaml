@@ -45,14 +45,14 @@ spec:
       bdev_async_discard = true
       osd_class_update_on_start = false
     cephClusterSpec:
-      network:
-        provider: host
-        connections:
-          compression:
-            enabled: true
-          requireMsgr2: true
-      # mgr:
-      #   count: 2
+      # network:
+      #   provider: host
+      #   connections:
+      #     compression:
+      #       enabled: true
+      #     requireMsgr2: true
+      mgr:
+        count: 2
       crashCollector:
         disable: true
       dashboard:
