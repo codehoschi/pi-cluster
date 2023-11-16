@@ -105,7 +105,7 @@ spec:
         spec:
           failureDomain: host
           replicated:
-            size: 4
+            size: 3
         storageClass:
           enabled: true
           name: ceph-block
@@ -131,7 +131,7 @@ spec:
           dataPools:
             - failureDomain: host
               replicated:
-                size: 4
+                size: 3
               name: data0
           metadataServer:
             activeCount: 1
@@ -163,7 +163,7 @@ spec:
           metadataPool:
             failureDomain: host
             replicated:
-              size: 4
+              size: 3
           dataPool:
             failureDomain: host
             erasureCoded:

@@ -50,12 +50,12 @@ spec:
 #     repository: home-assistant-restic-secret
 #     # destinationPVC: home-assistant-config
 #     copyMethod: Snapshot
-#     volumeSnapshotClassName: csi-ceph-blockpool
+#     volumeSnapshotClassName: csi-ceph-filesystem
 #     cacheStorageClassName: local-path
 #     cacheAccessModes: ["ReadWriteOnce"]
 #     cacheCapacity: 8Gi
-#     storageClassName: ceph-block
-#     accessModes: ["ReadWriteOnce"]
+#     storageClassName: ceph-filesystem
+#     accessModes: ["ReadWriteMany"]
 #     capacity: 5Gi # must match the PersistentVolumeClaim `.resources.requests.storage` size above
 #     # restoreAsOf: 2023-11-15T10:00:00+02:00
 # ---
@@ -72,12 +72,12 @@ spec:
 #     copyMethod: Snapshot
 #     pruneIntervalDays: 7
 #     repository: home-assistant-restic-secret
-#     volumeSnapshotClassName: csi-ceph-blockpool
+#     volumeSnapshotClassName: csi-ceph-filesystem
 #     cacheStorageClassName: local-path
 #     cacheAccessModes: ["ReadWriteOnce"]
 #     cacheCapacity: 8Gi
-#     storageClassName: ceph-block
-#     accessModes: ["ReadWriteOnce"]
+#     storageClassName: ceph-filesystem
+#     accessModes: ["ReadWriteMany"]
 #     # moverSecurityContext:
 #     #   runAsUser: 568
 #     #   runAsGroup: 568
