@@ -38,7 +38,7 @@ spec:
               pullPolicy: IfNotPresent
             envFrom: &envFrom
               - secretRef:
-                name: home-assistant-secret
+                  name: home-assistant-secret
 
         containers:
           main:
