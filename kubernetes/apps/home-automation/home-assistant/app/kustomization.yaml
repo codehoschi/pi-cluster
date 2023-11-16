@@ -4,5 +4,5 @@ kind: Kustomization
 namespace: home-automation
 resources:
   - ./externalsecret.yaml
-  # - ./helmrelease.yaml
+  - ./helmrelease.yaml
   - ./volsync.yaml
