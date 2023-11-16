@@ -55,7 +55,7 @@ spec:
     cacheAccessModes: ["ReadWriteOnce"]
     cacheCapacity: 8Gi
     storageClassName: ceph-block
-    accessModes: ["ReadWriteMany"]
+    accessModes: ["ReadWriteOnce"]
     capacity: 5Gi # must match the PersistentVolumeClaim `.resources.requests.storage` size above
     # restoreAsOf: 2023-11-15T10:00:00+02:00
 ---
@@ -77,7 +77,7 @@ spec:
     cacheAccessModes: ["ReadWriteOnce"]
     cacheCapacity: 8Gi
     storageClassName: ceph-block
-    accessModes: ["ReadWriteMany"]
+    accessModes: ["ReadWriteOnce"]
     # moverSecurityContext:
     #   runAsUser: 568
     #   runAsGroup: 568
