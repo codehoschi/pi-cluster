@@ -47,7 +47,7 @@ spec:
               tag: 2023.11.0
             env:
               TZ: "{$TIMEZONE}"
-            envFrom: *envFrom
+            # envFrom: *envFrom
             probes:
               liveness:
                 enabled: false
