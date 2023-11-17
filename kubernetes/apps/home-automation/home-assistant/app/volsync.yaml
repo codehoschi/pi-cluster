@@ -41,7 +41,7 @@ spec:
 apiVersion: volsync.backube/v1alpha1
 kind: ReplicationDestination
 metadata:
-  name: home-assistant-restore
+  name: home-assistant-restore-v2
   namespace: home-automation
 spec:
   trigger:
