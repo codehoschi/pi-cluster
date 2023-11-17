@@ -37,27 +37,27 @@ spec:
     requests:
       storage: 5Gi # must match the ReplicationDestination `.spec.capacity` below
   storageClassName: ceph-filesystem
-# ---
-# apiVersion: volsync.backube/v1alpha1
-# kind: ReplicationDestination
-# metadata:
-#   name: home-assistant-restore
-#   namespace: home-automation
-# spec:
-#   trigger:
-#     manual: restore-once
-#   restic:
-#     repository: home-assistant-restic-secret
-#     # destinationPVC: home-assistant-config
-#     copyMethod: Snapshot
-#     volumeSnapshotClassName: csi-ceph-filesystem
-#     cacheStorageClassName: local-path
-#     cacheAccessModes: ["ReadWriteOnce"]
-#     cacheCapacity: 8Gi
-#     storageClassName: ceph-filesystem
-#     accessModes: ["ReadWriteMany"]
-#     capacity: 5Gi # must match the PersistentVolumeClaim `.resources.requests.storage` size above
-#     # restoreAsOf: 2023-11-15T10:00:00+02:00
+---
+apiVersion: volsync.backube/v1alpha1
+kind: ReplicationDestination
+metadata:
+  name: home-assistant-restore
+  namespace: home-automation
+spec:
+  trigger:
+    manual: restore-once
+  restic:
+    repository: home-assistant-restic-secret
+    # destinationPVC: home-assistant-config
+    copyMethod: Snapshot
+    volumeSnapshotClassName: csi-ceph-filesystem
+    cacheStorageClassName: local-path
+    cacheAccessModes: ["ReadWriteOnce"]
+    cacheCapacity: 8Gi
+    storageClassName: ceph-filesystem
+    accessModes: ["ReadWriteMany"]
+    capacity: 5Gi # must match the PersistentVolumeClaim `.resources.requests.storage` size above
+    # restoreAsOf: 2023-11-15T10:00:00+02:00
 # ---
 # apiVersion: volsync.backube/v1alpha1
 # kind: ReplicationSource
