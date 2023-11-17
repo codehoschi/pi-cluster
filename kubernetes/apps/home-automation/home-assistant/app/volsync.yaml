@@ -78,14 +78,10 @@ spec:
 #     cacheCapacity: 8Gi
 #     storageClassName: ceph-filesystem
 #     accessModes: ["ReadWriteMany"]
-#     # moverSecurityContext:
-#     #   runAsUser: 568
-#     #   runAsGroup: 568
-#     #   fsGroup: 568
-#     # moverSecurityContext:
-#     #   runAsUser: 1000
-#     #   runAsGroup: 1000
-#     #   fsGroup: 1000
+#     moverSecurityContext:
+#       runAsUser: 568
+#       runAsGroup: 568
+#       fsGroup: 568
 #     retain:
 #       daily: 7
 #       within: 3d
