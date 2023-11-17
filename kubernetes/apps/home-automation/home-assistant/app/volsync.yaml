@@ -48,7 +48,7 @@ spec:
     manual: restore-once
   restic:
     repository: home-assistant-restic-secret
-    # destinationPVC: home-assistant-config
+    destinationPVC: home-assistant
     copyMethod: Snapshot
     volumeSnapshotClassName: csi-ceph-filesystem
     cacheStorageClassName: local-path
