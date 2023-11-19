@@ -31,13 +31,13 @@ spec:
     toolbox:
       enabled: true
 
-      # resources:
-      #   requests:
-      #     cpu: 20m
-      #     memory: 64M
-      #   limits:
-      #     cpu: 41m
-      #     memory: 64M
+      resources:
+        requests:
+          cpu: 20m
+          memory: 64M
+        limits:
+          cpu: 41m
+          memory: 64M
 
     configOverride: |
       [global]
@@ -77,27 +77,27 @@ spec:
             devices:
               - name: sda3
 
-      # resources:
-      #   mgr:
-      #     requests:
-      #       cpu: 108m
-      #     limits:
-      #       cpu: 162m
-      #   mon:
-      #     requests:
-      #       cpu: 77m
-      #     limits:
-      #       cpu: 429m
-      #   osd:
-      #     requests:
-      #       cpu: 77m
-      #     limits:
-      #       cpu: 429m
-      #   logcollector:
-      #     requests:
-      #       cpu: 10m
-      #     limits:
-      #       cpu: 42m
+      resources:
+        mgr:
+          requests:
+            cpu: 108m
+          limits:
+            cpu: 162m
+        mon:
+          requests:
+            cpu: 77m
+          limits:
+            cpu: 429m
+        osd:
+          requests:
+            cpu: 77m
+          limits:
+            cpu: 429m
+        logcollector:
+          requests:
+            cpu: 10m
+          limits:
+            cpu: 42m
 
     cephBlockPools:
       - name: ceph-blockpool
@@ -135,12 +135,12 @@ spec:
           metadataServer:
             activeCount: 1
             activeStandby: true
-            # resources:
-            #   requests:
-            #     cpu: 1000m
-            #     memory: 1Gi
-            #   limits:
-            #     memory: 2Gi
+            resources:
+              requests:
+                cpu: 1000m
+                memory: 1Gi
+              limits:
+                memory: 2Gi
         storageClass:
           enabled: true
           isDefault: false
@@ -171,12 +171,12 @@ spec:
           preservePoolsOnDelete: true
           gateway:
             port: 80
-            # resources:
-            #   requests:
-            #     cpu: 1000m
-            #     memory: 1Gi
-            #   limits:
-            #     memory: 2Gi
+            resources:
+              requests:
+                cpu: 1000m
+                memory: 1Gi
+              limits:
+                memory: 2Gi
             instances: 1
           healthCheck:
             bucket:
