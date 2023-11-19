@@ -104,6 +104,12 @@ spec:
                 service:
                   name: main
                   port: http
+              # return 404
+              - path: /service_worker.js
+                pathType: Prefix
+                service:
+                  name: main
+                  port: 1234
 
     persistence:
       config:
