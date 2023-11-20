@@ -101,15 +101,15 @@ spec:
             #     name: ak-outpost-home-assistant
             #     port: 9000
             #       # number: 9000
-        - host: hass.${SECRET_DOMAIN}
-          paths:
-            - path: /outpost.goauthentik.io
-              pathType: Prefix
-              # backend:
-              service:
-                name: ak-outpost-home-assistant
-                port: 9000
-                  # number: 9000
+        # - host: hass.${SECRET_DOMAIN}
+        #   paths:
+        #     - path: /outpost.goauthentik.io
+        #       pathType: Prefix
+        #       # backend:
+        #       service:
+        #         name: ak-outpost-home-assistant
+        #         port: 9000
+        #           # number: 9000
       # tls:
       #   - hosts:
       #       - *host
