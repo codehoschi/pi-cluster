@@ -1,0 +1,91 @@
+---
+apiVersion: postgresql.cnpg.io/v1
+kind: Cluster
+metadata:
+  name: postgres-v16-v1
+  namespace: database
+  # annotations:
+  #   kyverno.io/ignore: "true"
+spec:
+  instances: 1
+  imageName: ghcr.io/cloudnative-pg/postgresql:16.1
+  # inheritedMetadata:
+  #   labels:
+  #     kube-image-keeper.enix.io/image-caching-policy: ignore
+  primaryUpdateStrategy: unsupervised
+  storage:
+    size: 10Gi
+    storageClass: ceph-block
+  superuserSecret:
+    name: cloudnative-pg-secret
+  enableSuperuserAccess: true
+  postgresql:
+    parameters:
+      max_connections: "600"
+      shared_buffers: 512MB
+  monitoring:
+    enablePodMonitor: true
+  backup:
+    retentionPolicy: 30d
+    barmanObjectStore:
+      wal:
+        compression: bzip2
+        maxParallel: 8
+      destinationPath: s3://postgresql/
+      endpointURL: http://${NAS_IP}:9000
+      # for recovery change the name to be not the same as the externalCluster name
+      # serverName: &currentCluster postgres-v4
+      serverName: postgres-v16-v1
+      s3Credentials:
+        accessKeyId:
+          name: cloudnative-pg-secret
+          key: aws-access-key-id
+        secretAccessKey:
+          name: cloudnative-pg-secret
+          key: aws-secret-access-key
+
+  bootstrap:
+    # # use this to recover a net-new cluster from a backup
+    # recovery:
+    #   # source: &previousCluster postgres-v3
+    #   source: postgres-v15-v2
+
+    # use this to 'migrate' from an existing cnpg cluster (e.g. "postgres-v15-v2") to the new cluster
+    initdb:
+      import:
+        type: monolith
+        databases:
+          - "*"
+        roles:
+          - "*"
+        source:
+          externalCluster: postgres-v15-v2
+
+  externalClusters:
+    # # this represents the s3 backup to restore from. *nota-bene: the backup must be the same major version of the target cluster
+    # # - name: *previousCluster
+    # - name: postgres-v15-v2
+    #   barmanObjectStore:
+    #     wal:
+    #       compression: bzip2
+    #       maxParallel: 8
+    #     destinationPath: s3://postgresql/
+    #     endpointURL: http://${NAS_IP}:9000
+    #     s3Credentials:
+    #       accessKeyId:
+    #         name: cloudnative-pg-secret
+    #         key: aws-access-key-id
+    #       secretAccessKey:
+    #         name: cloudnative-pg-secret
+    #         key: aws-secret-access-key
+
+    # # this represents an existing cnpg cluster to migrate from (e.g. upgrading from postgres v14 to postgres v15)
+    - name: postgres-v15-v2
+      connectionParameters:
+        host: postgres-v15-v2-rw.database.svc.cluster.local
+        user: postgres
+        dbname: postgres
+        sslmode: require
+      password:
+        name: cloudnative-pg-secret
+        key: password
