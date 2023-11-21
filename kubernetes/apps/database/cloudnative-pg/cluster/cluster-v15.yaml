@@ -34,7 +34,7 @@ spec:
       endpointURL: http://${NAS_IP}:9000
       # for recovery change the name to be not the same as the externalCluster name
       # serverName: &currentCluster postgres-v4
-      serverName: postgres-v15-v2
+      serverName: postgres-v15-v3
       s3Credentials:
         accessKeyId:
           name: cloudnative-pg-secret
@@ -47,7 +47,7 @@ spec:
     # use this to recover a net-new cluster from a backup
     recovery:
       # source: &previousCluster postgres-v3
-      source: postgres-v15
+      source: postgres-v15-v2
 
     # # use this to 'migrate' from an existing cnpg cluster (e.g. "cluster-pg14") to the new cluster
     # initdb:
@@ -63,7 +63,7 @@ spec:
   externalClusters:
     # this represents the s3 backup to restore from. *nota-bene: the backup must be the same major version of the target cluster
     # - name: *previousCluster
-    - name: postgres-v15
+    - name: postgres-v15-v2
       barmanObjectStore:
         wal:
           compression: bzip2
