@@ -59,6 +59,7 @@ spec:
             port: &port 8088
           manage-https:
             enabled: true
+            nameOverride: manage-https
             port: 8043
             protocol: HTTPS
           portal-https:
