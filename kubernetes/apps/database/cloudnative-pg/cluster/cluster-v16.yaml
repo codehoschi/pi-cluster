@@ -2,13 +2,13 @@
 apiVersion: postgresql.cnpg.io/v1
 kind: Cluster
 metadata:
-  name: postgres-v15
+  name: postgres-v16
   namespace: database
   # annotations:
   #   kyverno.io/ignore: "true"
 spec:
   instances: 2
-  imageName: ghcr.io/cloudnative-pg/postgresql:15.5
+  imageName: ghcr.io/cloudnative-pg/postgresql:16.1
   # inheritedMetadata:
   #   labels:
   #     kube-image-keeper.enix.io/image-caching-policy: ignore
@@ -34,7 +34,7 @@ spec:
       endpointURL: http://${NAS_IP}:9000
       # for recovery change the name to be not the same as the externalCluster name
       # serverName: &currentCluster postgres-v4
-      serverName: postgres-v15-v1
+      serverName: postgres-v16-v1
       s3Credentials:
         accessKeyId:
           name: cloudnative-pg-secret
