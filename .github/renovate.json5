@@ -20,7 +20,8 @@
   "dependencyDashboardTitle": "Renovate Dashboard 🤖",
   "suppressNotifications": ["prIgnoreNotification"],
   "ignorePaths": [
-    "**/apps_disabled/**"
+    "**/apps_disabled/**",
+    "**/archive/**"
   ],
   "flux": {
     "fileMatch": ["kubernetes/.+\\.ya?ml$"]
