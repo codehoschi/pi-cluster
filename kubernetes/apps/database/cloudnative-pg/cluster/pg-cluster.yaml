@@ -8,7 +8,7 @@ metadata:
   #   kyverno.io/ignore: "true"
 spec:
   instances: 2
-  imageName: ghcr.io/cloudnative-pg/postgresql:16.1-1
+  imageName: ghcr.io/cloudnative-pg/postgresql:16.1-2
   inheritedMetadata:
     labels:
       kube-image-keeper.enix.io/image-caching-policy: ignore
