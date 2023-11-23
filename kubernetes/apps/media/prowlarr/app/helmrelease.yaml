@@ -2,14 +2,14 @@
 apiVersion: helm.toolkit.fluxcd.io/v2beta1
 kind: HelmRelease
 metadata:
-  name: prowlarr
+  name: &app prowlarr
   namespace: media
 spec:
   interval: 30m
   chart:
     spec:
       chart: app-template
-      version: 1.5.1
+      version: 2.3.0
       sourceRef:
         kind: HelmRepository
         name: bjw-s
@@ -25,47 +25,69 @@ spec:
   uninstall:
     keepHistory: false
   values:
-    initContainers:
-      01-init-db:
-        image: ghcr.io/codehoschi/postgres-init:15.4@sha256:17620a5e514c4518ac25f75915afa45a82361bce2f945bdadac7f1c33f82db91
-        imagePullPolicy: IfNotPresent
-        envFrom: &envFrom
-          - secretRef:
-              name: prowlarr-secret
-    controller:
-      annotations:
-        reloader.stakater.com/auto: "true"
-    image:
-      repository: ghcr.io/onedr0p/prowlarr-develop
-      tag: 1.10.4.4088@sha256:08995068e6699d8a307627ee476136be3bf8cd4f966f6a07aab76005055c85b8
-    env:
-      TZ: ${TIMEZONE}
-      PROWLARR__INSTANCE_NAME: Prowlarr
-      PROWLARR__PORT: &port 80
-      PROWLARR__LOG_LEVEL: info
-      PROWLARR__AUTHENTICATION_METHOD: External
-      PROWLARR__THEME: dark
-    envFrom: *envFrom
+    controllers:
+      main:
+        annotations:
+          reloader.stakater.com/auto: "true"
+
+        initContainers:
+          init-db:
+            image:
+              repository: ghcr.io/codehoschi/postgres-init
+              tag: 15.4@sha256:17620a5e514c4518ac25f75915afa45a82361bce2f945bdadac7f1c33f82db91
+              pullPolicy: IfNotPresent
+            envFrom: &envFrom
+              - secretRef:
+                  name: prowlarr-secret
+
+        containers:
+          main:
+            image:
+              repository: ghcr.io/onedr0p/prowlarr-develop
+              tag: 1.10.4.4088@sha256:08995068e6699d8a307627ee476136be3bf8cd4f966f6a07aab76005055c85b8
+            env:
+              TZ: ${TIMEZONE}
+              PROWLARR__INSTANCE_NAME: Prowlarr
+              PROWLARR__PORT: &port 80
+              PROWLARR__LOG_LEVEL: info
+              PROWLARR__AUTHENTICATION_METHOD: External
+              PROWLARR__THEME: dark
+            envFrom: *envFrom
+            probes:
+              liveness: &probes
+                enabled: true
+                custom: true
+                spec:
+                  httpGet:
+                    path: /ping
+                    port: *port
+                  initialDelaySeconds: 0
+                  periodSeconds: 10
+                  timeoutSeconds: 1
+                  failureThreshold: 3
+              readiness: *probes
+              startup:
+                enabled: false
+            # resources:
+            #   requests:
+            #     cpu: 10m
+            #     memory: 100Mi
+            #   limits:
+            #     memory: 500Mi
+
+        pod:
+          securityContext:
+            runAsUser: 568
+            runAsGroup: 568
+            fsGroup: 568
+            fsGroupChangePolicy: OnRootMismatch
+
     service:
       main:
         ports:
           http:
             port: *port
-    probes:
-      liveness: &probes
-        enabled: true
-        custom: true
-        spec:
-          httpGet:
-            path: /ping
-            port: *port
-          initialDelaySeconds: 0
-          periodSeconds: 10
-          timeoutSeconds: 1
-          failureThreshold: 3
-      readiness: *probes
-      startup:
-        enabled: false
+
     ingress:
       main:
         enabled: true
@@ -75,21 +97,11 @@ spec:
             paths:
               - path: /
                 pathType: Prefix
-        # tls:
-        #   - hosts:
-        #       - *host
-    podSecurityContext:
-      runAsUser: 568
-      runAsGroup: 568
-      fsGroup: 568
-      fsGroupChangePolicy: OnRootMismatch
+                service:
+                  name: main
+                  port: http
+
     persistence:
       config:
         enabled: true
         type: emptyDir
-    # resources:
-    #   requests:
-    #     cpu: 10m
-    #     memory: 100Mi
-    #   limits:
-    #     memory: 500Mi
