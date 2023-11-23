@@ -2,21 +2,20 @@
 apiVersion: helm.toolkit.fluxcd.io/v2beta1
 kind: HelmRelease
 metadata:
-  name: ombi
+  name: &app ombi
   namespace: media
 spec:
-  interval: 15m
+  interval: 30m
   chart:
     spec:
       chart: app-template
-      version: 1.5.1
+      version: 2.3.0
       sourceRef:
         kind: HelmRepository
         name: bjw-s
         namespace: flux-system
-  maxHistory: 3
+  maxHistory: 2
   install:
-    createNamespace: true
     remediation:
       retries: 3
   upgrade:
@@ -26,47 +25,62 @@ spec:
   uninstall:
     keepHistory: false
   values:
-    controller:
-      type: statefulset
-      annotations:
-        reloader.stakater.com/auto: "true"
+    controllers:
+      main:
+        annotations:
+          reloader.stakater.com/auto: "true"
+        containers:
+          main:
+            image:
+              repository: lscr.io/linuxserver/ombi
+              tag: 4.43.5
+            env:
+              TZ: ${TIMEZONE}
+              PUID: 568
+              GUID: 568
+            probes:
+              liveness: &probes
+                enabled: true
+                custom: true
+                spec:
+                  httpGet:
+                    path: /ping
+                    port: &port 3579
+                  initialDelaySeconds: 0
+                  periodSeconds: 10
+                  timeoutSeconds: 1
+                  failureThreshold: 3
+              readiness: *probes
+              startup:
+                enabled: false
+            # resources:
+            #   requests:
+            #     cpu: 10m
+            #     memory: 250Mi
+            #   limits:
+            #     # cpu: 476m
+            #     memory: 2000Mi
 
-    image:
-      repository: lscr.io/linuxserver/ombi
-      tag: 4.43.5
-
-    env:
-      TZ: ${TIMEZONE}
+        pod:
+          securityContext:
+            runAsUser: 568
+            runAsGroup: 568
+            fsGroup: 568
+            fsGroupChangePolicy: OnRootMismatch
 
     service:
       main:
         ports:
           http:
-            port: &port 3579
-
-    probes:
-      liveness: &probes
-        enabled: true
-        custom: true
-        spec:
-          httpGet:
-            path: /ping
             port: *port
-          initialDelaySeconds: 0
-          periodSeconds: 10
-          timeoutSeconds: 1
-          failureThreshold: 3
-      readiness: *probes
-      startup:
-        enabled: false
 
     ingress:
       main:
         enabled: true
         ingressClassName: nginx
         annotations:
-          nginx.ingress.kubernetes.io/whitelist-source-range: |
-            10.0.0.0/8,172.16.0.0/12,192.168.0.0/16
+          # nginx.ingress.kubernetes.io/whitelist-source-range: |
+          #   10.0.0.0/8,172.16.0.0/12,192.168.0.0/16
           hajimari.io/icon: mdi:frequently-asked-questions
           hajimari.io/targetBlank: "true"
         hosts:
@@ -74,33 +88,13 @@ spec:
             paths:
               - path: /
                 pathType: Prefix
-        # tls:
-        #   - hosts:
-        #       - *host
+                service:
+                  name: main
+                  port: http
 
-    volumeClaimTemplates:
-      - name: config
-        mountPath: /config
-        accessMode: ReadWriteOnce
-        size: 1Gi
-        storageClass: ceph-block
-
-    # persistence:
-    #   # config:
-    #   #   enabled: true
-    #   #   existingClaim: sonarr-config-v1
-    #   media:
-    #     enabled: true
-    #     # type: nfs
-    #     # server: ${NAS_IP}
-    #     # path: /volume1/media
-    #     existingClaim: nfs-media-pvc
-    #     mountPath: /media
-
-    # resources:
-    #   requests:
-    #     cpu: 10m
-    #     memory: 250Mi
-    #   limits:
-    #     # cpu: 476m
-    #     memory: 2000Mi
+    persistence:
+      config:
+        enabled: true
+        existingClaim: *app
+        globalMounts:
+          - path: /config
