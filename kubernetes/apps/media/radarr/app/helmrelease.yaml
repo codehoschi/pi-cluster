@@ -2,21 +2,20 @@
 apiVersion: helm.toolkit.fluxcd.io/v2beta1
 kind: HelmRelease
 metadata:
-  name: radarr
+  name: &app radarr
   namespace: media
 spec:
-  interval: 15m
+  interval: 30m
   chart:
     spec:
       chart: app-template
-      version: 1.5.1
+      version: 2.3.0
       sourceRef:
         kind: HelmRepository
         name: bjw-s
         namespace: flux-system
-  maxHistory: 3
+  maxHistory: 2
   install:
-    createNamespace: true
     remediation:
       retries: 3
   upgrade:
@@ -26,56 +25,72 @@ spec:
   uninstall:
     keepHistory: false
   values:
-    initContainers:
-      01-init-db:
-        image: ghcr.io/codehoschi/postgres-init:15.4@sha256:17620a5e514c4518ac25f75915afa45a82361bce2f945bdadac7f1c33f82db91
-        imagePullPolicy: IfNotPresent
-        envFrom: &envFrom
-          - secretRef:
-              name: &secret radarr-secret
-    controller:
-      # type: statefulset
-      annotations:
-        reloader.stakater.com/auto: "true"
+    controllers:
+      main:
+        annotations:
+          reloader.stakater.com/auto: "true"
 
-    image:
-      # repository: lscr.io/linuxserver/radarr
-      # tag: 4.7.5
-      repository: ghcr.io/onedr0p/radarr-develop
-      tag: 5.2.2.8288@sha256:a96055f121ec26d3165a954948bcd888dedd7da55fa7a67838c64dd4bda9e15d
+        initContainers:
+          init-db:
+            image:
+              repository: ghcr.io/codehoschi/postgres-init
+              tag: 15.4@sha256:17620a5e514c4518ac25f75915afa45a82361bce2f945bdadac7f1c33f82db91
+              pullPolicy: IfNotPresent
+            envFrom: &envFrom
+              - secretRef:
+                  name: radarr-secret
 
-    env:
-      TZ: ${TIMEZONE}
-      RADARR__AUTHENTICATION_METHOD: External
-      RADARR__AUTHENTICATION_REQUIRED: DisabledForLocalAddresses
-      RADARR__INSTANCE_NAME: Radarr
-      RADARR__PORT: &port 80
-      RADARR__LOG_LEVEL: info
-      RADARR__THEME: dark
-    envFrom:
-      *envFrom
+        containers:
+          main:
+            image:
+              # repository: lscr.io/linuxserver/radarr
+              # tag: 4.7.5
+              repository: ghcr.io/onedr0p/radarr-develop
+              tag: 5.2.2.8288@sha256:a96055f121ec26d3165a954948bcd888dedd7da55fa7a67838c64dd4bda9e15d
+            env:
+              TZ: ${TIMEZONE}
+              RADARR__AUTHENTICATION_METHOD: External
+              RADARR__AUTHENTICATION_REQUIRED: DisabledForLocalAddresses
+              RADARR__INSTANCE_NAME: Radarr
+              RADARR__PORT: &port 80
+              RADARR__LOG_LEVEL: info
+              RADARR__THEME: dark
+            envFrom:
+              *envFrom
+            probes:
+              liveness: &probes
+                enabled: true
+                custom: true
+                spec:
+                  httpGet:
+                    path: /ping
+                    port: *port
+                  initialDelaySeconds: 0
+                  periodSeconds: 10
+                  timeoutSeconds: 1
+                  failureThreshold: 3
+              readiness: *probes
+              startup:
+                enabled: false
+            # resources:
+            #   requests:
+            #     cpu: 10m
+            #     memory: 250Mi
+            #   limits:
+            #     memory: 2000Mi
+
+        pod:
+          securityContext:
+            runAsUser: 568
+            runAsGroup: 568
+            fsGroup: 568
+            fsGroupChangePolicy: OnRootMismatch
 
     service:
       main:
         ports:
           http:
             port: *port
-
-    probes:
-      liveness: &probes
-        enabled: true
-        custom: true
-        spec:
-          httpGet:
-            path: /ping
-            port: *port
-          initialDelaySeconds: 0
-          periodSeconds: 10
-          timeoutSeconds: 1
-          failureThreshold: 3
-      readiness: *probes
-      startup:
-        enabled: false
 
     ingress:
       main:
@@ -95,37 +110,15 @@ spec:
             paths:
               - path: /
                 pathType: Prefix
-        # tls:
-        #   - hosts:
-        #       - *host
-
-    podSecurityContext:
-      runAsUser: 568
-      runAsGroup: 568
-      fsGroup: 568
-      fsGroupChangePolicy: OnRootMismatch
-      supplementalGroups: [65537]
-
-    # volumeClaimTemplates:
-    #   - name: config
-    #     mountPath: /config
-    #     accessMode: ReadWriteOnce
-    #     size: 10Gi
-    #     storageClass: ceph-block
+                service:
+                  name: main
+                  port: http
 
     persistence:
       config:
         enabled: true
-        storageClass: ceph-block
-        size: 1Gi
+        existingClaim: *app
       media:
         enabled: true
         existingClaim: nfs-media-pvc
         mountPath: /media
-
-    # resources:
-    #   requests:
-    #     cpu: 10m
-    #     memory: 250Mi
-    #   limits:
-    #     memory: 2000Mi
