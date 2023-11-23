@@ -4,9 +4,11 @@ kind: Kustomization
 metadata:
   name: &app lidarr
   namespace: flux-system
-  labels:
-    substitution.flux.home.arpa/enabled: "true"
 spec:
+  targetNamespace: media
+  commonMetadata:
+    labels:
+      app.kubernetes.io/name: *app
   dependsOn:
     - name: cluster-apps-nfs-pv
     - name: cluster-apps-rook-ceph-cluster
