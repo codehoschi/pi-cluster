@@ -4,7 +4,7 @@ kind: Kustomization
 resources:
   - ./namespace.yaml
   - ./autobrr/ks.yaml
-  - ./lidarr/ks.yaml
+  # - ./lidarr/ks.yaml
   - ./ombi/ks.yaml
   - ./overseerr/ks.yaml
   - ./prowlarr/ks.yaml
