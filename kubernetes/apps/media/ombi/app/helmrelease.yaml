@@ -36,8 +36,8 @@ spec:
               tag: 4.43.5
             env:
               TZ: ${TIMEZONE}
-              PUID: 568
-              PGID: 568
+              # PUID: 568
+              # PGID: 568
             probes:
               liveness: &probes
                 enabled: true
@@ -61,12 +61,12 @@ spec:
             #     # cpu: 476m
             #     memory: 2000Mi
 
-        pod:
-          securityContext:
-            runAsUser: 568
-            runAsGroup: 568
-            fsGroup: 568
-            fsGroupChangePolicy: OnRootMismatch
+        # pod:
+        #   securityContext:
+        #     runAsUser: 568
+        #     runAsGroup: 568
+        #     fsGroup: 568
+        #     fsGroupChangePolicy: OnRootMismatch
 
     service:
       main:
