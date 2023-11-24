@@ -5,7 +5,7 @@ metadata:
   name: &app lldap
   namespace: flux-system
 spec:
-  targetNamespace: media
+  targetNamespace: default
   commonMetadata:
     labels:
       app.kubernetes.io/name: *app
@@ -20,7 +20,7 @@ spec:
   healthChecks:
     - apiVersion: helm.toolkit.fluxcd.io/v2beta1
       kind: HelmRelease
-      name: lldap
+      name: *app
       namespace: default
   wait: false
   interval: 30m
