@@ -6,7 +6,8 @@ namespace: media
 resources:
   - ./externalsecret.yaml
   - ./helmrelease.yaml
-  - ./volsync.yaml
+  # - ./volsync.yaml
+  - ../../../../templates/volsync
 configMapGenerator:
   - name: recyclarr-configmap
     files:

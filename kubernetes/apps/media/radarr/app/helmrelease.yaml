@@ -118,8 +118,6 @@ spec:
       config:
         enabled: true
         existingClaim: *app
-        globalMounts:
-          - path: /config
       media:
         enabled: true
         existingClaim: nfs-media-pvc

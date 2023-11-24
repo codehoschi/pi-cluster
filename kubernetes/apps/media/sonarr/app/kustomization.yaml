@@ -6,4 +6,5 @@ resources:
   - ./externalsecret.yaml
   - ./helmrelease.yaml
   # - ./secret.sops.yaml
-  - ./volsync.yaml
+  # - ./volsync.yaml
+  - ../../../../templates/volsync
