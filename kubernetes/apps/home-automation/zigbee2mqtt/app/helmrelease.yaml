@@ -119,6 +119,7 @@ spec:
         existingClaim: *app
       ttyacm0:
         enabled: true
+        type: hostPath
         path: /dev/ttyACM0
         globalMounts:
           - path: /dev/ttyACM0
