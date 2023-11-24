@@ -1,32 +1,21 @@
+---
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: rook-ceph-mgr-dashboard
+  # annotations:
+  #   hajimari.io/enabled: "false"
+  name: rook-ceph-objectstore
   namespace: rook-ceph
-  annotations:
-    # kubernetes.io/tls-acme: "true"
-    # nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
-    # nginx.ingress.kubernetes.io/server-snippet: |
-    #   proxy_ssl_verify off;
-    nginx.ingress.kubernetes.io/whitelist-source-range: |
-      10.0.0.0/8,172.16.0.0/12,192.168.0.0/16
-    hajimari.io/appName: "Rook"
-    hajimari.io/icon: mdi:chess-rook
 spec:
-  ingressClassName: "nginx"
-  # tls:
-  #  - hosts:
-  #    - rook-ceph.example.com
-  #    secretName: rook-ceph.example.com
+  ingressClassName: nginx
   rules:
-  - host: rook.lmwpva.net
-    http:
-      paths:
-      - path: /
-        pathType: Prefix
-        backend:
-          service:
-            name: rook-ceph-mgr-dashboard
-            port:
-              # name: https-dashboard
-              name: http-dashboard
+    - host: &host objects.${SECRET_DOMAIN}
+      http:
+        paths:
+          - backend:
+              service:
+                name: rook-ceph-rgw-ceph-objectstore
+                port:
+                  name: http
+            path: /
+            pathType: Prefix
