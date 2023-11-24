@@ -72,11 +72,13 @@ spec:
             #   limits:
             #     cpu: 63m
             #     memory: 110M
-
+        securityContext:
+          # -- (bool) Privileged securityContext may be required if USB controller is accessed directly through the host machine
+          privileged: true
         pod:
-          securityContext:
-            # -- (bool) Privileged securityContext may be required if USB controller is accessed directly through the host machine
-            privileged: true
+          # securityContext:
+          #   # -- (bool) Privileged securityContext may be required if USB controller is accessed directly through the host machine
+          #   privileged: true
           nodeSelector:
             # aeotec.feature.node.kubernetes.io/zwave: "true"
             zigbee-controller: "true"
