@@ -9,7 +9,7 @@ spec:
   chart:
     spec:
       chart: app-template
-      version: 1.5.1
+      version: 2.3.0
       sourceRef:
         kind: HelmRepository
         name: bjw-s
@@ -25,28 +25,50 @@ spec:
   uninstall:
     keepHistory: false
   values:
-    initContainers:
-      01-init-db:
-        image: ghcr.io/codehoschi/postgres-init:15.4@sha256:17620a5e514c4518ac25f75915afa45a82361bce2f945bdadac7f1c33f82db91
-        imagePullPolicy: IfNotPresent
-        envFrom: &envFrom
-          - secretRef:
-              name: lldap-secret
-    controller:
-      replicas: 2
-      strategy: RollingUpdate
-      annotations:
-        reloader.stakater.com/auto: "true"
-    image:
-      repository: ghcr.io/lldap/lldap
-      # TODO: Switch to release tag on next release
-      tag: latest-alpine@sha256:03605d80db32d4041d74547851e20136d4c5d551de759ee88c74bcc7155edbc1
-    env:
-      TZ: ${TIMEZONE}
-      LLDAP_HTTP_PORT: &port 80
-      LLDAP_HTTP_URL: https://lldap.${SECRET_DOMAIN}
-      LLDAP_LDAP_PORT: &ldapPort 389
-    envFrom: *envFrom
+    controllers:
+      main:
+        replicas: 2
+        strategy: RollingUpdate
+        annotations:
+          reloader.stakater.com/auto: "true"
+
+        initContainers:
+          init-db:
+            image:
+              repository: ghcr.io/codehoschi/postgres-init
+              tag: 15.4@sha256:17620a5e514c4518ac25f75915afa45a82361bce2f945bdadac7f1c33f82db91
+              pullPolicy: IfNotPresent
+            envFrom: &envFrom
+              - secretRef:
+                  name: lldap-secret
+
+        containers:
+          main:
+            image:
+              repository: ghcr.io/lldap/lldap
+              tag: v0.5.0
+            env:
+              TZ: ${TIMEZONE}
+              LLDAP_HTTP_PORT: &port 80
+              LLDAP_HTTP_URL: https://lldap.${SECRET_DOMAIN}
+              LLDAP_LDAP_PORT: &ldapPort 389
+            envFrom: *envFrom
+            # resources:
+            #   requests:
+            #     cpu: 100m
+            #     memory: 100Mi
+            #   limits:
+            #     memory: 500Mi
+
+        pod:
+          topologySpreadConstraints:
+            - maxSkew: 1
+              topologyKey: kubernetes.io/hostname
+              whenUnsatisfiable: DoNotSchedule
+              labelSelector:
+                matchLabels:
+                  app.kubernetes.io/name: *app
+
     service:
       main:
         ports:
@@ -55,6 +77,7 @@ spec:
           ldap:
             enabled: true
             port: *ldapPort
+
     ingress:
       main:
         enabled: true
@@ -70,23 +93,11 @@ spec:
             paths:
               - path: /
                 pathType: Prefix
-        # tls:
-        #   - hosts:
-        #       - *host
+                service:
+                  name: main
+                  port: http
+
     persistence:
       data:
         enabled: true
         type: emptyDir
-    topologySpreadConstraints:
-      - maxSkew: 1
-        topologyKey: kubernetes.io/hostname
-        whenUnsatisfiable: DoNotSchedule
-        labelSelector:
-          matchLabels:
-            app.kubernetes.io/name: *app
-    # resources:
-    #   requests:
-    #     cpu: 100m
-    #     memory: 100Mi
-    #   limits:
-    #     memory: 500Mi
