@@ -2,21 +2,20 @@
 apiVersion: helm.toolkit.fluxcd.io/v2beta1
 kind: HelmRelease
 metadata:
-  name: zigbee2mqtt
+  name: &app zigbee2mqtt
   namespace: home-automation
 spec:
-  interval: 15m
+  interval: 30m
   chart:
     spec:
       chart: app-template
-      version: 1.5.1
+      version: 2.3.0
       sourceRef:
         kind: HelmRepository
         name: bjw-s
         namespace: flux-system
-  maxHistory: 3
+  maxHistory: 2
   install:
-    createNamespace: true
     remediation:
       retries: 3
   upgrade:
@@ -24,73 +23,72 @@ spec:
       retries: 3
   uninstall:
     keepHistory: false
-
-  # valuesFrom:
-  #   - kind: Secret
-  #     name: zigbee2mqtt-devices
-  #     valuesKey: devices
-  #     targetPath: devices.yaml
-
   values:
-    controller:
-      type: statefulset
-      annotations:
-        reloader.stakater.com/auto: "true"
+    controllers:
+      main:
+        annotations:
+          reloader.stakater.com/auto: "true"
 
-    image:
-      repository: ghcr.io/koenkk/zigbee2mqtt
-      tag: 1.33.2
+        containers:
+          main:
+            image:
+              repository: ghcr.io/koenkk/zigbee2mqtt
+              tag: 1.33.2
+            env:
+              TZ: "{$TIMEZONE}"
+              ZIGBEE2MQTT_DATA: /config
+              ZIGBEE2MQTT_CONFIG_ADVANCED_HOMEASSISTANT_DISCOVERY_TOPIC: homeassistant
+              ZIGBEE2MQTT_CONFIG_ADVANCED_HOMEASSISTANT_LEGACY_ENTITY_ATTRIBUTES: "false"
+              ZIGBEE2MQTT_CONFIG_ADVANCED_HOMEASSISTANT_LEGACY_TRIGGERS: "false"
+              ZIGBEE2MQTT_CONFIG_ADVANCED_HOMEASSISTANT_STATUS_TOPIC: homeassistant/status
+              ZIGBEE2MQTT_CONFIG_ADVANCED_LAST_SEEN: ISO_8601
+              ZIGBEE2MQTT_CONFIG_ADVANCED_LEGACY_API: "false"
+              ZIGBEE2MQTT_CONFIG_ADVANCED_LEGACY_AVAILABILITY_PAYLOAD: "false"
+              ZIGBEE2MQTT_CONFIG_ADVANCED_LOG_LEVEL: debug # info
+              ZIGBEE2MQTT_CONFIG_ADVANCED_LOG_OUTPUT: '["console"]'
+              ZIGBEE2MQTT_CONFIG_AVAILABILITY_ACTIVE_TIMEOUT: 60
+              ZIGBEE2MQTT_CONFIG_AVAILABILITY_PASSIVE_TIMEOUT: 2000
+              ZIGBEE2MQTT_CONFIG_DEVICE_OPTIONS_LEGACY: "false"
+              ZIGBEE2MQTT_CONFIG_DEVICE_OPTIONS_RETAIN: "true"
+              ZIGBEE2MQTT_CONFIG_EXPERIMENTAL_NEW_API: "true"
+              # ZIGBEE2MQTT_CONFIG_FRONTEND_PORT: &port 8080
+              ZIGBEE2MQTT_CONFIG_FRONTEND: "true"
+              ZIGBEE2MQTT_CONFIG_HOMEASSISTANT: "true"
+              ZIGBEE2MQTT_CONFIG_MQTT_BASE_TOPIC: zigbee2mqtt
+              ZIGBEE2MQTT_CONFIG_MQTT_INCLUDE_DEVICE_INFORMATION: "true"
+              ZIGBEE2MQTT_CONFIG_MQTT_KEEPALIVE: 60
+              ZIGBEE2MQTT_CONFIG_MQTT_REJECT_UNAUTHORIZED: "false"
+              ZIGBEE2MQTT_CONFIG_MQTT_SERVER: mqtt://emqx
+              ZIGBEE2MQTT_CONFIG_MQTT_VERSION: 4
+              ZIGBEE2MQTT_CONFIG_PERMIT_JOIN: "false"
+              # ZIGBEE2MQTT_CONFIG_SERIAL_BAUDRATE: 115200
+              # ZIGBEE2MQTT_CONFIG_SERIAL_DISABLE_LED: "false"
+              ZIGBEE2MQTT_CONFIG_SERIAL_PORT: /dev/ttyACM0
+              ZIGBEE2MQTT_CONFIG_SERIAL_ADAPTER: deconz
+            # resources:
+            #   requests:
+            #     cpu: 63m
+            #     memory: 110M
+            #   limits:
+            #     cpu: 63m
+            #     memory: 110M
 
-    env:
-      TZ: "{$TIMEZONE}"
-      ZIGBEE2MQTT_DATA: /config
-      ZIGBEE2MQTT_CONFIG_ADVANCED_HOMEASSISTANT_DISCOVERY_TOPIC: homeassistant
-      ZIGBEE2MQTT_CONFIG_ADVANCED_HOMEASSISTANT_LEGACY_ENTITY_ATTRIBUTES: "false"
-      ZIGBEE2MQTT_CONFIG_ADVANCED_HOMEASSISTANT_LEGACY_TRIGGERS: "false"
-      ZIGBEE2MQTT_CONFIG_ADVANCED_HOMEASSISTANT_STATUS_TOPIC: homeassistant/status
-      ZIGBEE2MQTT_CONFIG_ADVANCED_LAST_SEEN: ISO_8601
-      ZIGBEE2MQTT_CONFIG_ADVANCED_LEGACY_API: "false"
-      ZIGBEE2MQTT_CONFIG_ADVANCED_LEGACY_AVAILABILITY_PAYLOAD: "false"
-      ZIGBEE2MQTT_CONFIG_ADVANCED_LOG_LEVEL: debug # info
-      ZIGBEE2MQTT_CONFIG_ADVANCED_LOG_OUTPUT: '["console"]'
-      ZIGBEE2MQTT_CONFIG_AVAILABILITY_ACTIVE_TIMEOUT: 60
-      ZIGBEE2MQTT_CONFIG_AVAILABILITY_PASSIVE_TIMEOUT: 2000
-      ZIGBEE2MQTT_CONFIG_DEVICE_OPTIONS_LEGACY: "false"
-      ZIGBEE2MQTT_CONFIG_DEVICE_OPTIONS_RETAIN: "true"
-      ZIGBEE2MQTT_CONFIG_EXPERIMENTAL_NEW_API: "true"
-      # ZIGBEE2MQTT_CONFIG_FRONTEND_PORT: &port 8080
-      ZIGBEE2MQTT_CONFIG_FRONTEND: "true"
-      ZIGBEE2MQTT_CONFIG_HOMEASSISTANT: "true"
-      ZIGBEE2MQTT_CONFIG_MQTT_BASE_TOPIC: zigbee2mqtt
-      ZIGBEE2MQTT_CONFIG_MQTT_INCLUDE_DEVICE_INFORMATION: "true"
-      ZIGBEE2MQTT_CONFIG_MQTT_KEEPALIVE: 60
-      ZIGBEE2MQTT_CONFIG_MQTT_REJECT_UNAUTHORIZED: "false"
-      ZIGBEE2MQTT_CONFIG_MQTT_SERVER: mqtt://emqx
-      ZIGBEE2MQTT_CONFIG_MQTT_VERSION: 4
-      ZIGBEE2MQTT_CONFIG_PERMIT_JOIN: "false"
-      # ZIGBEE2MQTT_CONFIG_SERIAL_BAUDRATE: 115200
-      # ZIGBEE2MQTT_CONFIG_SERIAL_DISABLE_LED: "false"
-      ZIGBEE2MQTT_CONFIG_SERIAL_PORT: /dev/ttyACM0
-      ZIGBEE2MQTT_CONFIG_SERIAL_ADAPTER: deconz
-
-      # ZIGBEE2MQTT_CONFIG_DEVICES: devices.yaml
-    # envFrom:
-    #   - secretRef:
-    #       name: zigbee2mqtt-secret
-
-    securityContext:
-      # -- (bool) Privileged securityContext may be required if USB controller is accessed directly through the host machine
-      privileged: true
-
-    # persistence:
-    #   config:
-    #     enabled: true
-    #     existingClaim: zigbee2mqtt-config-v3
-    #     mountPath: "/config"
-      # usb:
-      #   enabled: true
-      #   type: hostPath
-      #   hostPath: /dev/serial/by-id/usb-dresden_elektronik_ingenieurtechnik_GmbH_ConBee_II_DE2654252-if00
+        pod:
+          securityContext:
+            # -- (bool) Privileged securityContext may be required if USB controller is accessed directly through the host machine
+            privileged: true
+          nodeSelector:
+            # aeotec.feature.node.kubernetes.io/zwave: "true"
+            zigbee-controller: "true"
+          # affinity:
+          #   nodeAffinity:
+          #     requiredDuringSchedulingIgnoredDuringExecution:
+          #       nodeSelectorTerms:
+          #         - matchExpressions:
+          #             - key: zigbee-controller
+          #               operator: In
+          #               values:
+          #                 - "true"
 
     service:
       main:
@@ -103,8 +101,6 @@ spec:
         enabled: true
         ingressClassName: nginx
         annotations:
-          # cert-manager.io/cluster-issuer: "letsencrypt-production"
-          # cert-manager.io/cluster-issuer: 'selfsigned-cluster-issuer'
           hajimari.io/enable: "true"
           hajimari.io/icon: mdi:zigbee
           hajimari.io/targetBlank: "true"
@@ -113,64 +109,11 @@ spec:
             paths:
               - path: /
                 pathType: Prefix
-        # tls:
-        #   - hosts:
-        #       - *host
-        #     secretName: 'node-red-tls'
+                service:
+                  name: main
+                  port: http
 
-    affinity:
-      nodeAffinity:
-        requiredDuringSchedulingIgnoredDuringExecution:
-          nodeSelectorTerms:
-            - matchExpressions:
-                - key: zigbee-controller
-                  operator: In
-                  values:
-                    - "true"
-
-    # podSecurityContext:
-    #   runAsUser: 568
-    #   runAsGroup: 568
-    #   fsGroup: 568
-    #   fsGroupChangePolicy: OnRootMismatch
-
-    volumeClaimTemplates:
-      - name: config
-        mountPath: /config
-        accessMode: ReadWriteOnce
-        size: 1Gi
-        storageClass: ceph-block
-
-    # resources:
-    #   requests:
-    #     cpu: 63m
-    #     memory: 110M
-    #   limits:
-    #     cpu: 63m
-    #     memory: 110M
-
-    addons:
-      codeserver:
-        enabled: false
-        image:
-          repository: ghcr.io/coder/code-server
-          tag: 4.19.0
-        env:
-          TZ: "{$TIMEZONE}"
-        volumeMounts:
-          - name: config
-            mountPath: /config
-        ingress:
-          enabled: true
-          ingressClassName: nginx
-          annotations:
-            # cert-manager.io/cluster-issuer: "letsencrypt-production"
-            # cert-manager.io/cluster-issuer: 'selfsigned-cluster-issuer'
-            hajimari.io/enable: "true"
-            hajimari.io/icon: "microsoft-visual-studio-code"
-            hajimari.io/targetBlank: "true"
-          hosts:
-            - host: &host "zigbee2mqtt-code.${SECRET_DOMAIN}"
-              paths:
-                - path: /
-                  pathType: Prefix
+    persistence:
+      config:
+        enabled: true
+        existingClaim: *app
