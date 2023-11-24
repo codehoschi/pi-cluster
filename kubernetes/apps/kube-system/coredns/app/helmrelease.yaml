@@ -90,8 +90,8 @@ spec:
 
     resources:
       limits:
-        cpu: 25m
+        cpu: 23m
         memory: 64Mi
       requests:
-        cpu: 25m
+        cpu: 23m
         memory: 64Mi

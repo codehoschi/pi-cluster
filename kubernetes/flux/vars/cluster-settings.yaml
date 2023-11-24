@@ -6,7 +6,7 @@ metadata:
   namespace: flux-system
 data:
   TIMEZONE: "Europe/Berlin"
-  COREDNS_ADDR: "10.43.0.11"
+  COREDNS_ADDR: "10.43.0.10"
   KUBE_VIP_ADDR: "10.200.0.250"
   CLUSTER_CIDR: "10.42.0.0/16"
   NODE_CIDR: "10.200.0.0/24"
