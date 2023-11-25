@@ -3,9 +3,8 @@ apiVersion: helm.toolkit.fluxcd.io/v2beta1
 kind: HelmRelease
 metadata:
   name: &app zigbee2mqtt
-  namespace: home-automation
 spec:
-  interval: 10m
+  interval: 30m
   chart:
     spec:
       chart: app-template
@@ -31,6 +30,10 @@ spec:
 
         containers:
           main:
+            securityContext:
+            # -- (bool) Privileged securityContext may be required if USB controller is accessed directly through the host machine
+            privileged: true
+
             image:
               repository: ghcr.io/koenkk/zigbee2mqtt
               tag: 1.33.2
@@ -74,9 +77,9 @@ spec:
             #     memory: 110M
 
         pod:
-          securityContext:
-            # -- (bool) Privileged securityContext may be required if USB controller is accessed directly through the host machine
-            privileged: true
+          # securityContext:
+          #   # -- (bool) Privileged securityContext may be required if USB controller is accessed directly through the host machine
+          #   privileged: true
           nodeSelector:
             # aeotec.feature.node.kubernetes.io/zwave: "true"
             zigbee-controller: "true"
@@ -101,9 +104,7 @@ spec:
         enabled: true
         ingressClassName: nginx
         annotations:
-          hajimari.io/enable: "true"
           hajimari.io/icon: mdi:zigbee
-          hajimari.io/targetBlank: "true"
         hosts:
           - host: &host "{{ .Release.Name }}.${SECRET_DOMAIN}"
             paths:
@@ -117,9 +118,9 @@ spec:
       config:
         enabled: true
         existingClaim: *app
-      usb:
-        enabled: true
-        type: hostPath
-        path: /dev/ttyACM0
-        globalMounts:
-          - path: /dev/ttyACM0
+      # usb:
+      #   enabled: true
+      #   type: hostPath
+      #   path: /dev/ttyACM0
+      #   globalMounts:
+      #     - path: /dev/ttyACM0
