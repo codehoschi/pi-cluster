@@ -12,6 +12,9 @@ spec:
     labels:
       app.kubernetes.io/name: *app
   path: ./kubernetes/apps/home-automation/zigbee2mqtt/app
+  dependsOn:
+    - name: rook-ceph-cluster
+    - name: volsync
   prune: true
   sourceRef:
     kind: GitRepository
