@@ -3,9 +3,9 @@ apiVersion: helm.toolkit.fluxcd.io/v2beta1
 kind: HelmRelease
 metadata:
   name: rook-ceph-operator
-  namespace: rook-ceph
 spec:
   interval: 30m
+  timeout: 15m
   chart:
     spec:
       chart: rook-ceph
@@ -25,13 +25,16 @@ spec:
   uninstall:
     keepHistory: false
   values:
+    csi:
+      csiAddons:
+        enabled: false # Set to true when using kubernetes-csi-addons
     monitoring:
       enabled: true
 
-    resources:
-      requests:
-        cpu: 200m
-        memory: 256Mi
-      limits:
-        # cpu: 143m
-        memory: 512Mi
+    # resources:
+    #   requests:
+    #     cpu: 200m
+    #     memory: 256Mi
+    #   limits:
+    #     # cpu: 143m
+    #     memory: 512Mi
