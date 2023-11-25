@@ -3,9 +3,8 @@ apiVersion: helm.toolkit.fluxcd.io/v2beta1
 kind: HelmRelease
 metadata:
   name: ingress-nginx
-  namespace: networking
 spec:
-  interval: 15m
+  interval: 30m
   chart:
     spec:
       chart: ingress-nginx
@@ -14,9 +13,8 @@ spec:
         kind: HelmRepository
         name: ingress-nginx
         namespace: flux-system
-  maxHistory: 3
+  maxHistory: 2
   install:
-    createNamespace: true
     remediation:
       retries: 3
   upgrade:
@@ -32,29 +30,29 @@ spec:
           value: "${TIMEZONE}"
       service:
         annotations:
-          # metallb.universe.tf/loadBalancerIPs: "${METALLB_INGRESS_ADDR}"
           io.cilium/lb-ipam-ips: ${LB_NGINX}
-        # externalTrafficPolicy: Local
-        externalTrafficPolicy: Cluster
+        # # externalTrafficPolicy: Local
+        # externalTrafficPolicy: Cluster
       publishService:
         enabled: true
       ingressClassResource:
         default: true
       allowSnippetAnnotations: true
       config:
-        # allow-snippet-annotations: true
-        client-header-timeout: 120
-        client-body-buffer-size: "100M"
+        client-body-buffer-size: 100M
         client-body-timeout: 120
+        client-header-timeout: 120
         custom-http-errors: 400,401,403,404,500,502,503,504
         enable-brotli: "true"
-        forwarded-for-header: "CF-Connecting-IP"
-        hsts-max-age: "31449600"
-        keep-alive: 120
+        hsts-max-age: 31449600
         keep-alive-requests: 10000
-        proxy-body-size: "100M"
-        ssl-protocols: "TLSv1.3 TLSv1.2"
+        keep-alive: 120
+        force-ssl-redirect: "true"
+        ssl-protocols: TLSv1.3 TLSv1.2
+        forwarded-for-header: "CF-Connecting-IP"
         use-forwarded-headers: "true"
+        proxy-body-size: 0
+        proxy-buffer-size: 16k
         log-format-escape-json: "true"
         log-format-upstream: >-
           {"time": "$time_iso8601", "remote_addr": "$proxy_protocol_addr",
@@ -64,25 +62,26 @@ spec:
           "path": "$uri", "request_query": "$args", "request_length": $request_length,
           "duration": $request_time,"method": "$request_method", "http_referrer": "$http_referer",
           "http_user_agent": "$http_user_agent"}
-        force-ssl-redirect: "true"
       metrics:
         enabled: true
         serviceMonitor:
           enabled: true
-          additionalLabels:
-            release: kube-prometheus-stack-prometheus
+          namespace: networking
+          namespaceSelector:
+            any: true
+          # additionalLabels:
+          #   release: kube-prometheus-stack-prometheus
       extraArgs:
-        # default-ssl-certificate: "networking/${SECRET_DOMAIN/./-}-hekate-ca-tls"
         default-ssl-certificate: "networking/${SECRET_DOMAIN/./-}-production-tls"
-      podAnnotations:
-        configmap.reloader.stakater.com/reload: cloudflare-networks
-      # resources:
-      #   requests:
-      #     cpu: 49m
-      #     memory: 273M
-      #   limits:
-      #     cpu: 49m
-      #     memory: 273M
+      # podAnnotations:
+      #   configmap.reloader.stakater.com/reload: cloudflare-networks
+      resources:
+        requests:
+          cpu: 49m
+          memory: 273M
+        limits:
+          cpu: 49m
+          memory: 273M
     defaultBackend:
       enabled: true
       image:
@@ -93,10 +92,10 @@ spec:
           value: lost-in-space
         - name: SHOW_DETAILS
           value: "false"
-  valuesFrom:
-    # Cloudflare Networks
-    # https://www.cloudflare.com/ips/
-    - targetPath: controller.config.proxy-real-ip-cidr
-      kind: ConfigMap
-      name: cloudflare-networks
-      valuesKey: cloudflare-networks.txt
+  # valuesFrom:
+  #   # Cloudflare Networks
+  #   # https://www.cloudflare.com/ips/
+  #   - targetPath: controller.config.proxy-real-ip-cidr
+  #     kind: ConfigMap
+  #     name: cloudflare-networks
+  #     valuesKey: cloudflare-networks.txt
