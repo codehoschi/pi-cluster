@@ -41,7 +41,7 @@ spec:
       destinationPath: s3://postgresql/
       endpointURL: http://${NAS_IP}:9000
       # for recovery change the name to be not the same as the externalCluster name
-      serverName: &currentCluster postgres-v15-v3
+      serverName: &currentCluster postgres-v15-v4
       # serverName: postgres-v16-v2
       s3Credentials:
         accessKeyId:
