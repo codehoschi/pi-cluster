@@ -2,12 +2,11 @@
 apiVersion: postgresql.cnpg.io/v1
 kind: ScheduledBackup
 metadata:
-  name: postgres-v15
-  namespace: default
+  name: postgres-v16
 spec:
   # daily, 4am UCT
   schedule: "0 0 4 * * *"
   immediate: true
   backupOwnerReference: self
   cluster:
-    name: postgres-v15
+    name: postgres-v16

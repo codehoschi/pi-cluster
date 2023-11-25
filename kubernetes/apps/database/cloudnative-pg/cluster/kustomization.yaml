@@ -2,12 +2,8 @@
 # yaml-language-server: $schema=https://json.schemastore.org/kustomization
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
-namespace: database
 resources:
   - ./cluster-v16.yaml
-  # - ./cluster-v15.yaml
-  # - ./cluster-v15-v2.yaml
-  # - ./pg-cluster.yaml
   - ./scheduledbackup.yaml
-  # - ./prometheusrule.yaml
+  - ./prometheusrule.yaml
   - ./service.yaml
