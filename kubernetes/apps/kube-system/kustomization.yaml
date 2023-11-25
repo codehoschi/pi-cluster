@@ -7,7 +7,7 @@ resources:
   - ./coredns/ks.yaml
   - ./external-secrets/ks.yaml
   # - ./kube-vip/ks.yaml
-  # - ./local-path-provisioner/ks.yaml
+  - ./local-path-provisioner/ks.yaml
   # - ./metrics-server/ks.yaml
   # - ./nfs-subdir-external-provisioner/ks.yaml
   # - ./nfs-pv/ks.yaml
