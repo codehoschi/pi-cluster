@@ -2,10 +2,10 @@
 apiVersion: postgresql.cnpg.io/v1
 kind: Cluster
 metadata:
-  name: postgres-v16
+  name: postgres-v15
 spec:
   instances: 3
-  imageName: ghcr.io/cloudnative-pg/postgresql:16.1
+  imageName: ghcr.io/cloudnative-pg/postgresql:15.9
   primaryUpdateStrategy: unsupervised
   storage:
     size: 20Gi
@@ -41,7 +41,7 @@ spec:
       destinationPath: s3://postgresql/
       endpointURL: http://${NAS_IP}:9000
       # for recovery change the name to be not the same as the externalCluster name
-      serverName: &currentCluster postgres-v16-v1
+      serverName: &currentCluster postgres-v15-v2
       # serverName: postgres-v16-v2
       s3Credentials:
         accessKeyId:
@@ -56,6 +56,9 @@ spec:
     recovery:
       source: &previousCluster postgres-v16
       # source: postgres-v16-v1
+      recoveryTarget:
+        # Time base target for the recovery
+        targetTime: "2023-11-19 12:00:00.00000+02"
 
     # # use this to 'migrate' from an existing cnpg cluster (e.g. "postgres-v15-v2") to the new cluster
     # initdb:
