@@ -6,5 +6,5 @@ resources:
   - ./cloudnative-pg/ks.yaml
   # - ./mariadb-operator/ks.yaml
   # - ./mariadb/ks.yaml
-  # - ./redis/ks.yaml
+  - ./redis/ks.yaml
   # - ./rbac/ks.yaml
