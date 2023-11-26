@@ -39,9 +39,6 @@ spec:
           hajimari.io/icon: mdi:alert-decagram-outline
         hosts:
           - &host alertmanager.${SECRET_DOMAIN}
-        # tls:
-        #   - hosts:
-        #       - *host
       alertmanagerSpec:
         replicas: 1
         # useExistingSecret: true
@@ -53,13 +50,13 @@ spec:
               resources:
                 requests:
                   storage: 1Gi
-        resources:
-          requests:
-            cpu: 10m
-            memory: 50M
-          limits:
-            cpu: 12m
-            memory: 55M
+        # resources:
+        #   requests:
+        #     cpu: 10m
+        #     memory: 50M
+        #   limits:
+        #     cpu: 12m
+        #     memory: 55M
 
     kubelet:
       enabled: true
@@ -80,6 +77,7 @@ spec:
           - action: drop
             sourceLabels: ["__name__"]
             regex: (rest_client_request_duration_seconds_bucket|rest_client_request_duration_seconds_sum|rest_client_request_duration_seconds_count)
+
     kubeApiServer:
       enabled: true
       serviceMonitor:
@@ -95,6 +93,7 @@ spec:
           - action: drop
             sourceLabels: ["__name__"]
             regex: (apiserver_response_sizes_bucket|apiserver_watch_events_sizes_bucket)
+
     kubeControllerManager:
       enabled: true
       endpoints: &cp
@@ -107,9 +106,11 @@ spec:
           - action: keep
             sourceLabels: ["__name__"]
             regex: "(apiserver_audit|apiserver_client|apiserver_delegated|apiserver_envelope|apiserver_storage|apiserver_webhooks|attachdetach_controller|authenticated_user|authentication|cronjob_controller|disabled_metric|endpoint_slice|ephemeral_volume|garbagecollector_controller|get_token|go|hidden_metric|job_controller|kubernetes_build|kubernetes_feature|leader_election|node_collector|node_ipam|process_cpu|process_max|process_open|process_resident|process_start|process_virtual|pv_collector|registered_metric|replicaset_controller|rest_client|retroactive_storageclass|root_ca|running_managed|scrape_duration|scrape_samples|scrape_series|service_controller|storage_count|storage_operation|ttl_after|volume_operation|workqueue)_(.+)"
+
     kubeEtcd:
       enabled: true
       endpoints: *cp
+
     kubeScheduler:
       enabled: true
       endpoints: *cp
@@ -119,8 +120,10 @@ spec:
           - action: keep
             sourceLabels: ["__name__"]
             regex: "(apiserver_audit|apiserver_client|apiserver_delegated|apiserver_envelope|apiserver_storage|apiserver_webhooks|authenticated_user|authentication|disabled_metric|go|hidden_metric|kubernetes_build|kubernetes_feature|leader_election|process_cpu|process_max|process_open|process_resident|process_start|process_virtual|registered_metric|rest_client|scheduler|scrape_duration|scrape_samples|scrape_series|workqueue)_(.+)"
+
     kubeProxy:
       enabled: false
+
     prometheus:
       ingress:
         enabled: true
@@ -131,9 +134,6 @@ spec:
           hajimari.io/icon: simple-icons:prometheus
         hosts:
           - &host prometheus.${SECRET_DOMAIN}
-        # tls:
-        #   - hosts:
-        #       - *host
       thanosService:
         enabled: true
       thanosServiceMonitor:
@@ -166,6 +166,43 @@ spec:
               resources:
                 requests:
                   storage: 20Gi
+
+    nodeExporter:
+      # enabled: false
+      enabled: true
+    prometheus-node-exporter:
+      fullnameOverride: node-exporter
+      prometheus:
+        monitor:
+          enabled: true
+          relabelings:
+            - action: replace
+              regex: (.*)
+              replacement: $1
+              sourceLabels:
+                - __meta_kubernetes_pod_node_name
+              targetLabel: kubernetes_node
+
+    kubeStateMetrics:
+      # enabled: false
+      enabled: true
+    kube-state-metrics:
+      fullnameOverride: kube-state-metrics
+      metricLabelsAllowlist:
+        - pods=[*]
+        - deployments=[*]
+        - persistentvolumeclaims=[*]
+      prometheus:
+        monitor:
+          enabled: true
+          relabelings:
+            - action: replace
+              regex: (.*)
+              replacement: $1
+              sourceLabels:
+                - __meta_kubernetes_pod_node_name
+              targetLabel: kubernetes_node
+
     grafana:
       enabled: false
       forceDeployDashboards: true
@@ -174,7 +211,3 @@ spec:
           multicluster:
             etcd:
               enabled: true
-    nodeExporter:
-      enabled: false
-    kubeStateMetrics:
-      enabled: false
