@@ -1,4 +1,5 @@
 ---
+# yaml-language-server: $schema=https://json.schemastore.org/kustomization
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 resources:
@@ -7,6 +8,6 @@ resources:
   # - ./authelia/ks.yaml
   # - ./authentik/ks.yaml
   # - ./bookstack/ks.yaml
-  # - ./hajimari/ks.yaml
+  - ./hajimari/ks.yaml
   # - ./lldap/ks.yaml
   # - ./theme-park/ks.yaml
