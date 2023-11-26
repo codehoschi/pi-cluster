@@ -118,9 +118,9 @@ spec:
       config:
         enabled: true
         existingClaim: *app
-      # usb:
-      #   enabled: true
-      #   type: hostPath
-      #   path: /dev/ttyACM0
-      #   globalMounts:
-      #     - path: /dev/ttyACM0
+      usb:
+        enabled: true
+        type: hostPath
+        hostPath: /dev/ttyACM0
+        globalMounts:
+          - path: /dev/ttyACM0
