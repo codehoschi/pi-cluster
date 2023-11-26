@@ -81,10 +81,9 @@ spec:
           limits:
             cpu: 500m
             # memory: 512Mi
-            memory: 1Gi
           requests:
             cpu: 50m
-            memory: 256Mi
+            # memory: 256Mi
         mon:
           limits:
             cpu: 1000m
