@@ -77,13 +77,13 @@ spec:
               - name: sda3
 
       resources:
-        mgr:
-          limits:
-            cpu: 500m
-            # memory: 512Mi
-          requests:
-            cpu: 50m
-            # memory: 256Mi
+        # mgr:
+        #   limits:
+        #     cpu: 500m
+        #     # memory: 512Mi
+        #   requests:
+        #     cpu: 50m
+        #     # memory: 256Mi
         mon:
           limits:
             cpu: 1000m
