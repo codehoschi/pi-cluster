@@ -87,10 +87,10 @@ spec:
           matchLabels:
             app.kubernetes.io/instance: coredns
 
-    resources:
-      limits:
-        cpu: 23m
-        memory: 64Mi
-      requests:
-        cpu: 23m
-        memory: 64Mi
+    # resources:
+    #   limits:
+    #     cpu: 23m
+    #     memory: 64Mi
+    #   requests:
+    #     cpu: 23m
+    #     memory: 64Mi
