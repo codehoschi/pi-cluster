@@ -32,7 +32,7 @@ spec:
           main:
             securityContext:
             # -- (bool) Privileged securityContext may be required if USB controller is accessed directly through the host machine
-            privileged: true
+              privileged: true
 
             image:
               repository: ghcr.io/koenkk/zigbee2mqtt
