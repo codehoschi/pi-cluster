@@ -4,7 +4,7 @@ kind: HelmRelease
 metadata:
   name: &app hajimari
 spec:
-  interval: 30m
+  interval: 31m
   chart:
     spec:
       chart: hajimari
