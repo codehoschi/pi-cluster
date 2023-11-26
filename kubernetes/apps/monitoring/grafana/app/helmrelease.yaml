@@ -3,9 +3,8 @@ apiVersion: helm.toolkit.fluxcd.io/v2beta1
 kind: HelmRelease
 metadata:
   name: grafana
-  namespace: monitoring
 spec:
-  interval: 15m
+  interval: 30m
   chart:
     spec:
       chart: grafana
@@ -14,9 +13,8 @@ spec:
         kind: HelmRepository
         name: grafana
         namespace: flux-system
-  maxHistory: 3
+  maxHistory: 2
   install:
-    createNamespace: true
     remediation:
       retries: 3
   upgrade:
@@ -340,14 +338,9 @@ spec:
       enabled: true
       ingressClassName: nginx
       annotations:
-        # external-dns.alpha.kubernetes.io/target: ipv4.devbu.io
         hajimari.io/icon: simple-icons:grafana
-        hajimari.io/targetBlank: "true"
       hosts:
         - &host "grafana.${SECRET_DOMAIN}"
-      # tls:
-      #   - hosts:
-      #       - *host
     # imageRenderer:
     #   enabled: true
     #   replicas: 3
