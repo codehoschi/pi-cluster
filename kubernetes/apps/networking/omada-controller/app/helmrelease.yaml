@@ -114,6 +114,8 @@ spec:
         ingressClassName: nginx
         annotations:
           hajimari.io/icon: mdi:table-network
+          nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
+          nginx.ingress.kubernetes.io/proxy-ssl-verify: "off"
         hosts:
           - host: &host "{{ .Release.Name }}.${SECRET_DOMAIN}"
             paths:
