@@ -44,13 +44,6 @@ spec:
               # SSL_CERT_NAME: tls.crt
               # SSL_KEY_NAME: tls.key
 
-        pod:
-          securityContext:
-            runAsUser: 508
-            runAsGroup: 508
-            fsGroup: 508
-            fsGroupChangePolicy: "OnRootMismatch"
-
     service:
       main:
         type: LoadBalancer
