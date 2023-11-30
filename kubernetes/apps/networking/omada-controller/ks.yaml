@@ -28,3 +28,5 @@ spec:
       VOLSYNC_ACCESSMODES: ReadWriteMany
       VOLSYNC_STORAGECLASS: ceph-filesystem
       VOLSYNC_SNAPSHOTCLASS: csi-ceph-filesystem
+      VOLSYNC_UID: "508"
+      VOLSYNC_GID: "508"
