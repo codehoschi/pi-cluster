@@ -2,7 +2,6 @@ apiVersion: v1
 kind: PersistentVolume
 metadata:
   name: nfs-media-pv
-  namespace: media
 spec:
   storageClassName: media
   capacity:
@@ -35,7 +34,6 @@ apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
   name: nfs-media-pvc
-  namespace: media
 spec:
   accessModes:
     - ReadWriteMany
