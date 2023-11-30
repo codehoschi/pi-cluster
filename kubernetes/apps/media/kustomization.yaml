@@ -6,7 +6,7 @@ resources:
   - ./nfs-pv/ks.yaml
   # - ./autobrr/ks.yaml
   # - ./lidarr/ks.yaml
-  # - ./ombi/ks.yaml
+  - ./ombi/ks.yaml
   # - ./overseerr/ks.yaml
   # - ./prowlarr/ks.yaml
   - ./radarr/ks.yaml
