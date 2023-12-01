@@ -35,14 +35,21 @@ spec:
               repository: mbentley/omada-controller
               tag: 5.9
             env:
-              # TZ: ${TIMEZONE}
-              TZ: Europe/Amsterdam
+              TZ: ${TIMEZONE}
+              # TZ: Europe/Amsterdam
               # PUID: 508
               # PGID: 508
               SHOW_SERVER_LOGS: true
               SHOW_MONGODB_LOGS: false
               # SSL_CERT_NAME: tls.crt
               # SSL_KEY_NAME: tls.key
+            # resources:
+            #   requests:
+            #     cpu: 10m
+            #     memory: 250Mi
+            #   limits:
+            #     # cpu: 476m
+            #     memory: 2000Mi
 
     service:
       main:
@@ -124,21 +131,6 @@ spec:
                 service:
                   name: main
                   port: *port
-        # tls:
-        #   - hosts:
-        #       - *host
-
-    # volumeClaimTemplates:
-    #   - name: data
-    #     mountPath: /opt/tplink/EAPController/data
-    #     accessMode: ReadWriteOnce
-    #     size: 1Gi
-    #     storageClass: ceph-block
-    #   - name: logs
-    #     mountPath: /opt/tplink/EAPController/logs
-    #     accessMode: ReadWriteOnce
-    #     size: 1Gi
-    #     storageClass: ceph-block
 
     persistence:
       data:
@@ -146,25 +138,16 @@ spec:
         existingClaim: *app
         globalMounts:
           - path: /opt/tplink/EAPController/data
+      work:
+        storageClass: ceph-block
+        accessMode: ReadWriteOnce
+        size: 10Gi
+        globalMounts:
+          - path: /opt/tplink/EAPController/work
       logs:
         enabled: true
         storageClass: ceph-block
         accessMode: ReadWriteOnce
-        size: 1Gi
+        size: 10Gi
         globalMounts:
           - path: /opt/tplink/EAPController/logs
-    #   media:
-    #     enabled: true
-    #     # type: nfs
-    #     # server: ${NAS_IP}
-    #     # path: /volume1/media
-    #     existingClaim: nfs-media-pvc
-    #     mountPath: /media
-
-    # resources:
-    #   requests:
-    #     cpu: 10m
-    #     memory: 250Mi
-    #   limits:
-    #     # cpu: 476m
-    #     memory: 2000Mi
