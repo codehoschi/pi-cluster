@@ -139,6 +139,7 @@ spec:
         globalMounts:
           - path: /opt/tplink/EAPController/data
       work:
+        enabled: true
         storageClass: ceph-block
         accessMode: ReadWriteOnce
         size: 10Gi
