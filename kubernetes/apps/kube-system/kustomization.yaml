@@ -1,4 +1,5 @@
 ---
+# yaml-language-server: $schema=https://json.schemastore.org/kustomization
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 resources:
@@ -6,7 +7,7 @@ resources:
   - ./cilium/ks.yaml
   - ./coredns/ks.yaml
   - ./external-secrets/ks.yaml
-  # - ./kube-vip/ks.yaml
+  - ./kube-vip/ks.yaml
   - ./local-path-provisioner/ks.yaml
   # - ./metrics-server/ks.yaml
   - ./nfs-subdir-external-provisioner/ks.yaml
