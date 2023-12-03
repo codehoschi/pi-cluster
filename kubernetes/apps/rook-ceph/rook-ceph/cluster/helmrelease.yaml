@@ -86,22 +86,22 @@ spec:
         #     # memory: 256Mi
         mon:
           limits:
-            cpu: 1000m
-            memory: 1280Mi
+            cpu: 500m
+            memory: 1024Mi
           requests:
-            cpu: 100m
+            cpu: 150m
             memory: 256Mi
         osd:
           limits:
             cpu: 500m
-            memory: 1792Mi
+            memory: 2048Mi
           requests:
-            cpu: 250m
+            cpu: 150m
             memory: 256Mi
         prepareosd:
           limits:
             cpu: 1000m
-            memory: 400Mi
+            # memory: 400Mi
           requests:
             cpu: 100m
             memory: 200Mi
