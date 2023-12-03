@@ -20,3 +20,5 @@ terraform.tfstate*
 
 *.pwd
 .private/
+.venv/
+.task/

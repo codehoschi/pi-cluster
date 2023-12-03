@@ -1,4 +1,5 @@
 ---
+# yaml-language-server: $schema=https://taskfile.dev/schema.json
 version: "3"
 
 vars:
@@ -13,12 +14,18 @@ env:
   SOPS_AGE_KEY_FILE: ~/.config/sops/age/keys.txt
 
 includes:
-  ansible: .taskfiles/AnsibleTasks.yml
+  # ansible: .taskfiles/AnsibleTasks.yml
+  ansible:
+    taskfile: .taskfiles/Ansible/Taskfile.yaml
   cluster: .taskfiles/ClusterTasks.yml
   precommit: .taskfiles/PrecommitTasks.yml
   terraform: .taskfiles/TerraformTasks.yml
 
 tasks:
+
+  default:
+    silent: true
+    cmd: task -l
 
   init:
     desc: Initialize workstation dependencies with Brew
