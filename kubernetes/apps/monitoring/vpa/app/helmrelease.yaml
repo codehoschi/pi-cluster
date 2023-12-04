@@ -31,13 +31,13 @@ spec:
       # image:
       #   tag: 0.14.0
 
-      # resources:
-      #   requests:
-      #     cpu: 15m
-      #     memory: 127M
-      #   limits:
-      #     cpu: 15m
-      #     memory: 135M
+      resources:
+        requests:
+          cpu: 15m
+          memory: 64M
+        limits:
+          cpu: 15m
+          memory: 64M
 
       extraArgs:
         pod-recommendation-min-cpu-millicores: 15
