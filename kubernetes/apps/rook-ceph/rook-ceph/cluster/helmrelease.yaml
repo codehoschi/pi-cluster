@@ -77,84 +77,127 @@ spec:
               - name: sda3
 
       resources:
-        # mgr:
-        #   limits:
-        #     cpu: 500m
-        #     # memory: 512Mi
-        #   requests:
-        #     cpu: 50m
-        #     # memory: 256Mi
+        mgr:
+          requests:
+            cpu: "125m"
+            memory: "512Mi"
+          limits:
+            memory: "2Gi"
         mon:
-          limits:
-            cpu: 500m
-            memory: 1024Mi
           requests:
-            cpu: 150m
-            memory: 256Mi
+            cpu: "49m"
+            memory: "512Mi"
+          limits:
+            memory: "1Gi"
         osd:
-          limits:
-            cpu: 500m
-            memory: 2048Mi
           requests:
-            cpu: 150m
-            memory: 256Mi
-        prepareosd:
+            cpu: "442m"
+            memory: "2Gi"
           limits:
-            cpu: 1000m
-            # memory: 400Mi
+            memory: "6Gi"
+        mgr-sidecar:
           requests:
-            cpu: 100m
-            memory: 200Mi
-        # mgr-sidecar:
-        #   limits:
-        #     cpu: 256m
-        #     memory: 100Mi
-        #   requests:
-        #     cpu: 100m
-        #     memory: 40Mi
+            cpu: "49m"
+            memory: "128Mi"
+          limits:
+            memory: "256Mi"
         crashcollector:
-          limits:
-            cpu: 100m
-            memory: 220M
           requests:
-            cpu: 15m
-            memory: 64M
+            cpu: "15m"
+            memory: "64Mi"
+          limits:
+            memory: "64Mi"
         logcollector:
-          limits:
-            cpu: "500m"
-            memory: "1Gi"
           requests:
             cpu: "100m"
             memory: "100Mi"
+          limits:
+            memory: "1Gi"
         cleanup:
-          limits:
-            cpu: "500m"
-            memory: "1Gi"
           requests:
-            cpu: "100m"
+            cpu: "250m"
             memory: "100Mi"
+          limits:
+            memory: "1Gi"
       # resources:
-      #   mgr:
+      #   # mgr:
+      #   #   limits:
+      #   #     cpu: 500m
+      #   #     # memory: 512Mi
+      #   #   requests:
+      #   #     cpu: 50m
+      #   #     # memory: 256Mi
+      #   mon:
+      #     limits:
+      #       cpu: 500m
+      #       memory: 1024Mi
       #     requests:
-      #       cpu: 250m
-      #       memory: 512Mi
+      #       cpu: 150m
+      #       memory: 256Mi
+      #   osd:
+      #     limits:
+      #       cpu: 500m
+      #       memory: 2048Mi
+      #     requests:
+      #       cpu: 150m
+      #       memory: 256Mi
+      #   prepareosd:
       #     limits:
       #       cpu: 1000m
-      #       memory: 2Gi
-      #   mon:
+      #       # memory: 400Mi
       #     requests:
-      #       cpu: 500m
-      #       memory: 1Gi
+      #       cpu: 100m
+      #       memory: 200Mi
+      #   # mgr-sidecar:
+      #   #   limits:
+      #   #     cpu: 256m
+      #   #     memory: 100Mi
+      #   #   requests:
+      #   #     cpu: 100m
+      #   #     memory: 40Mi
+      #   crashcollector:
       #     limits:
-      #       cpu: 2000m
-      #       memory: 4Gi
-      #   osd:
+      #       cpu: 100m
+      #       memory: 220M
       #     requests:
-      #       cpu: 500m
-      #       memory: 4Gi
+      #       cpu: 15m
+      #       memory: 64M
+      #   logcollector:
       #     limits:
-      #       cpu: 2000m
-      #       memory: 8Gi
+      #       cpu: "500m"
+      #       memory: "1Gi"
+      #     requests:
+      #       cpu: "100m"
+      #       memory: "100Mi"
+      #   cleanup:
+      #     limits:
+      #       cpu: "500m"
+      #       memory: "1Gi"
+      #     requests:
+      #       cpu: "100m"
+      #       memory: "100Mi"
+      # # resources:
+      # #   mgr:
+      # #     requests:
+      # #       cpu: 250m
+      # #       memory: 512Mi
+      # #     limits:
+      # #       cpu: 1000m
+      # #       memory: 2Gi
+      # #   mon:
+      # #     requests:
+      # #       cpu: 500m
+      # #       memory: 1Gi
+      # #     limits:
+      # #       cpu: 2000m
+      # #       memory: 4Gi
+      # #   osd:
+      # #     requests:
+      # #       cpu: 500m
+      # #       memory: 4Gi
+      # #     limits:
+      # #       cpu: 2000m
+      # #       memory: 8Gi
 
     cephBlockPools:
       - name: ceph-blockpool

@@ -31,10 +31,16 @@ spec:
     monitoring:
       enabled: true
 
-    resources:
-      requests:
-        cpu: 600m
-        memory: 256Mi
-      limits:
-        cpu: 600m
-        memory: 512Mi
+    # resources:
+    #   requests:
+    #     cpu: 600m
+    #     memory: 256Mi
+    #   limits:
+    #     cpu: 600m
+    #     memory: 512Mi
+  resources:
+    requests:
+      cpu: 109m
+      memory: 204M
+    limits:
+      memory: 453M
