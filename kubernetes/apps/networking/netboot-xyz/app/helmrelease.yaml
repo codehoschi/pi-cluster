@@ -32,17 +32,12 @@ spec:
         containers:
           main:
             image:
-              repository: ghcr.io/netbootxyz/netbootxyz
-              tag: 0.7.0-nbxyz2
-            # env:
-            #   TZ: ${TIMEZONE}
-            #   # TZ: Europe/Amsterdam
-            #   # PUID: 508
-            #   # PGID: 508
-            #   SHOW_SERVER_LOGS: true
-            #   SHOW_MONGODB_LOGS: false
-            #   # SSL_CERT_NAME: tls.crt
-            #   # SSL_KEY_NAME: tls.key
+              repository: lscr.io/linuxserver/netbootxyz
+              tag: 0.7.0
+            env:
+              TZ: ${TIMEZONE}
+              # MENU_VERSION: 2.0.75 #optional, unset pulls latest
+
             # resources:
             #   requests:
             #     cpu: 10m
@@ -65,7 +60,7 @@ spec:
           webapp:
             enabled: true
             port: &port 3000
-          app-discovery:
+          tftp:
             enabled: true
             port: 69
             protocol: UDP
@@ -101,23 +96,14 @@ spec:
                   name: webapp
                   port: *port
 
-    # persistence:
-    #   data:
-    #     enabled: true
-    #     existingClaim: *app
-    #     globalMounts:
-    #       - path: /opt/tplink/EAPController/data
-    #   work:
-    #     enabled: true
-    #     storageClass: ceph-block
-    #     accessMode: ReadWriteOnce
-    #     size: 10Gi
-    #     globalMounts:
-    #       - path: /opt/tplink/EAPController/work
-    #   logs:
-    #     enabled: true
-    #     storageClass: ceph-block
-    #     accessMode: ReadWriteOnce
-    #     size: 10Gi
-    #     globalMounts:
-    #       - path: /opt/tplink/EAPController/logs
+    persistence:
+      config:
+        enabled: true
+        existingClaim: *app
+        globalMounts:
+          - path: /config
+      assets:
+        enabled: true
+        existingClaim: netboot-pvc
+        globalMounts:
+          - path: /assets

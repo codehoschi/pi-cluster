@@ -10,6 +10,7 @@ spec:
     labels:
       app.kubernetes.io/name: *app
   dependsOn:
+    - name: nfs-subdir-external-provisioner
     - name: rook-ceph
     - name: volsync
   path: ./kubernetes/apps/networking/netboot-xyz/app
