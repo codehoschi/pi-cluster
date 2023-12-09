@@ -1,0 +1,72 @@
+---
+apiVersion: volsync.backube/v1alpha1
+kind: ReplicationSource
+metadata:
+  name: omada-controller-data-backup
+spec:
+  sourcePVC: data-omada-controller-0
+  trigger:
+    schedule: "0 7 * * *"
+  restic:
+    copyMethod: Snapshot
+    pruneIntervalDays: 7
+    repository: omada-controller-restic-secret
+    cacheCapacity: 1Gi
+    cacheStorageClassName: local-path
+    volumeSnapshotClassName: csi-ceph-blockpool
+    storageClassName: ceph-block
+    # default lsio user abc
+    moverSecurityContext:
+      runAsUser: 508
+      runAsGroup: 508
+      fsGroup: 508
+    retain:
+      daily: 7
+      within: 3d
+# ---
+# apiVersion: volsync.backube/v1alpha1
+# kind: ReplicationSource
+# metadata:
+#   name: omada-controller-logs
+#   namespace: networking
+# spec:
+#   sourcePVC: logs-omada-controller-0
+#   trigger:
+#     schedule: "0 7 * * *"
+#   restic:
+#     copyMethod: Snapshot
+#     pruneIntervalDays: 7
+#     repository: omada-controller-restic-secret
+#     cacheCapacity: 1Gi
+#     cacheStorageClassName: local-path
+#     volumeSnapshotClassName: csi-ceph-blockpool
+#     storageClassName: ceph-block
+#     # default lsio user abc
+#     moverSecurityContext:
+#       runAsUser: 508
+#       runAsGroup: 508
+#       fsGroup: 508
+#     retain:
+#       daily: 7
+#       within: 3d
+---
+apiVersion: volsync.backube/v1alpha1
+kind: ReplicationDestination
+metadata:
+  name: omada-controller-data-restore
+  namespace: networking
+spec:
+  trigger:
+    manual: restore-once
+  restic:
+    repository: omada-controller-restic-secret
+    destinationPVC: data-omada-controller-0
+    copyMethod: Snapshot
+    volumeSnapshotClassName: csi-ceph-blockpool
+    cacheCapacity: 1Gi
+    cacheStorageClassName: local-path
+    storageClassName: ceph-block
+    moverSecurityContext:
+      runAsUser: 508
+      runAsGroup: 508
+      fsGroup: 508

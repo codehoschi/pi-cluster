@@ -1,0 +1,123 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2beta1
+kind: HelmRelease
+metadata:
+  name: &app netboot-xyz
+spec:
+  interval: 30m
+  chart:
+    spec:
+      chart: app-template
+      version: 2.3.0
+      sourceRef:
+        kind: HelmRepository
+        name: bjw-s
+        namespace: flux-system
+  maxHistory: 2
+  install:
+    remediation:
+      retries: 3
+  upgrade:
+    cleanupOnFail: true
+    remediation:
+      retries: 3
+  uninstall:
+    keepHistory: false
+  values:
+    controllers:
+      main:
+        annotations:
+          reloader.stakater.com/auto: "true"
+
+        containers:
+          main:
+            image:
+              repository: ghcr.io/netbootxyz/netbootxyz
+              tag: 0.7.0-nbxyz2
+            # env:
+            #   TZ: ${TIMEZONE}
+            #   # TZ: Europe/Amsterdam
+            #   # PUID: 508
+            #   # PGID: 508
+            #   SHOW_SERVER_LOGS: true
+            #   SHOW_MONGODB_LOGS: false
+            #   # SSL_CERT_NAME: tls.crt
+            #   # SSL_KEY_NAME: tls.key
+            # resources:
+            #   requests:
+            #     cpu: 10m
+            #     memory: 250Mi
+            #   limits:
+            #     # cpu: 476m
+            #     memory: 2000Mi
+
+    service:
+      main:
+        type: LoadBalancer
+        # externalTrafficPolicy: Local
+        externalTrafficPolicy: Cluster
+        annotations:
+          io.cilium/lb-ipam-ips: ${LB_NETBOOTXYZ}
+
+        ports:
+          http:
+            port: 80
+          webapp:
+            enabled: true
+            port: &port 3000
+          app-discovery:
+            enabled: true
+            port: 69
+            protocol: UDP
+
+    # probes:
+    #   liveness: &probes
+    #     enabled: false
+    #     custom: true
+    #     spec:
+    #       httpGet:
+    #         path: /ping
+    #         port: *port
+    #       initialDelaySeconds: 0
+    #       periodSeconds: 10
+    #       timeoutSeconds: 1
+    #       failureThreshold: 3
+    #   readiness: *probes
+    #   startup:
+    #     enabled: false
+
+    ingress:
+      main:
+        enabled: true
+        ingressClassName: nginx
+        annotations:
+          hajimari.io/icon: mdi:table-network
+        hosts:
+          - host: &host "{{ .Release.Name }}.${SECRET_DOMAIN}"
+            paths:
+              - path: /
+                pathType: Prefix
+                service:
+                  name: webapp
+                  port: *port
+
+    # persistence:
+    #   data:
+    #     enabled: true
+    #     existingClaim: *app
+    #     globalMounts:
+    #       - path: /opt/tplink/EAPController/data
+    #   work:
+    #     enabled: true
+    #     storageClass: ceph-block
+    #     accessMode: ReadWriteOnce
+    #     size: 10Gi
+    #     globalMounts:
+    #       - path: /opt/tplink/EAPController/work
+    #   logs:
+    #     enabled: true
+    #     storageClass: ceph-block
+    #     accessMode: ReadWriteOnce
+    #     size: 10Gi
+    #     globalMounts:
+    #       - path: /opt/tplink/EAPController/logs
