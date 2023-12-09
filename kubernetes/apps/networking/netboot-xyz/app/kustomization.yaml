@@ -6,4 +6,4 @@ resources:
   - ./netboot-pv.yaml
   # - ./secret.sops.yaml
   # - ./volsync.yaml
-  # - ../../../../templates/volsync
+  - ../../../../templates/volsync-no-restore
