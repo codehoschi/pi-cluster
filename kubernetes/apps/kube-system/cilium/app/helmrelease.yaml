@@ -39,10 +39,10 @@ spec:
       # lbExternalClusterIP: true
       masquerade: true
       # tproxy: true
-    bgp:
-      enabled: true
-      announce:
-        loadbalancerIP: true
+    # bgp:
+    #   enabled: true
+    #   announce:
+    #     loadbalancerIP: true
     cluster:
       id: 1
       name: hekate
@@ -138,8 +138,8 @@ spec:
     #   defaultSecretNamespace: networking
     # gatewayAPI:
     #   enabled: false
-    # bgpControlPlane:
-    #   enabled: true
+    bgpControlPlane:
+      enabled: true
 
     # # hostFirewall:
     # #   enabled: true
