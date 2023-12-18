@@ -40,7 +40,9 @@ spec:
       masquerade: true
       # tproxy: true
     bgp:
-      enabled: false
+      enabled: true
+      announce:
+        loadbalancerIP: true
     cluster:
       id: 1
       name: hekate
