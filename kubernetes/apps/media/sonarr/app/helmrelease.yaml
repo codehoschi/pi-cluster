@@ -45,7 +45,7 @@ spec:
               # repository: lscr.io/linuxserver/sonarr
               # tag: 3.0.10
               repository: ghcr.io/onedr0p/sonarr-develop
-              tag: 4.0.0.731@sha256:6841fcd99f0cc4e7e374b697ad82bc0fd70cdfaed8dca6b13b0e488bee2d5036
+              tag: 4.0.1.987@sha256:d7887f692d26f38c45c722dd129ace920f372c07c9aac6a4fa32cda76b153b64
             env:
               TZ: ${TIMEZONE}
               SONARR__AUTHENTICATION_METHOD: External
