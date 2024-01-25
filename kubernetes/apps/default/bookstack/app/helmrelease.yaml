@@ -33,7 +33,7 @@ spec:
 
     image:
       repository: lscr.io/linuxserver/bookstack
-      tag: 23.10.20231030
+      tag: 23.12.20240115
 
     env:
       TZ: ${TIMEZONE}
