@@ -12,21 +12,31 @@ on:
         description: Log-Level
         default: debug
         required: false
+      version:
+        description: Renovate version
+        default: latest
+        required: false
   # schedule:
   #   - cron: "0 * * * *"
   push:
     branches: ["main"]
     paths:
-      - .github/renovate-bot.json5
+      # - .github/renovate-bot.json5
       - .github/renovate.json5
       - .github/renovate/**.json5
 
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.number || github.ref }}
+  cancel-in-progress: true
+
 env:
-  LOG_LEVEL: debug
-  RENOVATE_DRY_RUN: false
-  RENOVATE_CONFIG_FILE: .github/renovate-bot.json5
+  LOG_LEVEL: "${{ inputs.logLevel || 'debug' }}"
   RENOVATE_AUTODISCOVER: true
   RENOVATE_AUTODISCOVER_FILTER: "${{ github.repository }}"
+  RENOVATE_DRY_RUN: "${{ inputs.dryRun == true }}"
+  RENOVATE_PLATFORM: github
+  RENOVATE_PLATFORM_COMMIT: true
+  WORKFLOW_RENOVATE_VERSION: "${{ inputs.version || 'latest' }}"
 
 jobs:
   renovate:
@@ -34,25 +44,20 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Generate Token
-        uses: tibdex/github-app-token@b62528385c34dbc9f38e5f4225ac829252d1ea92 # v1.8.0
-        id: generate-token
+        uses: actions/create-github-app-token@v1
+        id: app-token
         with:
-          app_id: "${{ secrets.BOT_APP_ID }}"
-          private_key: "${{ secrets.BOT_APP_PRIVATE_KEY }}"
+          app-id: "${{ secrets.BOT_APP_ID }}"
+          private-key: "${{ secrets.BOT_APP_PRIVATE_KEY }}"
 
       - name: Checkout
-        uses: actions/checkout@c85c95e3d7251135ab7dc9ce3241c5835cc595a9 # v3.5.3
+        uses: actions/checkout@v4
         with:
-          token: "${{ steps.generate-token.outputs.token }}"
-
-      - name: Override default config from dispatch variables
-        shell: bash
-        run: |
-          echo "RENOVATE_DRY_RUN=${{ github.event.inputs.dryRun || env.RENOVATE_DRY_RUN }}" >> "${GITHUB_ENV}"
-          echo "LOG_LEVEL=${{ github.event.inputs.logLevel || env.LOG_LEVEL }}" >> "${GITHUB_ENV}"
+          token: "${{ steps.app-token.outputs.token }}"
 
       - name: Renovate
-        uses: renovatebot/github-action@23a02fe7be9e93f857a953cc8162e57d2c8401ef # v39.0.1
+        uses: renovatebot/github-action@v39.2.4
         with:
-          configurationFile: "${{ env.RENOVATE_CONFIG_FILE }}"
-          token: "${{ steps.generate-token.outputs.token }}"
+          configurationFile: .github/renovate.json5
+          token: "${{ steps.app-token.outputs.token }}"
+          renovate-version: "${{ env.WORKFLOW_RENOVATE_VERSION }}"
