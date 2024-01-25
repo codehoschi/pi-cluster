@@ -32,7 +32,7 @@ spec:
 
     image:
       repository: ghcr.io/onedr0p/theme-park
-      tag: 1.14.1@sha256:84d3de535ae7b12b31a97b9c2ecd8b02e8e18c622362f59b05408affaece6130
+      tag: 1.15.1@sha256:eda794ddba4899b1e10215c53edf173ad9f4d7b68c833ccbb91dd4d7bc2fadc9
 
     service:
       main:
