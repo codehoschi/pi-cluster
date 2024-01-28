@@ -62,6 +62,11 @@ spec:
         ingressClassName: nginx
         annotations:
           hajimari.io/icon: "resistor-nodes"
+          gethomepage.dev/enabled: "true"
+          gethomepage.dev/name: "Node-Red"
+          gethomepage.dev/description: "Low-code programming for event-driven applications"
+          gethomepage.dev/group: "Home Automation"
+          gethomepage.dev/icon: "node-red.svg"
         hosts:
           - host: &host "{{ .Release.Name }}.${SECRET_DOMAIN}"
             paths:

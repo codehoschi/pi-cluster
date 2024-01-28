@@ -67,6 +67,11 @@ spec:
         ingressClassName: nginx
         annotations:
           hajimari.io/icon: "radio-tower"
+          gethomepage.dev/enabled: "true"
+          gethomepage.dev/name: "EMQX"
+          gethomepage.dev/description: "MQTT Broker"
+          gethomepage.dev/group: "Home Automation"
+          gethomepage.dev/icon: "emqx.svg"
         path: /
         pathType: Prefix
         hosts:
