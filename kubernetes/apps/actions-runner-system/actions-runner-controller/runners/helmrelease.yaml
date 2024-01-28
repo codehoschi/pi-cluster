@@ -3,13 +3,12 @@ apiVersion: helm.toolkit.fluxcd.io/v2beta1
 kind: HelmRelease
 metadata:
   name: arc-pi-cluster
-  namespace: actions-runner-system
 spec:
   interval: 30m
   chart:
     spec:
       chart: gha-runner-scale-set
-      version: 0.7.0
+      version: 0.8.1
       sourceRef:
         kind: HelmRepository
         name: actions-runner-controller
@@ -25,8 +24,6 @@ spec:
   uninstall:
     keepHistory: false
   values:
-    controllerServiceAccount:
-      name: actions-runner-controller-gha-rs-controller
     runnerScaleSetName: arc-runner-set-pi-cluster
     githubConfigUrl: https://github.com/codehoschi/pi-cluster
     minRunners: 1
@@ -38,16 +35,19 @@ spec:
         containers:
           - name: runner
             image: ghcr.io/codehoschi/github-actions-runner:rolling@sha256:54d0f703b42d7652cb539bce9da93960647009b7bfb906a4d9a51e701898166e
+    controllerServiceAccount:
+      name: actions-runner-controller-gha-rs-controller
+      namespace: actions-runner-system
   valuesFrom:
-    - kind: Secret
+    - targetPath: githubConfigSecret.github_app_id
+      kind: Secret
       name: actions-runner-controller-secret
       valuesKey: github_app_id
-      targetPath: githubConfigSecret.github_app_id
-    - kind: Secret
+    - targetPath: githubConfigSecret.github_app_installation_id
+      kind: Secret
       name: actions-runner-controller-secret
       valuesKey: github_app_installation_id
-      targetPath: githubConfigSecret.github_app_installation_id
-    - kind: Secret
+    - targetPath: githubConfigSecret.github_app_private_key
+      kind: Secret
       name: actions-runner-controller-secret
       valuesKey: github_app_private_key
-      targetPath: githubConfigSecret.github_app_private_key
