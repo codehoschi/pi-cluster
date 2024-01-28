@@ -85,8 +85,8 @@ spec:
           gethomepage.dev/enabled: "true"
           gethomepage.dev/name: "Home-Assistant"
           gethomepage.dev/description: "Dynamically Detected Home-Assistant"
-          gethomepage.dev/group: "Dynamic"
-          gethomepage.dev/icon: "homepage.png"
+          gethomepage.dev/group: "Home Automation"
+          gethomepage.dev/icon: "home-assistant.svg"
         hosts:
           - host: &host "hass.${SECRET_DOMAIN}"
             paths:
