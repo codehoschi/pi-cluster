@@ -105,6 +105,7 @@ spec:
           #   10.0.0.0/8,172.16.0.0/12,192.168.0.0/16
           hajimari.io/icon: mdi:television-classic
           hajimari.io/targetBlank: "true"
+          gethomepage.dev/enabled: "true"
           gethomepage.dev/name: "Sonarr"
           gethomepage.dev/description: "TV series organizer/manager"
           gethomepage.dev/group: "Media"
