@@ -66,6 +66,13 @@ spec:
         - search:
             provider: duckduckgo
             target: _blank
+        # - Sabnzbd:
+        #     icon: "sabnzbd.svg"
+        #     href: sabnzbd.${SECRET_DOMAIN}
+        #     widget:
+        #       type: sabnzbd
+        #       url: sabnzbd.${SECRET_DOMAIN}
+        #       key: apikeyapikeyapikeyapikeyapikey
       kubernetes:
         mode: cluster
       settings:
@@ -93,11 +100,11 @@ spec:
         annotations:
           # hajimari.io/enable: "false"
           # Example annotations to add Homepage to your Homepage!
-          gethomepage.dev/enabled: "true"
-          gethomepage.dev/name: "Homepage"
-          gethomepage.dev/description: "Dynamically Detected Homepage"
-          gethomepage.dev/group: "Dynamic"
-          gethomepage.dev/icon: "homepage.png"
+          # gethomepage.dev/enabled: "true"
+          # gethomepage.dev/name: "Homepage"
+          # gethomepage.dev/description: "Dynamically Detected Homepage"
+          # gethomepage.dev/group: "Dynamic"
+          # gethomepage.dev/icon: "homepage.png"
         hosts:
           - host: &host "homepage.${SECRET_DOMAIN}"
             paths:
