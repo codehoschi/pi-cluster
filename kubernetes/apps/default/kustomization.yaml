@@ -9,5 +9,6 @@ resources:
   - ./authentik/ks.yaml
   # - ./bookstack/ks.yaml
   - ./hajimari/ks.yaml
+  - ./homepage/ks.yaml
   - ./lldap/ks.yaml
   # - ./theme-park/ks.yaml
