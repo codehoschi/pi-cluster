@@ -54,12 +54,13 @@ spec:
         ingressClassName: nginx
         annotations:
           hajimari.io/enable: "false"
+          gethomepage.dev/enabled: "true"
+          gethomepage.dev/name: "K8S Dashboard"
+          gethomepage.dev/description: "All k8s ingress routes"
+          gethomepage.dev/group: "Apps"
+          gethomepage.dev/icon: "kubernetes.svg"
         hosts:
-          - host: &host "www.${SECRET_DOMAIN}"
-            paths:
-              - path: /
-                pathType: Prefix
-          - host: "${SECRET_DOMAIN}"
+          - host: &host "{{ .Release.Name }}.${SECRET_DOMAIN}"
             paths:
               - path: /
                 pathType: Prefix

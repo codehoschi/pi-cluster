@@ -106,11 +106,11 @@ spec:
           # gethomepage.dev/group: "Dynamic"
           # gethomepage.dev/icon: "homepage.png"
         hosts:
-          - host: &host "homepage.${SECRET_DOMAIN}"
+          - host: &host "www.${SECRET_DOMAIN}"
             paths:
               - path: /
                 pathType: Prefix
-          # - host: "${SECRET_DOMAIN}"
-          #   paths:
-          #     - path: /
-          #       pathType: Prefix
+          - host: "${SECRET_DOMAIN}"
+            paths:
+              - path: /
+                pathType: Prefix
