@@ -120,7 +120,11 @@ spec:
         enabled: true
         ingressClassName: nginx
         annotations:
-          hajimari.io/icon: mdi:table-network
+          gethomepage.dev/enabled: "true"
+          gethomepage.dev/name: "D-Link"
+          gethomepage.dev/description: "Omada-SDN Netzwork"
+          gethomepage.dev/group: "Apps"
+          gethomepage.dev/icon: "d-link.svg"
           nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
           nginx.ingress.kubernetes.io/proxy-ssl-verify: "off"
         hosts:

@@ -34,9 +34,6 @@ spec:
         enabled: true
         pathType: Prefix
         ingressClassName: nginx
-        annotations:
-          hajimari.io/appName: "Alert Manager"
-          hajimari.io/icon: mdi:alert-decagram-outline
         hosts:
           - &host alertmanager.${SECRET_DOMAIN}
       alertmanagerSpec:
@@ -129,9 +126,6 @@ spec:
         enabled: true
         ingressClassName: nginx
         pathType: Prefix
-        annotations:
-          hajimari.io/appName: Prometheus
-          hajimari.io/icon: simple-icons:prometheus
         hosts:
           - &host prometheus.${SECRET_DOMAIN}
       thanosService:
