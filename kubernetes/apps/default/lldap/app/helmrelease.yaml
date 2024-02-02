@@ -87,7 +87,7 @@ spec:
           gethomepage.dev/name: "LLDAP"
           gethomepage.dev/description: "Light LDAP implementation"
           gethomepage.dev/group: "Apps"
-          gethomepage.dev/icon: "lldap.svg"
+          gethomepage.dev/icon: "md-account-group"
         hosts:
           - host: &host "{{ .Release.Name }}.${SECRET_DOMAIN}"
             paths:

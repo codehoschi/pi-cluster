@@ -92,7 +92,7 @@ spec:
         gethomepage.dev/name: "Auth"
         gethomepage.dev/description: "Unified identity management"
         gethomepage.dev/group: "Apps"
-        gethomepage.dev/icon: "authentik.svg"
+        gethomepage.dev/icon: "si-webauthn"
         # external-dns.alpha.kubernetes.io/target: ingress-ext.bjw-s.dev
         nginx.ingress.kubernetes.io/proxy-read-timeout: "3600"
         nginx.ingress.kubernetes.io/proxy-send-timeout: "3600"
