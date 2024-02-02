@@ -36,17 +36,18 @@ spec:
       showAppUrls: false
       defaultEnable: true
       namespaceSelector:
-        matchNames:
-          - default
-          - home-automation
-          - printing
-          - media
-          - monitoring
-          - rook-ceph
-          - flux-system
-          - kube-system
-          - database
-          - networking
+        any: true
+        # matchNames:
+        #   - default
+        #   - home-automation
+        #   - printing
+        #   - media
+        #   - monitoring
+        #   - rook-ceph
+        #   - flux-system
+        #   - kube-system
+        #   - database
+        #   - networking
     ingress:
       main:
         enabled: true
