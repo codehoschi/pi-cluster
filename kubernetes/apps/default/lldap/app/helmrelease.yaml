@@ -82,6 +82,7 @@ spec:
         enabled: true
         ingressClassName: nginx
         annotations:
+          hajimari.io/group: "Apps"
           gethomepage.dev/enabled: "true"
           gethomepage.dev/name: "LLDAP"
           gethomepage.dev/description: "Light LDAP implementation"
