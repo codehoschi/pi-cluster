@@ -33,7 +33,7 @@ spec:
           main:
             image:
               repository: lscr.io/linuxserver/netbootxyz
-              tag: 0.7.0
+              tag: 0.7.1
             env:
               TZ: ${TIMEZONE}
               # MENU_VERSION: 2.0.75 #optional, unset pulls latest
