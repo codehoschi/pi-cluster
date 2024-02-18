@@ -70,10 +70,6 @@ spec:
       main:
         enabled: true
         ingressClassName: nginx
-        annotations:
-          hajimari.io/enable: "true"
-          hajimari.io/icon: "microsoft-visual-studio-code"
-          hajimari.io/targetBlank: "true"
         hosts:
           - host: &host "node-red-code.${SECRET_DOMAIN}"
             paths:

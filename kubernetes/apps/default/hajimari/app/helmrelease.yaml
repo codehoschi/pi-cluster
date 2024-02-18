@@ -36,29 +36,31 @@ spec:
       showAppUrls: false
       defaultEnable: true
       namespaceSelector:
-        matchNames:
-          - default
-          - home-automation
-          - printing
-          - media
-          - monitoring
-          - rook-ceph
-          - flux-system
-          - kube-system
-          - database
-          - networking
+        any: true
+        # matchNames:
+        #   - default
+        #   - home-automation
+        #   - printing
+        #   - media
+        #   - monitoring
+        #   - rook-ceph
+        #   - flux-system
+        #   - kube-system
+        #   - database
+        #   - networking
     ingress:
       main:
         enabled: true
         ingressClassName: nginx
         annotations:
           hajimari.io/enable: "false"
+          gethomepage.dev/enabled: "true"
+          gethomepage.dev/name: "K8S Dashboard"
+          gethomepage.dev/description: "All k8s ingress routes"
+          gethomepage.dev/group: "Apps"
+          gethomepage.dev/icon: "kubernetes.svg"
         hosts:
-          - host: &host "www.${SECRET_DOMAIN}"
-            paths:
-              - path: /
-                pathType: Prefix
-          - host: "${SECRET_DOMAIN}"
+          - host: &host "{{ .Release.Name }}.${SECRET_DOMAIN}"
             paths:
               - path: /
                 pathType: Prefix

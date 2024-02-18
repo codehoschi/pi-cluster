@@ -47,10 +47,6 @@ spec:
       ingress:
         enabled: true
         ingressClassName: nginx
-        annotations:
-          hajimari.io/enable: "true"
-          hajimari.io/icon: ruler
-
         hosts:
           - host: &host "goldilocks.${SECRET_DOMAIN}"
             paths:

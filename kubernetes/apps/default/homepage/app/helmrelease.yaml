@@ -33,22 +33,22 @@ spec:
         - Developer:
             - Github:
                 - abbr: GH
-                  href: https://github.com/
-      services:
-        - My First Group:
-            - My First Service:
-                href: http://localhost/
-                description: Homepage is awesome
+                  href: https://github.com/codehoschi
+      # services:
+      #   - My First Group:
+      #       - My First Service:
+      #           href: http://localhost/
+      #           description: Homepage is awesome
 
-        - My Second Group:
-            - My Second Service:
-                href: http://localhost/
-                description: Homepage is the best
+      #   - My Second Group:
+      #       - My Second Service:
+      #           href: http://localhost/
+      #           description: Homepage is the best
 
-        - My Third Group:
-            - My Third Service:
-                href: http://localhost/
-                description: Homepage is 😎
+      #   - My Third Group:
+      #       - My Third Service:
+      #           href: http://localhost/
+      #           description: Homepage is 😎
       widgets:
         # show the kubernetes widget, with the cluster summary and individual nodes
         - kubernetes:
@@ -98,6 +98,7 @@ spec:
         enabled: true
         ingressClassName: nginx
         annotations:
+          hajimari.io/group: "Apps"
           # hajimari.io/enable: "false"
           # Example annotations to add Homepage to your Homepage!
           # gethomepage.dev/enabled: "true"
@@ -106,11 +107,11 @@ spec:
           # gethomepage.dev/group: "Dynamic"
           # gethomepage.dev/icon: "homepage.png"
         hosts:
-          - host: &host "homepage.${SECRET_DOMAIN}"
+          - host: &host "www.${SECRET_DOMAIN}"
             paths:
               - path: /
                 pathType: Prefix
-          # - host: "${SECRET_DOMAIN}"
-          #   paths:
-          #     - path: /
-          #       pathType: Prefix
+          - host: "${SECRET_DOMAIN}"
+            paths:
+              - path: /
+                pathType: Prefix

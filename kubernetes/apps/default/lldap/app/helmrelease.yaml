@@ -82,7 +82,12 @@ spec:
         enabled: true
         ingressClassName: nginx
         annotations:
-          hajimari.io/icon: mdi:domain
+          hajimari.io/group: "Apps"
+          gethomepage.dev/enabled: "true"
+          gethomepage.dev/name: "LLDAP"
+          gethomepage.dev/description: "Light LDAP implementation"
+          gethomepage.dev/group: "Apps"
+          gethomepage.dev/icon: "mdi-account-group-#cf2e2e"
         hosts:
           - host: &host "{{ .Release.Name }}.${SECRET_DOMAIN}"
             paths:
