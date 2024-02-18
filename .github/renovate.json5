@@ -12,6 +12,9 @@
     ":timezone(Europe/Berlin)",
     "github>codehoschi/pi-cluster//.github/renovate/autoMerge.json5",
     "github>codehoschi/pi-cluster//.github/renovate/commitMessage.json5",
+    "github>codehoschi/pi-cluster//.github/renovate/customManagers.json5",
+    "github>codehoschi/pi-cluster//.github/renovate/grafanaDashboards.json5",
+    "github>codehoschi/pi-cluster//.github/renovate/groups.json5",
     "github>codehoschi/pi-cluster//.github/renovate/labels.json5",
     "github>codehoschi/pi-cluster//.github/renovate/semanticCommits.json5"
   ],
