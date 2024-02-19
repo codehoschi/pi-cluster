@@ -13,8 +13,8 @@ on:
 jobs:
   publish:
     name: Schemas
-    # runs-on: ["arc-runner-set-pi-cluster"]
-    runs-on: pve-vm-runner
+    runs-on: ["arc-runner-set-pi-cluster"]
+    # runs-on: pve-vm-runner
     permissions:
       contents: read
       packages: write
