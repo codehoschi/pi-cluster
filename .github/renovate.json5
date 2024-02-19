@@ -19,7 +19,7 @@
     "github>codehoschi/pi-cluster//.github/renovate/semanticCommits.json5"
   ],
   // "onboarding": false,
-  "requireConfig": "optional",
+  // "requireConfig": "optional",
   "dependencyDashboardTitle": "Renovate Dashboard 🤖",
   "suppressNotifications": ["prEditedNotification", "prIgnoreNotification"],
   "rebaseWhen": "conflicted",
