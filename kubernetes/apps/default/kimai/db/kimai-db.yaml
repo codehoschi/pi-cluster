@@ -5,7 +5,7 @@ metadata:
   name: kimai-db
 spec:
   mariaDbRef:
-    name: mariadb-secret
+    name: mariadb-galera-cluster-v11-3
   characterSet: utf8
   collate: utf8_general_ci
 ---
@@ -15,7 +15,7 @@ metadata:
   name: kimai-user
 spec:
   mariaDbRef:
-    name: mariadb-secret
+    name: mariadb-galera-cluster-v11-3
   passwordSecretKeyRef:
     name: kimai-secret
     key: password-db
@@ -27,7 +27,7 @@ metadata:
   name: kimai-grant
 spec:
   mariaDbRef:
-    name: mariadb-secret
+    name: mariadb-galera-cluster-v11-3
   privileges:
     - "CREATE"
     - "SELECT"
