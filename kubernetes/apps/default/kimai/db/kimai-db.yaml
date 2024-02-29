@@ -1,0 +1,41 @@
+---
+apiVersion: mariadb.mmontes.io/v1alpha1
+kind: Database
+metadata:
+  name: kimai-db
+spec:
+  mariaDbRef:
+    name: mariadb-secret
+  characterSet: utf8
+  collate: utf8_general_ci
+---
+apiVersion: mariadb.mmontes.io/v1alpha1
+kind: User
+metadata:
+  name: kimai-user
+spec:
+  mariaDbRef:
+    name: mariadb-secret
+  passwordSecretKeyRef:
+    name: kimai-secret
+    key: password-db
+  maxUserConnections: 10
+---
+apiVersion: mariadb.mmontes.io/v1alpha1
+kind: Grant
+metadata:
+  name: kimai-grant
+spec:
+  mariaDbRef:
+    name: mariadb-secret
+  privileges:
+    - "CREATE"
+    - "SELECT"
+    - "INSERT"
+    - "UPDATE"
+    - "ALTER"
+    - "DELETE"
+    - "DROP"
+  database: "kimai-db"
+  table: "*"
+  username: kimai-user
