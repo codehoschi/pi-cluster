@@ -43,10 +43,10 @@ spec:
   interval: 30m
   retryInterval: 1m
   timeout: 5m
-  postBuild:
-    substitute:
-      APP: *app
-      VOLSYNC_CAPACITY: 4Gi
-      VOLSYNC_ACCESSMODES: ReadWriteMany
-      VOLSYNC_STORAGECLASS: ceph-filesystem
-      VOLSYNC_SNAPSHOTCLASS: csi-ceph-filesystem
+  # postBuild:
+  #   substitute:
+  #     APP: *app
+  #     VOLSYNC_CAPACITY: 4Gi
+  #     VOLSYNC_ACCESSMODES: ReadWriteMany
+  #     VOLSYNC_STORAGECLASS: ceph-filesystem
+  #     VOLSYNC_SNAPSHOTCLASS: csi-ceph-filesystem
