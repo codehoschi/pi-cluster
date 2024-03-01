@@ -6,16 +6,7 @@ metadata:
 spec:
   mariaDbRef:
     name: mariadb-galera-cluster-v11-3
-  characterSet: utf8
-  collate: utf8_general_ci
----
-apiVersion: mariadb.mmontes.io/v1alpha1
-kind: Database
-metadata:
-  name: kimai-db2
-spec:
-  mariaDbRef:
-    name: mariadb-cluster
+    namespace: database
   characterSet: utf8
   collate: utf8_general_ci
 # ---
