@@ -39,6 +39,7 @@ spec:
     - "ALTER"
     - "DELETE"
     - "DROP"
+    - "INDEX"
   database: "kimai-db"
   table: "*"
   username: kimai-user
