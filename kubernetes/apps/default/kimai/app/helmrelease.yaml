@@ -29,6 +29,8 @@ spec:
       repository: kimai/kimai2
       tag: apache-2.12.0-prod
 
+    kimaiAdminEmail: admin@localhost
+
     # Name of existing secret containing Kimai credentials
     existingSecret: kimai-secret
 
