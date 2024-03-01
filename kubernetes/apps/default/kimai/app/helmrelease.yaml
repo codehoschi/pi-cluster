@@ -67,6 +67,6 @@ spec:
 
     persistence:
       storageClass: ceph-filesystem
-      accessModes:
-        - ReadWriteMany
+      # accessModes:
+      #   - ReadWriteMany
 
