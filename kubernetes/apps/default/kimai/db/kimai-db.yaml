@@ -9,34 +9,36 @@ spec:
     namespace: database
   characterSet: utf8
   collate: utf8_general_ci
-# ---
-# apiVersion: mariadb.mmontes.io/v1alpha1
-# kind: User
-# metadata:
-#   name: kimai-user
-# spec:
-#   mariaDbRef:
-#     name: mariadb-galera-cluster-v11-3
-#   passwordSecretKeyRef:
-#     name: kimai-secret
-#     key: password-db
-#   maxUserConnections: 10
-# ---
-# apiVersion: mariadb.mmontes.io/v1alpha1
-# kind: Grant
-# metadata:
-#   name: kimai-grant
-# spec:
-#   mariaDbRef:
-#     name: mariadb-galera-cluster-v11-3
-#   privileges:
-#     - "CREATE"
-#     - "SELECT"
-#     - "INSERT"
-#     - "UPDATE"
-#     - "ALTER"
-#     - "DELETE"
-#     - "DROP"
-#   database: "kimai-db"
-#   table: "*"
-#   username: kimai-user
+---
+apiVersion: mariadb.mmontes.io/v1alpha1
+kind: User
+metadata:
+  name: kimai-user
+spec:
+  mariaDbRef:
+    name: mariadb-galera-cluster-v11-3
+    namespace: database
+  passwordSecretKeyRef:
+    name: kimai-secret
+    key: password-db
+  maxUserConnections: 10
+---
+apiVersion: mariadb.mmontes.io/v1alpha1
+kind: Grant
+metadata:
+  name: kimai-grant
+spec:
+  mariaDbRef:
+    name: mariadb-galera-cluster-v11-3
+    namespace: database
+  privileges:
+    - "CREATE"
+    - "SELECT"
+    - "INSERT"
+    - "UPDATE"
+    - "ALTER"
+    - "DELETE"
+    - "DROP"
+  database: "kimai-db"
+  table: "*"
+  username: kimai-user
