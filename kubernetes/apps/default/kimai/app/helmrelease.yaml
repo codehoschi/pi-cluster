@@ -1,0 +1,67 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2beta2
+kind: HelmRelease
+metadata:
+  name: &app kimai
+spec:
+  interval: 30m
+  chart:
+    spec:
+      chart: kimai2
+      version: 1.2.3
+      sourceRef:
+        kind: HelmRepository
+        name: robjuz
+        namespace: flux-system
+  maxHistory: 2
+  install:
+    remediation:
+      retries: 3
+  upgrade:
+    cleanupOnFail: true
+    remediation:
+      retries: 3
+  uninstall:
+    keepHistory: false
+  values:
+    image:
+      registry: docker.io
+      repository: kimai/kimai2
+      tag: apache-2.12.0-prod
+
+    # Name of existing secret containing Kimai credentials
+    existingSecret: kimai-secret
+
+    # # Use an existing secret match the common.names.fullname template containing “local.yaml“ key as configuration file
+    # configurationFromSecret:
+
+    mariadb:
+      enabled: false
+
+    # externalDatabase:
+    #   host:
+    #   port:
+    #   user:
+    #   password:
+    #   database:
+    #   # The name of an existing secret with database credentials.
+    #   # Evaluated as a template
+    #   existingSecret:
+
+    ingress:
+      enabled: true
+      ingressClassName: nginx
+      annotations:
+        hajimari.io/group: "Apps"
+        # hajimari.io/enable: "false"
+        # Example annotations to add Homepage to your Homepage!
+        gethomepage.dev/enabled: "true"
+        gethomepage.dev/name: "Kimai"
+        gethomepage.dev/description: "Time-tracking application"
+        gethomepage.dev/group: "Apps"
+        # gethomepage.dev/icon: "homepage.png"
+      hostname: "kimai.${SECRET_DOMAIN}"
+      # tls: true
+
+    persistence:
+      storageClass: ceph-filesystem

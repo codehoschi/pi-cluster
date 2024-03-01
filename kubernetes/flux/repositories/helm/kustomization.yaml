@@ -29,6 +29,7 @@ resources:
   - ./nfs-subdir-external-provisioner.yaml
   - ./piraeus.yaml
   - ./prometheus-community.yaml
+  - ./robjuz.yaml
   - ./rook-ceph.yaml
   - ./stakater.yaml
   # - ./weave-gitops.yaml
