@@ -1,0 +1,31 @@
+apiVersion: k8s.mariadb.com/v1alpha1
+kind: Backup
+metadata:
+  name: galera-cluster-v11-3
+spec:
+  mariaDbRef:
+    name: mariadb-galera-cluster-v11-3
+  # schedule:
+  #   # cron: "*/4 * * * *"
+  #   cron: "15 4 * * *"
+  #   suspend: false
+  maxRetention: 720h # 30 days
+  storage:
+    s3:
+      bucket: mariadb
+      endpoint: ${NAS_IP}:9000
+      # region:  us-east-1
+      accessKeyIdSecretKeyRef:
+        name: mariadb-secret
+        key: aws-access-key-id
+      secretAccessKeySecretKeyRef:
+        name: mariadb-secret
+        key: aws-secret-access-key
+      # sessionTokenSecretKeyRef:
+      #   name: minio
+      #   key: session-token
+      # tls:
+      #   enabled: true
+      #   caSecretKeyRef:
+      #     name: minio-ca
+      #     key: ca.crt
