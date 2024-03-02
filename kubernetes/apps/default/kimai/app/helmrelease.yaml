@@ -66,8 +66,8 @@ spec:
       # tls: true
 
     persistence:
-      # existingClaim: *app
-      storageClass: ceph-filesystem
-      accessModes:
-        - ReadWriteMany
+      existingClaim: *app
+      # storageClass: ceph-filesystem
+      # accessModes:
+      #   - ReadWriteMany
 
