@@ -5,10 +5,10 @@ metadata:
 spec:
   mariaDbRef:
     name: mariadb-galera-cluster-v11-3
-  # schedule:
-  #   # cron: "*/4 * * * *"
-  #   cron: "15 4 * * *"
-  #   suspend: false
+  schedule:
+    # cron: "*/4 * * * *"
+    cron: "15 4 * * *"
+    suspend: false
   maxRetention: 720h # 30 days
   storage:
     s3:
