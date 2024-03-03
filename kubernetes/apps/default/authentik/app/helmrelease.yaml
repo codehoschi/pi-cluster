@@ -34,7 +34,7 @@ spec:
 
     server:
       initContainers:
-        01-init-db:
+        - name: 01-init-db
           image: ghcr.io/codehoschi/postgres-init:15.4@sha256:17620a5e514c4518ac25f75915afa45a82361bce2f945bdadac7f1c33f82db91
           imagePullPolicy: IfNotPresent
           envFrom: &envFrom
@@ -125,6 +125,9 @@ spec:
         # tls:
         #   - hosts:
         #       - *host
+
+    worker:
+      envFrom: *envFrom
 
     prometheus:
       rules:
