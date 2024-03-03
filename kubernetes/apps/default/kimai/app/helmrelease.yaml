@@ -35,7 +35,8 @@ spec:
     existingSecret: kimai-secret
 
     # # Use an existing secret match the common.names.fullname template containing “local.yaml“ key as configuration file
-    # configurationFromSecret:
+    configurationFromSecret:
+      enabled: true
 
     mariadb:
       enabled: false
