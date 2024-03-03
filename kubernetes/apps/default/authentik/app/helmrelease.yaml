@@ -103,9 +103,10 @@ spec:
           nginx.ingress.kubernetes.io/proxy-read-timeout: "3600"
           nginx.ingress.kubernetes.io/proxy-send-timeout: "3600"
         hosts:
-          - host: &host auth2.${SECRET_DOMAIN}
-            paths:
-              - path: /
+          # - host: &host auth2.${SECRET_DOMAIN}
+          - auth.${SECRET_DOMAIN}
+        # paths:
+        #   - /
               # - path: /outpost.goauthentik.io
               #   pathType: Prefix
               #   # backend:
@@ -122,9 +123,6 @@ spec:
           #         name: ak-outpost-home-assistant
           #         port: 9000
           #           # number: 9000
-        # tls:
-        #   - hosts:
-        #       - *host
 
     worker:
       envFrom: *envFrom
