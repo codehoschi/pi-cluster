@@ -9,23 +9,16 @@ spec:
   chart:
     spec:
       chart: &app authentik
-      version: 2023.10.7
+      version: 2024.2.1
       interval: 30m
       sourceRef:
         kind: HelmRepository
         name: authentik
         namespace: flux-system
   values:
-    annotations:
-      secret.reloader.stakater.com/reload: &secret authentik-secret
-
-    initContainers:
-      01-init-db:
-        image: ghcr.io/codehoschi/postgres-init:15.4@sha256:17620a5e514c4518ac25f75915afa45a82361bce2f945bdadac7f1c33f82db91
-        imagePullPolicy: IfNotPresent
-        envFrom: &envFrom
-          - secretRef:
-              name: *secret
+    global:
+      deploymentAnnotations:
+        secret.reloader.stakater.com/reload: &secret authentik-secret
 
     authentik:
       log_level: info
@@ -39,95 +32,105 @@ spec:
         host: "redis.database.svc.cluster.local"
         # password: ""
 
-    # envFrom: *envFrom
-    envValueFrom:
-      AUTHENTIK_SECRET_KEY:
-        secretKeyRef:
-          name: *secret
-          key: AUTHENTIK_SECRET_KEY
-      # AUTHENTIK_EMAIL__HOST:
-      #   secretKeyRef:
-      #     name: *secret
-      #     key: authentik_email_host
-      # AUTHENTIK_EMAIL__USERNAME:
-      #   secretKeyRef:
-      #     name: *secret
-      #     key: authentik_email_username
-      # AUTHENTIK_EMAIL__PASSWORD:
-      #   secretKeyRef:
-      #     name: *secret
-      #     key: authentik_email_password
-      # AUTHENTIK_EMAIL__FROM:
-      #   secretKeyRef:
-      #     name: *secret
-      #     key: authentik_email_from
-      AUTHENTIK_POSTGRESQL__HOST:
-        secretKeyRef:
-          name: *secret
-          key: AUTHENTIK_POSTGRESQL__HOST
-      AUTHENTIK_POSTGRESQL__NAME:
-        secretKeyRef:
-          name: *secret
-          key: AUTHENTIK_POSTGRESQL__NAME
-      AUTHENTIK_POSTGRESQL__USER:
-        secretKeyRef:
-          name: *secret
-          key: AUTHENTIK_POSTGRESQL__USER
-      AUTHENTIK_POSTGRESQL__PASSWORD:
-        secretKeyRef:
-          name: *secret
-          key: AUTHENTIK_POSTGRESQL__PASSWORD
-      AUTHENTIK_REDIS__PASSWORD:
-        secretKeyRef:
-          name: *secret
-          key: AUTHENTIK_REDIS__PASSWORD
+    server:
+      initContainers:
+        01-init-db:
+          image: ghcr.io/codehoschi/postgres-init:15.4@sha256:17620a5e514c4518ac25f75915afa45a82361bce2f945bdadac7f1c33f82db91
+          imagePullPolicy: IfNotPresent
+          envFrom: &envFrom
+            - secretRef:
+                name: *secret
 
-    ingress:
-      enabled: true
-      ingressClassName: nginx
-      annotations:
-        # hajimari.io/appName: "Auth"
-        hajimari.io/group: "Apps"
-        gethomepage.dev/enabled: "true"
-        gethomepage.dev/name: "Auth"
-        gethomepage.dev/description: "Unified identity management"
-        gethomepage.dev/group: "Apps"
-        gethomepage.dev/icon: "si-webauthn-#fd4b2d"
-        # external-dns.alpha.kubernetes.io/target: ingress-ext.bjw-s.dev
-        nginx.ingress.kubernetes.io/proxy-read-timeout: "3600"
-        nginx.ingress.kubernetes.io/proxy-send-timeout: "3600"
-      hosts:
-        - host: &host auth2.${SECRET_DOMAIN}
-          paths:
-            - path: /
-            # - path: /outpost.goauthentik.io
-            #   pathType: Prefix
-            #   # backend:
-            #   service:
-            #     name: ak-outpost-home-assistant
-            #     port: 9000
-            #       # number: 9000
-        # - host: hass.${SECRET_DOMAIN}
-        #   paths:
-        #     - path: /outpost.goauthentik.io
-        #       pathType: Prefix
-        #       # backend:
-        #       service:
-        #         name: ak-outpost-home-assistant
-        #         port: 9000
-        #           # number: 9000
-      # tls:
-      #   - hosts:
-      #       - *host
+      envFrom: *envFrom
+      # env:
+      #   AUTHENTIK_SECRET_KEY:
+      #     secretKeyRef:
+      #       name: *secret
+      #       key: AUTHENTIK_SECRET_KEY
+      #   # AUTHENTIK_EMAIL__HOST:
+      #   #   secretKeyRef:
+      #   #     name: *secret
+      #   #     key: authentik_email_host
+      #   # AUTHENTIK_EMAIL__USERNAME:
+      #   #   secretKeyRef:
+      #   #     name: *secret
+      #   #     key: authentik_email_username
+      #   # AUTHENTIK_EMAIL__PASSWORD:
+      #   #   secretKeyRef:
+      #   #     name: *secret
+      #   #     key: authentik_email_password
+      #   # AUTHENTIK_EMAIL__FROM:
+      #   #   secretKeyRef:
+      #   #     name: *secret
+      #   #     key: authentik_email_from
+      #   AUTHENTIK_POSTGRESQL__HOST:
+      #     secretKeyRef:
+      #       name: *secret
+      #       key: AUTHENTIK_POSTGRESQL__HOST
+      #   AUTHENTIK_POSTGRESQL__NAME:
+      #     secretKeyRef:
+      #       name: *secret
+      #       key: AUTHENTIK_POSTGRESQL__NAME
+      #   AUTHENTIK_POSTGRESQL__USER:
+      #     secretKeyRef:
+      #       name: *secret
+      #       key: AUTHENTIK_POSTGRESQL__USER
+      #   AUTHENTIK_POSTGRESQL__PASSWORD:
+      #     secretKeyRef:
+      #       name: *secret
+      #       key: AUTHENTIK_POSTGRESQL__PASSWORD
+      #   AUTHENTIK_REDIS__PASSWORD:
+      #     secretKeyRef:
+      #       name: *secret
+      #       key: AUTHENTIK_REDIS__PASSWORD
 
-    postgresql:
-      enabled: false
+      metrics:
+        serviceMonitor:
+          enabled: true
+
+      ingress:
+        enabled: true
+        ingressClassName: nginx
+        annotations:
+          # hajimari.io/appName: "Auth"
+          hajimari.io/group: "Apps"
+          gethomepage.dev/enabled: "true"
+          gethomepage.dev/name: "Auth"
+          gethomepage.dev/description: "Unified identity management"
+          gethomepage.dev/group: "Apps"
+          gethomepage.dev/icon: "si-webauthn-#fd4b2d"
+          # external-dns.alpha.kubernetes.io/target: ingress-ext.bjw-s.dev
+          nginx.ingress.kubernetes.io/proxy-read-timeout: "3600"
+          nginx.ingress.kubernetes.io/proxy-send-timeout: "3600"
+        hosts:
+          - host: &host auth2.${SECRET_DOMAIN}
+            paths:
+              - path: /
+              # - path: /outpost.goauthentik.io
+              #   pathType: Prefix
+              #   # backend:
+              #   service:
+              #     name: ak-outpost-home-assistant
+              #     port: 9000
+              #       # number: 9000
+          # - host: hass.${SECRET_DOMAIN}
+          #   paths:
+          #     - path: /outpost.goauthentik.io
+          #       pathType: Prefix
+          #       # backend:
+          #       service:
+          #         name: ak-outpost-home-assistant
+          #         port: 9000
+          #           # number: 9000
+        # tls:
+        #   - hosts:
+        #       - *host
 
     prometheus:
       rules:
-        create: true
-      serviceMonitor:
-        create: true
+        enabled: true
 
+    postgresql:
+      enabled: false
     redis:
       enabled: false
