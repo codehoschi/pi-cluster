@@ -34,6 +34,9 @@ spec:
         port: 5432
       auth:
         existingSecret: openproject-secret
+        secretKeys:
+          adminPasswordKey: "postgres-password"
+          userPasswordKey: "password"
 
     ingress:
       enabled: true
