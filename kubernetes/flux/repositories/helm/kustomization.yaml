@@ -27,6 +27,7 @@ resources:
   - ./metallb.yaml
   - ./metrics-server.yaml
   - ./nfs-subdir-external-provisioner.yaml
+  - ./openproject.yaml
   - ./piraeus.yaml
   - ./prometheus-community.yaml
   - ./robjuz.yaml
