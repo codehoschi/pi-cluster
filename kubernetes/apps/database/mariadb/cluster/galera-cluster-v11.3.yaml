@@ -48,13 +48,15 @@ spec:
     initContainer:
       image: ghcr.io/mariadb-operator/init:v0.0.6
       #pullPolicy: IfNotPresent
-    volumeClaimTemplate:
-      storageClassName: ceph-block
-      resources:
-        requests:
-          storage: 300Mi
-      accessModes:
-        - ReadWriteOnce
+    config:
+      reuseStorageVolume: false
+      volumeClaimTemplate:
+        # storageClassName: ceph-block
+        resources:
+          requests:
+            storage: 300Mi
+        accessModes:
+          - ReadWriteOnce
 
   service:
     type: LoadBalancer
@@ -75,13 +77,18 @@ spec:
     #  secretTemplate:
     #    key: dsn
 
-  volumeClaimTemplate:
+  storage:
+    size: 5Gi
     storageClassName: ceph-block
-    resources:
-      requests:
-        storage: 5Gi
-    accessModes:
-      - ReadWriteOnce
+    resizeInUseVolumes: true
+    waitForVolumeResize: true
+    volumeClaimTemplate:
+      accessModes:
+        - ReadWriteOnce
+      resources:
+        requests:
+          storage: 5Gi
+      storageClassName: ceph-block
 
   resources:
     requests:
