@@ -27,7 +27,7 @@
   "reviewersFromCodeOwners": true,
   "ignorePaths": [
     "**/*.sops.*",
-    "**/archive/**",
+    "**/.archive/**",
     "**/apps_disabled/**"
   ],
   "flux": {
