@@ -26,7 +26,7 @@ spec:
   values:
     image:
       repository: ghcr.io/mariadb-operator/mariadb-operator
-      tag: v0.0.25
+      tag: v0.0.26
       pullPolicy: IfNotPresent
     metrics:
       enabled: true
