@@ -47,11 +47,11 @@ spec:
       annotations:
         hajimari.io/group: "Apps"
         gethomepage.dev/enabled: "true"
-        gethomepage.dev/name: "LLDAP"
-        gethomepage.dev/description: "Light LDAP implementation"
+        gethomepage.dev/name: "Todo"
+        gethomepage.dev/description: "OpenProject"
         gethomepage.dev/group: "Apps"
-        gethomepage.dev/icon: "mdi-account-group-#cf2e2e"
-      host: openproject.${SECRET_DOMAIN}
+        gethomepage.dev/icon: "openproject.svg"
+      host: projects.${SECRET_DOMAIN}
       # hosts:
       #   - host: &host "{{ .Release.Name }}.${SECRET_DOMAIN}"
       #     paths:
