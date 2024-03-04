@@ -48,7 +48,7 @@ spec:
         gethomepage.dev/description: "Light LDAP implementation"
         gethomepage.dev/group: "Apps"
         gethomepage.dev/icon: "mdi-account-group-#cf2e2e"
-      host: &host "{{ .Release.Name }}.${SECRET_DOMAIN}"
+      host: openproject.${SECRET_DOMAIN}
       # hosts:
       #   - host: &host "{{ .Release.Name }}.${SECRET_DOMAIN}"
       #     paths:
