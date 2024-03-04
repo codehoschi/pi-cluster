@@ -10,7 +10,7 @@ resources:
   # - ./bookstack/ks.yaml
   - ./hajimari/ks.yaml
   - ./homepage/ks.yaml
-  - ./kimai/ks.yaml
+  # - ./kimai/ks.yaml
   - ./lldap/ks.yaml
   # - ./openproject/ks.yaml
   # - ./theme-park/ks.yaml
