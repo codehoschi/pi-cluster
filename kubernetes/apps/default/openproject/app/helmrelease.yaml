@@ -26,6 +26,9 @@ spec:
   values:
 
     # openproject:
+    #   envFrom:
+    #     - secretRef:
+    #         name: openproject-secret
 
     postgresql:
       bundled: false
