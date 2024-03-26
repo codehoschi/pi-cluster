@@ -22,8 +22,8 @@ on:
       - .github/renovate-bot.json5
       - .github/renovate.json5
       - .github/renovate/**.json5
-  schedule:
-    - cron: "0 * * * *" # Every hour
+  # schedule:
+    # - cron: "0 * * * *" # Every hour
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.event.number || github.ref }}
