@@ -86,7 +86,7 @@ spec:
     ingress:
       app: # this can now be any name you wish
         enabled: true
-        ingressClassName: nginx
+        className: nginx
         annotations:
           gethomepage.dev/enabled: "true"
           gethomepage.dev/name: "Sabnzbd"
