@@ -111,7 +111,9 @@ spec:
       media:
         enabled: true
         existingClaim: nfs-media-pvc
-        mountPath: /media
+        globalMounts:
+          - path: /media
+        # mountPath: /media
       incomplete:
         enabled: true
         type: emptyDir
