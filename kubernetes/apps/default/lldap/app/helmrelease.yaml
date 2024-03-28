@@ -8,7 +8,7 @@ spec:
   chart:
     spec:
       chart: app-template
-      version: 2.6.0
+      version: 3.0.4
       sourceRef:
         kind: HelmRepository
         name: bjw-s
@@ -25,7 +25,7 @@ spec:
     keepHistory: false
   values:
     controllers:
-      main:
+      lldap:
         replicas: 2
         strategy: RollingUpdate
         annotations:
@@ -42,7 +42,7 @@ spec:
                   name: lldap-secret
 
         containers:
-          main:
+          app:
             image:
               repository: ghcr.io/lldap/lldap
               tag: v0.5.0
@@ -69,7 +69,8 @@ spec:
                   app.kubernetes.io/name: *app
 
     service:
-      main:
+      app:
+        controller: lldap
         ports:
           http:
             port: *port
@@ -80,7 +81,7 @@ spec:
     ingress:
       main:
         enabled: true
-        ingressClassName: nginx
+        className: nginx
         annotations:
           hajimari.io/group: "Apps"
           gethomepage.dev/enabled: "true"
@@ -94,7 +95,7 @@ spec:
               - path: /
                 pathType: Prefix
                 service:
-                  name: main
+                  identifier: main
                   port: http
 
     persistence:
