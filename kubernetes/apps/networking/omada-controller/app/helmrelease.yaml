@@ -67,7 +67,7 @@ spec:
             port: 8088
           manage-https:
             enabled: true
-            nameOverride: manage-https
+            # nameOverride: manage-https
             # port: 8043
             port: &port 8043
             protocol: HTTPS
