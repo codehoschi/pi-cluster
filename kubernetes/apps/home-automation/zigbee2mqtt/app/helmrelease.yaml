@@ -8,7 +8,7 @@ spec:
   chart:
     spec:
       chart: app-template
-      version: 2.6.0
+      version: 3.0.4
       sourceRef:
         kind: HelmRepository
         name: bjw-s
@@ -24,12 +24,12 @@ spec:
     keepHistory: false
   values:
     controllers:
-      main:
+      zigbee2mqtt:
         annotations:
           reloader.stakater.com/auto: "true"
 
         containers:
-          main:
+          app:
             securityContext:
             # -- (bool) Privileged securityContext may be required if USB controller is accessed directly through the host machine
               privileged: true
@@ -94,15 +94,16 @@ spec:
           #                 - "true"
 
     service:
-      main:
+      app:
+        controller: zigbee2mqtt
         ports:
           http:
             port: 8080
 
     ingress:
-      main:
+      app:
         enabled: true
-        ingressClassName: nginx
+        className: nginx
         annotations:
           gethomepage.dev/enabled: "true"
           gethomepage.dev/name: "Zigbee2MQTT"
@@ -115,7 +116,7 @@ spec:
               - path: /
                 pathType: Prefix
                 service:
-                  name: main
+                  identifier: app
                   port: http
 
     persistence:
