@@ -9,7 +9,7 @@ spec:
   chart:
     spec:
       chart: app-template
-      version: 2.6.0
+      version: 3.0.4
       sourceRef:
         kind: HelmRepository
         name: bjw-s
@@ -26,7 +26,7 @@ spec:
     keepHistory: false
   values:
     controllers:
-      main:
+      autobrr:
         annotations:
           reloader.stakater.com/auto: "true"
 
@@ -41,7 +41,7 @@ spec:
                   name: autobrr-secret
 
         containers:
-          main:
+          app:
             image:
               repository: ghcr.io/autobrr/autobrr
               tag: v1.40.1
@@ -81,15 +81,16 @@ spec:
             fsGroupChangePolicy: OnRootMismatch
 
     service:
-      main:
+      app:
+        controller: autobrr
         ports:
           http:
             port: *port
 
     ingress:
-      main:
+      app:
         enabled: true
-        ingressClassName: nginx
+        className: nginx
         annotations:
           # nginx.ingress.kubernetes.io/configuration-snippet: |
           #   proxy_set_header Accept-Encoding "";
@@ -105,7 +106,7 @@ spec:
               - path: /
                 pathType: Prefix
                 service:
-                  name: main
+                  identifier: app
                   port: http
 
     persistence:
@@ -116,6 +117,7 @@ spec:
         enabled: true
         type: configMap
         name: autobrr-configmap
-        subPath: config.toml
-        mountPath: /config/config.toml
-        readOnly: true
+        globalMounts:
+          - path: /config/config.toml
+            subPath: config.toml
+            readOnly: true

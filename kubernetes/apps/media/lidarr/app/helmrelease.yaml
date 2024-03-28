@@ -9,7 +9,7 @@ spec:
   chart:
     spec:
       chart: app-template
-      version: 2.6.0
+      version: 3.0.4
       sourceRef:
         kind: HelmRepository
         name: bjw-s
@@ -26,11 +26,11 @@ spec:
     keepHistory: false
   values:
     controllers:
-      main:
+      lidarr:
         annotations:
           reloader.stakater.com/auto: "true"
         containers:
-          main:
+          app:
             image:
               repository: lscr.io/linuxserver/lidarr
               tag: 1.4.5@sha256:888721b99d580ab62cb32016f301614f31e6fc682d1db85bc5ca9bb2e0e15f57
@@ -60,15 +60,16 @@ spec:
             #     memory: 226Mi
 
     service:
-      main:
+      app:
+        controller: lidarr
         ports:
           http:
             port: *port
 
     ingress:
-      main:
+      app:
         enabled: true
-        ingressClassName: nginx
+        className: nginx
         annotations:
           # nginx.ingress.kubernetes.io/configuration-snippet: |
           #   proxy_set_header Accept-Encoding "";
@@ -84,7 +85,7 @@ spec:
               - path: /
                 pathType: Prefix
                 service:
-                  name: main
+                  identifier: app
                   port: http
 
     persistence:
