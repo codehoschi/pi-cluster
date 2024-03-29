@@ -71,6 +71,7 @@ spec:
           gethomepage.dev/description: "MQTT Broker"
           gethomepage.dev/group: "Home Automation"
           gethomepage.dev/icon: "emqx.svg"
+          gethomepage.dev/app: "emqx"
         path: /
         pathType: Prefix
         hosts:
