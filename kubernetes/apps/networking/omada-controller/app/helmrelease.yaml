@@ -33,7 +33,7 @@ spec:
           app:
             image:
               repository: mbentley/omada-controller
-              tag: 5.13
+              tag: 5.9
             env:
               TZ: ${TIMEZONE}
               # TZ: Europe/Amsterdam
