@@ -124,11 +124,11 @@ spec:
         existingClaim: *app
       media:
         enabled: true
-        existingClaim: nfs-media-pvc
+        existingClaim: nfs-synnas-media-pvc
         globalMounts:
           - path: /media
       truenas-media:
         enabled: true
-        existingClaim: truenas-nfs-media-pvc
+        existingClaim: nfs-truenas-media-pvc
         globalMounts:
           - path: /mnt/truenas/media
