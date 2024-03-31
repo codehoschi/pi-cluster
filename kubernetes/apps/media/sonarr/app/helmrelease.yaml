@@ -127,3 +127,8 @@ spec:
         existingClaim: nfs-media-pvc
         globalMounts:
           - path: /media
+      truenas-media:
+        enabled: true
+        existingClaim: truenas-nfs-media-pvc
+        globalMounts:
+          - path: /mnt/truenas/media
