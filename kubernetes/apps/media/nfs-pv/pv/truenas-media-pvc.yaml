@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: PersistentVolume
 metadata:
-  name: truenas-nfs-media-pv
+  name: nfs-truenas-media-pv
 spec:
   capacity:
     storage: 1Mi
@@ -11,22 +11,22 @@ spec:
   nfs:
     server: ${TRUENAS_IP}
     path: "/mnt/spinning-raid/media"
-  mountOptions:
-    - nfsvers=4
-    - hard
-    - noac
-    - nocto
-    - noacl
-    - rsize=8192
-    - wsize=8192
-    - async
-    - retrans=3
-    - timeo=600
+  # mountOptions:
+  #   - nfsvers=4
+  #   - hard
+  #   - noac
+  #   - nocto
+  #   - noacl
+  #   - rsize=8192
+  #   - wsize=8192
+  #   - async
+  #   - retrans=3
+  #   - timeo=600
 ---
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: truenas-nfs-media-pvc
+  name: nfs-truenas-media-pvc
 spec:
   accessModes:
     - ReadWriteMany
@@ -34,4 +34,4 @@ spec:
   resources:
     requests:
       storage: 1Mi
-  volumeName: truenas-nfs-media-pv
+  volumeName: nfs-truenas-media-pv
