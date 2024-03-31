@@ -98,6 +98,6 @@ spec:
           - path: /config
       media:
         enabled: true
-        existingClaim: nfs-media-pvc
+        existingClaim: nfs-synnas-media-pvc
         globalMounts:
           - path: /media
