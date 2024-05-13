@@ -35,7 +35,7 @@ spec:
         containers:
           - name: runner
             # image: ghcr.io/codehoschi/github-actions-runner:rolling@sha256:54d0f703b42d7652cb539bce9da93960647009b7bfb906a4d9a51e701898166e
-            image: ghcr.io/onedr0p/actions-runner:2.315.0@sha256:08ea5f7f4768d07be9975a2190ffc5ab2df44e77e173f4cda96f9906dffdaadd
+            image: ghcr.io/onedr0p/actions-runner:2.315.0@sha256:9e37504faa193a347e0d860a81b3dcbf0dc2570e57f9f1ce51740dba536dc547
             command: ["/home/runner/run.sh"]
     controllerServiceAccount:
       name: actions-runner-controller-gha-rs-controller
