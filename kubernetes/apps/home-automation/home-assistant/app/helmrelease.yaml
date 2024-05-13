@@ -45,7 +45,7 @@ spec:
               # repository: homeassistant/home-assistant
               # tag: 2023.11.0
               repository: ghcr.io/onedr0p/home-assistant
-              tag: 2024.3.3@sha256:a4c2b7a75e8d5168a9e9f78d9d9f7f36435e2da07899e7faf5f6e3cdc4eebe56
+              tag: 2024.5.3@sha256:0498daccf881f611ca0009daf37823a6758ae80cfb523da82cb953f9ab0bc2f6
             env:
               TZ: "{$TIMEZONE}"
             envFrom: *envFrom
