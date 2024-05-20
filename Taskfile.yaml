@@ -19,6 +19,7 @@ includes:
     taskfile: .taskfiles/Ansible/Taskfile.yaml
   cluster: .taskfiles/ClusterTasks.yml
   precommit: .taskfiles/PrecommitTasks.yml
+  sops: .taskfiles/Sops/Taskfile.yaml
   terraform: .taskfiles/TerraformTasks.yml
   volsync: .taskfiles/VolSync/Taskfile.yaml
 

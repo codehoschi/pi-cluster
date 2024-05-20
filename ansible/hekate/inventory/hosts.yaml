@@ -21,3 +21,5 @@ kubernetes:
           ansible_host: 10.200.0.34
           ceph_drives:
             - /dev/sda3
+        pve-k3s-node01:
+          ansible_host: 10.200.0.41
