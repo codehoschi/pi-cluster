@@ -15,7 +15,9 @@ cluster:
   name: hekate
 containerRuntime:
   integration: containerd
-devices: eth+
+devices:
+  - eth+
+  - ens+
 enableRuntimeDeviceDetection: true
 endpointRoutes:
   enabled: true
