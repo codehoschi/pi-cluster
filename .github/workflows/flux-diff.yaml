@@ -15,8 +15,8 @@ jobs:
   changed-clusters:
     name: Changed Clusters
     # runs-on: ubuntu-latest
-    # runs-on: ["arc-runner-set-pi-cluster"]
-    runs-on: pve-vm-runner
+    runs-on: ["arc-runner-set-pi-cluster"]
+    # runs-on: pve-vm-runner
     outputs:
       matrix: ${{ steps.changed-clusters.outputs.all_changed_and_modified_files }}
     steps:
