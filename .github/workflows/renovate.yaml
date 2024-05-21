@@ -42,8 +42,8 @@ jobs:
   renovate:
     name: Renovate
     # runs-on: ubuntu-latest
-    runs-on: ["arc-runner-set-pi-cluster"]
-    # runs-on: pve-vm-runner
+    # runs-on: ["arc-runner-set-pi-cluster"]
+    runs-on: pve-vm-runner
     steps:
       - name: Generate Token
         uses: actions/create-github-app-token@v1
