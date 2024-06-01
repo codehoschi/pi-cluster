@@ -13,9 +13,6 @@ spec:
         kind: HelmRepository
         name: jameswynn
         namespace: flux-system
-      metadata:
-        annotations:
-          reloader.stakater.com/auto: "true"
   maxHistory: 2
   install:
     remediation:
@@ -27,6 +24,8 @@ spec:
   uninstall:
     keepHistory: false
   values:
+    deploymentAnnotations:
+          reloader.stakater.com/auto: "true"
     image:
       repository: ghcr.io/gethomepage/homepage
       tag: v0.8.13
