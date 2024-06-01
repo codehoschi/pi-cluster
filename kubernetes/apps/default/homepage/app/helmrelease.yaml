@@ -24,7 +24,7 @@ spec:
   uninstall:
     keepHistory: false
   values:
-    deploymentAnnotations:
+    podAnnotations:
       reloader.stakater.com/auto: "true"
     image:
       repository: ghcr.io/gethomepage/homepage
