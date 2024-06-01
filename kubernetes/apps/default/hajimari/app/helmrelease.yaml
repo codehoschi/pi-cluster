@@ -24,6 +24,9 @@ spec:
   uninstall:
     keepHistory: false
   values:
+    podAnnotations:
+      reloader.stakater.com/auto: "true"
+
     hajimari:
       title: Apps
       darkTheme: espresso
@@ -65,8 +68,6 @@ spec:
               - path: /
                 pathType: Prefix
 
-    # podAnnotations:
-    #   configmap.reloader.stakater.com/reload: hajimari-settings
     persistence:
       data:
         enabled: true
