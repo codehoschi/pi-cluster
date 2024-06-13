@@ -8,8 +8,9 @@ resources:
   - ./bjw-s.yaml
   - ./backube.yaml
   - ./cilium.yaml
-  - ./coredns.yaml
   - ./cloudnative-pg.yaml
+  - ./coredns.yaml
+  - ./democratic-csi.yaml
   - ./emqx.yaml
   - ./external-dns.yaml
   - ./external-secrets.yaml
