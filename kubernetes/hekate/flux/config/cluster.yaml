@@ -7,9 +7,12 @@ metadata:
   namespace: flux-system
 spec:
   interval: 30m
+  # url: "https://github.com/codehoschi/pi-cluster"
+  url: "ssh://git@github.com/codehoschi/pi-cluster"
   ref:
     branch: main
-  url: "${BOOTSTRAP_GIT_REPOSITORY}"
+  secretRef:
+    name: github-deploy-key
   ignore: |
     # exclude all
     /*
@@ -24,12 +27,15 @@ metadata:
   namespace: flux-system
 spec:
   interval: 30m
-  path: ./kubernetes/hekate/flux
+  wait: true
+  timeout: 3m
+  retryInterval: 2m
   prune: true
-  wait: false
+  force: false
   sourceRef:
     kind: GitRepository
     name: home-kubernetes
+  path: ./kubernetes/hekate/flux
   decryption:
     provider: sops
     secretRef:
