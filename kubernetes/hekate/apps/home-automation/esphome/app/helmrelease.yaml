@@ -28,7 +28,7 @@ spec:
     controllers:
       esphome:
         annotations:
-          reloader.stakater.com/auto: "true"
+          secret.reloader.stakater.com/reload: esphome-secret
 
 
 
@@ -91,12 +91,12 @@ spec:
           esphome:
             app:
               - path: /config
-      secrets:
-        type: secret
-        name: esphome-secret
-        globalMounts:
-          - path: /config/secrets.yaml
-            subPath: secrets.yaml
+      # secrets:
+      #   type: secret
+      #   name: esphome-secret
+      #   globalMounts:
+      #     - path: /config/secrets.yaml
+      #       subPath: secrets.yaml
       esphome-cache:
         type: emptyDir
         globalMounts:
