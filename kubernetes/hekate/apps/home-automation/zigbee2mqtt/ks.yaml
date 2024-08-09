@@ -14,7 +14,7 @@ spec:
       app.kubernetes.io/name: *app
   path: ./kubernetes/hekate/apps/home-automation/zigbee2mqtt/app
   dependsOn:
-    - name: emqx
+    # - name: emqx
     - name: rook-ceph-cluster
     - name: volsync
   prune: true
