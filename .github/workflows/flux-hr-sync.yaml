@@ -84,6 +84,7 @@ jobs:
               flux \
                   --context ${cluster_name} \
                   --namespace ${repo_namespace} \
+                  --insecure-skip-tls-verify \
                   reconcile source helm ${repo_name}
           done
 
