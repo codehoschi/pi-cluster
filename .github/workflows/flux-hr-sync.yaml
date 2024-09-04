@@ -84,6 +84,7 @@ jobs:
               flux \
                   --context ${cluster_name} \
                   --namespace ${repo_namespace} \
+                  --insecure-skip-tls-verify \
                   reconcile source helm ${repo_name}
           done
 
@@ -96,4 +97,5 @@ jobs:
           flux \
               --context ${{ github.event.inputs.clusterName }} \
               --namespace ${{ github.event.inputs.helmRepoNamespace }} \
+              --insecure-skip-tls-verify \
               reconcile source helm ${{ github.event.inputs.helmRepoName }}
