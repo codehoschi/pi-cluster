@@ -35,7 +35,7 @@ spec:
           app:
             image:
               repository: ghcr.io/coder/code-server
-              tag: 4.92.2@sha256:f32cfa5e7cc768f60969f1d2183fc4c7aa093b80b93c365535e83f79ccf004f2
+              tag: 4.92.1
             env:
               TZ: "{$TIMEZONE}"
             args:
