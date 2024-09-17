@@ -61,6 +61,9 @@ spec:
             runAsGroup: 0
             fsGroup: 0
             fsGroupChangePolicy: "OnRootMismatch"
+          nodeSelector:
+            # aeotec.feature.node.kubernetes.io/zwave: "true"
+            zigbee-controller: "true"
 
     # defaultPodOptions:
     #   securityContext:
