@@ -80,9 +80,9 @@ spec:
             #     memory: 110M
 
         pod:
-          securityContext:
-            # -- (bool) Privileged securityContext may be required if USB controller is accessed directly through the host machine
-            privileged: true
+          # securityContext:
+          #   # -- (bool) Privileged securityContext may be required if USB controller is accessed directly through the host machine
+          #   privileged: true
           nodeSelector:
             # aeotec.feature.node.kubernetes.io/zwave: "true"
             zigbee-controller: "true"
@@ -96,14 +96,14 @@ spec:
           #               values:
           #                 - "true"
 
-    defaultPodOptions:
-      securityContext:
-        runAsNonRoot: true
-        runAsUser: 568
-        runAsGroup: 568
-        fsGroup: 568
-        fsGroupChangePolicy: OnRootMismatch
-        seccompProfile: { type: RuntimeDefault }
+    # defaultPodOptions:
+    #   securityContext:
+    #     runAsNonRoot: true
+    #     runAsUser: 568
+    #     runAsGroup: 568
+    #     fsGroup: 568
+    #     fsGroupChangePolicy: OnRootMismatch
+    #     seccompProfile: { type: RuntimeDefault }
 
     service:
       app:
