@@ -71,6 +71,9 @@ spec:
               ZIGBEE2MQTT_CONFIG_SERIAL_ADAPTER: zstack
               # ZIGBEE2MQTT_CONFIG_SERIAL_PORT: /dev/ttyACM0
               # ZIGBEE2MQTT_CONFIG_SERIAL_ADAPTER: deconz
+            envFrom:
+              - secretRef:
+                  name: zigbee2mqtt-secret
             # resources:
             #   requests:
             #     cpu: 63m
