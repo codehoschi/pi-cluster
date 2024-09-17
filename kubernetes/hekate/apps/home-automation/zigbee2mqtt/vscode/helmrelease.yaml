@@ -35,7 +35,7 @@ spec:
           app:
             image:
               repository: ghcr.io/coder/code-server
-              tag: 4.92.2
+              tag: 4.92.2@sha256:f32cfa5e7cc768f60969f1d2183fc4c7aa093b80b93c365535e83f79ccf004f2
             env:
               TZ: "{$TIMEZONE}"
             args:
@@ -55,25 +55,25 @@ spec:
             #   limits:
             #     memory: 709M
 
-        # pod:
-        #   securityContext:
-        #     runAsUser: 568
-        #     runAsGroup: 568
-        #     fsGroup: 568
-        #     fsGroupChangePolicy: "OnRootMismatch"
+        pod:
+          securityContext:
+            runAsUser: 0
+            runAsGroup: 0
+            fsGroup: 0
+            fsGroupChangePolicy: "OnRootMismatch"
 
-    defaultPodOptions:
-      securityContext:
-        runAsNonRoot: true
-        runAsUser: 568
-        runAsGroup: 568
-        fsGroup: 568
-        fsGroupChangePolicy: OnRootMismatch
-        seccompProfile: { type: RuntimeDefault }
+    # defaultPodOptions:
+    #   securityContext:
+    #     runAsNonRoot: true
+    #     runAsUser: 568
+    #     runAsGroup: 568
+    #     fsGroup: 568
+    #     fsGroupChangePolicy: OnRootMismatch
+    #     seccompProfile: { type: RuntimeDefault }
 
     service:
       app:
-        controller: zigbee2mqtt-code
+        controller: *app
         ports:
           http:
             port: 80
