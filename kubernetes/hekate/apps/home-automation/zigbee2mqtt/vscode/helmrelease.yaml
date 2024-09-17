@@ -27,7 +27,7 @@ spec:
     keepHistory: false
   values:
     controllers:
-      zigbee2mqtt-code:
+      zigbee2mqtt-vscode:
         annotations:
           reloader.stakater.com/auto: "true"
 
