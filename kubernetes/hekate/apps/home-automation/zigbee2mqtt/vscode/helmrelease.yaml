@@ -46,7 +46,7 @@ spec:
               - --extensions-dir
               - /config/.vscode
               - --port
-              - "80"
+              - "8888"
               - /config
             # resources:
             #   requests:
@@ -79,7 +79,7 @@ spec:
         controller: *app
         ports:
           http:
-            port: 80
+            port: 8888
 
     ingress:
       app:
