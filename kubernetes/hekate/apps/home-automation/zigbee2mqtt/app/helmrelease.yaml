@@ -3,7 +3,7 @@
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
-  name: &app zigbee2mqtt
+  name: &app zigbee2mqtt-zstack
 spec:
   interval: 30m
   chart:
@@ -25,7 +25,7 @@ spec:
     keepHistory: false
   values:
     controllers:
-      zigbee2mqtt:
+      zigbee2mqtt-zstack:
         annotations:
           reloader.stakater.com/auto: "true"
 
@@ -107,7 +107,7 @@ spec:
 
     service:
       app:
-        controller: zigbee2mqtt
+        controller: zigbee2mqtt-zstack
         ports:
           http:
             port: 8080
