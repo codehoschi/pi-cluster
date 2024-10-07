@@ -24,6 +24,11 @@ spec:
       retries: 3
   uninstall:
     keepHistory: false
+  valuesFrom:
+    - kind: ConfigMap
+      name: openproject-enterprise-crack
+      valuesKey: enterprise_token.rb
+      targetPath: /app/app/models/enterprise_token.rb
   values:
 
     # openproject:
