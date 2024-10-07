@@ -31,6 +31,16 @@ spec:
     #     - secretRef:
     #         name: openproject-secret
 
+    ## Define settings for wait-for-db init-container
+    # These containers need access to the Rails stack and wait for the database to be ready
+    # (i.e., the seeder and migration job to have completed)
+    appInit:
+      resources:
+        limits:
+          memory: "1Gi"
+        requests:
+          memory: "512Mi"
+
     postgresql:
       bundled: false
       connection:
