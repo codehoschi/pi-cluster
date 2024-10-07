@@ -41,7 +41,7 @@ spec:
           rails-migrate:
             dependsOn: init-db
             image: &image
-              repository: docker.io/openproject/community
+              repository: docker.io/openproject/openproject
               tag: 14-slim
             envFrom: *envFrom
             command:
