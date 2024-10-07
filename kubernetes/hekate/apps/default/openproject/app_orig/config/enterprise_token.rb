@@ -1,6 +1,10 @@
+############ REPLACE app/models/enterprise_token.rb in the source code with this file! ################
+############ also be sure to RESTART OpenProject after replacing the file.             ################
+############ it doesn't show that enterprise mode is enabled in the settings, but all  ################
+############ enterprise mode features, such as KanBan boards, are enabled.             ################
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -38,19 +42,19 @@ class EnterpriseToken < ApplicationRecord
     end
 
     def allows_to?(action)
-      Authorization::EnterpriseService.new(current).call(action).result
+      true
     end
 
     def active?
-      current && !current.expired?
+      true
     end
 
     def show_banners?
-      OpenProject::Configuration.ee_manager_visible? && !active?
+      false
     end
 
     def set_current_token
-      token = EnterpriseToken.order(Arel.sql("created_at DESC")).first
+      token = EnterpriseToken.order(Arel.sql('created_at DESC')).first
 
       if token&.token_object
         token
@@ -84,7 +88,7 @@ class EnterpriseToken < ApplicationRecord
   end
 
   def allows_to?(action)
-    Authorization::EnterpriseService.new(self).call(action).result
+    true
   end
 
   def unset_current_token
@@ -93,15 +97,13 @@ class EnterpriseToken < ApplicationRecord
   end
 
   def expired?(reprieve: true)
-    token_object.expired?(reprieve:) || invalid_domain?
+    false
   end
 
   ##
   # The domain is only validated for tokens from version 2.0 onwards.
   def invalid_domain?
-    return false unless token_object&.validate_domain?
-
-    !token_object.valid_domain?(Setting.host_name)
+    false
   end
 
   private

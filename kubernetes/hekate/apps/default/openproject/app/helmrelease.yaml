@@ -8,11 +8,11 @@ spec:
   interval: 30m
   chart:
     spec:
-      chart: openproject
-      version: 8.0.0
+      chart: app-template
+      version: 3.5.0
       sourceRef:
         kind: HelmRepository
-        name: openproject
+        name: bjw-s
         namespace: flux-system
   maxHistory: 2
   install:
@@ -25,66 +25,92 @@ spec:
   uninstall:
     keepHistory: false
   values:
+    controllers:
+      openproject:
+        annotations:
+          reloader.stakater.com/auto: "true"
+        initContainers:
+          init-db:
+            image:
+              repository: ghcr.io/onedr0p/postgres-init
+              tag: 16
+            envFrom: &envFrom
+              - secretRef:
+                  name: openproject-secret
 
-    # openproject:
-    #   envFrom:
-    #     - secretRef:
-    #         name: openproject-secret
+          rails-migrate:
+            dependsOn: init-db
+            image: &image
+              repository: docker.io/openproject/community
+              tag: 14-slim
+            envFrom: *envFrom
+            command:
+              - bin/rails
+            args:
+              - "db:migrate"
+              - "RAILS_ENV=production"
 
-    # ## Define settings for wait-for-db init-container
-    # # These containers need access to the Rails stack and wait for the database to be ready
-    # # (i.e., the seeder and migration job to have completed)
-    # appInit:
-    #   resources:
-    #     limits:
-    #       memory: "1Gi"
-    #     requests:
-    #       memory: "512Mi"
+        containers:
+          app:
+            image: *image
+            env:
+              OPENPROJECT_CACHE__MEMCACHE__SERVER: openproject-memcached.default.svc.cluster.local:11211
+              OPENPROJECT_RAILS__CACHE__STORE: memcache
+              POSTGRES_STATEMENT_TIMEOUT: 120
+            envFrom: *envFrom
+            probes:
+              liveness:
+                enabled: true
+              readiness:
+                enabled: true
+              startup:
+                enabled: true
+                spec:
+                  failureThreshold: 30
+                  periodSeconds: 5
+            # resources:
+            #   requests:
+            #     cpu: 250m
+            #     memory: 512Mi
+            #   limits:
+            #     memory: 4Gi
 
-    postgresql:
-      bundled: false
-      connection:
-        host: postgres-v16-rw.database.svc.cluster.local
-        port: 5432
-      auth:
-        existingSecret: openproject-secret
-        secretKeys:
-          adminPasswordKey: "postgres-password"
-          userPasswordKey: "password"
+    service:
+      app:
+        controller: openproject
+        ports:
+          http:
+            port: 8080
 
     ingress:
-      enabled: true
-      ingressClassName: nginx
-      annotations:
-        hajimari.io/group: "Apps"
-        gethomepage.dev/enabled: "true"
-        gethomepage.dev/name: "Todo"
-        gethomepage.dev/description: "OpenProject"
-        gethomepage.dev/group: "Apps"
-        gethomepage.dev/icon: "openproject.svg"
-      host: projects.${SECRET_DOMAIN}
-      # hosts:
-      #   - host: &host "{{ .Release.Name }}.${SECRET_DOMAIN}"
-      #     paths:
-      #       - path: /
-      #         pathType: Prefix
-      #         service:
-      #           name: main
-      #           port: http
+      app:
+        enabled: true
+        className: nginx
+        annotations:
+          hajimari.io/group: "Apps"
+          gethomepage.dev/enabled: "true"
+          gethomepage.dev/name: "Todo"
+          gethomepage.dev/description: "OpenProject"
+          gethomepage.dev/group: "Apps"
+          gethomepage.dev/icon: "openproject.svg"
+        hosts:
+          - host: &host "projects.${SECRET_DOMAIN}"
+            paths:
+              - path: /
+                service:
+                  identifier: app
+                  port: http
 
     persistence:
-      enabled: true
-      storageClassName: ceph-filesystem
-
-    # extraVolumeMounts:
-    #   - name: openproject-config
-    #     mountPath: /app/app/models/enterprise_token.rb
-    #     readOnly: true
-    # extraVolumes:
-    #   - name: openproject-config
-    #     configMap:
-    #       name: openproject-configmap
-    #       items:
-    #         - key: enterprise_token.rb
-    #           path: enterprise_token.rb
-
+      data:
+        enabled: true
+        existingClaim: *app
+        globalMounts:
+          - path: /var/openproject
+      config:
+        type: configMap
+        name: openproject-configmap
+        globalMounts:
+          - path: /app/app/models/enterprise_token.rb
+            subPath: enterprise_token.rb
+            readOnly: true
