@@ -9,7 +9,7 @@ spec:
   chart:
     spec:
       chart: openproject
-      version: 7.2.0
+      version: 8.0.0
       sourceRef:
         kind: HelmRepository
         name: openproject
@@ -31,15 +31,15 @@ spec:
     #     - secretRef:
     #         name: openproject-secret
 
-    ## Define settings for wait-for-db init-container
-    # These containers need access to the Rails stack and wait for the database to be ready
-    # (i.e., the seeder and migration job to have completed)
-    appInit:
-      resources:
-        limits:
-          memory: "1Gi"
-        requests:
-          memory: "512Mi"
+    # ## Define settings for wait-for-db init-container
+    # # These containers need access to the Rails stack and wait for the database to be ready
+    # # (i.e., the seeder and migration job to have completed)
+    # appInit:
+    #   resources:
+    #     limits:
+    #       memory: "1Gi"
+    #     requests:
+    #       memory: "512Mi"
 
     postgresql:
       bundled: false
