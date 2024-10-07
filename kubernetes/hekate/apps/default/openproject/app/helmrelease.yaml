@@ -54,6 +54,7 @@ spec:
           app:
             image: *image
             env:
+              OPENPROJECT_HOST__NAME: &host "projects.${SECRET_DOMAIN}"
               OPENPROJECT_CACHE__MEMCACHE__SERVER: openproject-memcached.default.svc.cluster.local:11211
               OPENPROJECT_RAILS__CACHE__STORE: memcache
               POSTGRES_STATEMENT_TIMEOUT: 120
@@ -94,7 +95,7 @@ spec:
           gethomepage.dev/group: "Apps"
           gethomepage.dev/icon: "openproject.svg"
         hosts:
-          - host: &host "projects.${SECRET_DOMAIN}"
+          - host: *host
             paths:
               - path: /
                 service:
