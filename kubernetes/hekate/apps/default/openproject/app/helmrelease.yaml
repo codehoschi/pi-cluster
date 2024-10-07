@@ -78,7 +78,7 @@ spec:
 
     extraVolumeMounts:
       - name: openproject-config
-        mountPath: /app/app/models
+        mountPath: /app/app/models/enterprise_token.rb
         readOnly: true
     extraVolumes:
       - name: openproject-config
