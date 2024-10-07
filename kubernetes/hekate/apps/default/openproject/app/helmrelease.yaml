@@ -24,11 +24,6 @@ spec:
       retries: 3
   uninstall:
     keepHistory: false
-  valuesFrom:
-    - kind: ConfigMap
-      name: openproject-enterprise-crack
-      valuesKey: enterprise_token.rb
-      targetPath: /app/app/models/enterprise_token.rb
   values:
 
     # openproject:
@@ -80,3 +75,16 @@ spec:
     persistence:
       enabled: true
       storageClassName: ceph-filesystem
+
+    extraVolumeMounts:
+      - name: openproject-config
+        mountPath: /app/app/models
+        readOnly: true
+    extraVolumes:
+      - name: openproject-config
+        configMap:
+          name: openproject-configmap
+          items:
+            - key: enterprise_token.rb
+              path: enterprise_token.rb
+

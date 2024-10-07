@@ -7,8 +7,8 @@ resources:
   - ./helmrelease.yaml
   # - ../../../../templates/volsync
 configMapGenerator:
-  - name: openproject-enterprise-crack
+  - name: openproject-configmap
     files:
       - enterprise_token.rb=./enterprise_token-crack.rb
-configurations:
-  - kustomizeconfig.yaml
+generatorOptions:
+  disableNameSuffixHash: true
