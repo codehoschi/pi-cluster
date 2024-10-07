@@ -6,3 +6,7 @@ resources:
   - ./externalsecret.yaml
   - ./helmrelease.yaml
   # - ../../../../templates/volsync
+configMapGenerator:
+  - name: openproject-enterprise-crack
+    files:
+      - enterprise_token.rb=./enterprise_token-crack.rb
