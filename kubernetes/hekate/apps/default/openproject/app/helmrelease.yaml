@@ -57,7 +57,7 @@ spec:
               OPENPROJECT_HOST__NAME: &host "projects.${SECRET_DOMAIN}"
               OPENPROJECT_CACHE__MEMCACHE__SERVER: openproject-memcached.default.svc.cluster.local:11211
               OPENPROJECT_RAILS__CACHE__STORE: memcache
-              POSTGRES_STATEMENT_TIMEOUT: 120
+              # POSTGRES_STATEMENT_TIMEOUT: 120
             envFrom: *envFrom
             probes:
               liveness:
