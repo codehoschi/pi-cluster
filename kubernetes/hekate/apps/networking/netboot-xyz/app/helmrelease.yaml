@@ -33,8 +33,8 @@ spec:
         containers:
           app:
             image:
-              repository: lscr.io/linuxserver/netbootxyz
-              tag: 0.7.3
+              repository: ghcr.io/netbootxyz/netbootxyz
+              tag: 0.7.3@sha256:8dbca4d24354fd6ace12b9970188c866341384df2925753c807e87da83587438
             env:
               TZ: ${TIMEZONE}
               # MENU_VERSION: 2.0.75 #optional, unset pulls latest
