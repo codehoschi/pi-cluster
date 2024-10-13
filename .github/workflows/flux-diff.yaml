@@ -84,7 +84,7 @@ jobs:
             #--path /github/workspace/pull/${{ matrix.paths }}/flux
             #--path-orig /github/workspace/default/${{ matrix.paths }}/flux
       - name: Diff Resources
-        uses: docker://ghcr.io/allenporter/flux-local:v5.3.1
+        uses: docker://ghcr.io/allenporter/flux-local:v6.0.0
         with:
           args: >-
             diff ${{ matrix.resources }}
