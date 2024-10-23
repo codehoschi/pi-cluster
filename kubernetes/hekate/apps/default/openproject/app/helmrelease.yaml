@@ -42,7 +42,7 @@ spec:
             dependsOn: init-db
             image: &image
               repository: docker.io/openproject/openproject
-              tag: 14-slim@sha256:938642d96579ed79b3c269dd39503c71700e924dffd1d420f88f9093dfef31a7
+              tag: 14-slim@sha256:0c1a825a6fd27496f12289cf2262ad6d2eba55d75adcc25a9f9017c67940ca4f
             envFrom: *envFrom
             command:
               - bin/rails
