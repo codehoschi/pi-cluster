@@ -49,7 +49,7 @@ data:
         - Truenas:
             href: http://${TRUENAS_IP}
             icon: unraid.png
-            description: Unraid NAS
+            description: Truenas NAS
     - Home:
         - Home-Assistant:
             href: {{HOMEPAGE_VAR_HASS_URL}}
