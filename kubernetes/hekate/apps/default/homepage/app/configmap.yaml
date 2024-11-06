@@ -82,6 +82,10 @@ data:
         style: row
         columns: 3
         icon: mdi-network
+      Infrastructure:
+        style: row
+        columns: 5
+        icon: mdi-server
       Games:
         style: row
         columns: 3
@@ -96,10 +100,6 @@ data:
         style: row
         columns: 2
         icon: mdi-book
-      Infrastructure:
-        style: row
-        columns: 5
-        icon: mdi-server
       Observability:
         style: row
         columns: 5
