@@ -39,7 +39,7 @@ data:
             description: Docker Container Management
             widget:
               type: portainer
-              url: {{HOMEPAGE_VAR_PORTAINER_URL}}:9090
+              url: {{HOMEPAGE_VAR_PORTAINER_API_URL}}
               env: 1
               key: {{HOMEPAGE_VAR_PORTAINER_TOKEN}}
         - Synology:
