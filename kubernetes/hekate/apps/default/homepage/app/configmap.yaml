@@ -40,7 +40,7 @@ data:
             widget:
               type: portainer
               url: {{HOMEPAGE_VAR_PORTAINER_API_URL}}
-              env: 1
+              env: 2
               key: {{HOMEPAGE_VAR_PORTAINER_TOKEN}}
         - Synology:
             href: http://${NAS_IP}
