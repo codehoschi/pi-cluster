@@ -1,0 +1,147 @@
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: homepage-config
+  labels:
+    app.kubernetes.io/name: homepage
+data:
+  bookmarks.yaml: |
+    - Git:
+      - Github:
+          - icon: github.png
+            href: 'https://github.com/codehoschi'
+      - Gitlab:
+          - icon: gitlab.png
+            href: {{HOMEPAGE_VAR_GITLAB_URL}}
+      - kubesearch:
+          - icon: kubernetes-dashboard.png
+            href: 'https://kubesearch.dev/'
+  docker.yaml: ""
+  kubernetes.yaml: |
+    mode: cluster
+  services.yaml: |
+    - Network:
+        - Omada:
+            href: https://omada-controller.${SECRET_DOMAIN}
+            icon: omada.png
+            description: Omada Controller
+            widget:
+              type: omada
+              url: https://omada-controller.${SECRET_DOMAIN}
+              username: {{HOMEPAGE_VAR_OMADA_USERNAME}}
+              password: {{HOMEPAGE_VAR_OMADA_PASSWORD}}
+              site: {{HOMEPAGE_VAR_OMADA_SITE}}
+    - Infrastructure:
+        - Portainer:
+            href: {{HOMEPAGE_VAR_PORTAINER_URL}}
+            icon: portainer.png
+            description: Docker Container Management
+            widget:
+              type: portainer
+              url: {{HOMEPAGE_VAR_PORTAINER_URL}}:9090
+              env: 1
+              key: {{HOMEPAGE_VAR_PORTAINER_TOKEN}}
+        - Synology:
+            href: http://${NAS_IP}
+            icon: synology.png
+            description: Synology NAS
+        - Truenas:
+            href: http://${TRUENAS_IP}
+            icon: unraid.png
+            description: Unraid NAS
+    - Home:
+        - Home-Assistant:
+            href: {{HOMEPAGE_VAR_HASS_URL}}
+            icon: home-assistant.png
+            description: Home Automation Software
+            widget:
+              type: homeassistant
+              url: {{HOMEPAGE_VAR_HASS_URL}}
+              key: {{HOMEPAGE_VAR_HASS_TOKEN}}
+  settings.yaml: |
+    title: Dashboard
+    favicon: https://github.com/walkxcode/dashboard-icons/blob/main/png/heimdall.png
+    useEqualHeights: true
+    theme: dark
+    background:
+      image: https://images.unsplash.com/photo-1652188820014-803f19447040?auto=format&fit=crop&w=2560&q=80
+      blur: sm
+      saturate: 50
+      brightness: 50
+      opacity: 50
+    color: neutral
+    headerStyle: clean
+    quicklaunch:
+      searchDescriptions: true
+      hideInternetSearch: true
+      showSearchSuggestions: true
+      hideVisitURL: true
+    layout:
+      Network:
+        style: row
+        columns: 3
+        icon: mdi-network
+      Games:
+        style: row
+        columns: 3
+        icon: mdi-minecraft
+      Calendar:
+        style: column
+        icon: mdi-calendar
+      Video:
+        style: column
+        icon: mdi-play-circle
+      Books:
+        style: row
+        columns: 2
+        icon: mdi-book
+      Infrastructure:
+        style: row
+        columns: 5
+        icon: mdi-server
+      Observability:
+        style: row
+        columns: 5
+        icon: mdi-chart-line
+      Home:
+        style: row
+        columns: 5
+        icon: mdi-home-analytics
+      Downloads:
+        style: row
+        columns: 3
+        icon: mdi-download-circle
+  widgets.yaml: |
+    - logo:
+        icon: https://raw.githubusercontent.com/joryirving/home-ops/main/docs/src/assets/icons/lds-transparent.png
+    - search:
+        provider: [duckduckgo, google]
+        focus: false
+        target: _blank
+    - greeting:
+        text_size: xl
+        text: "Howdy Hey!"
+    - kubernetes:
+        cluster:
+          cpu: true
+          memory: true
+          show: true
+          showLabel: true
+        nodes:
+          cpu: true
+          memory: true
+          show: false
+          showLabel: true
+    - openmeteo:
+        label: Home
+        latitude: {{HOMEPAGE_VAR_LATITUDE}}
+        longitude: {{HOMEPAGE_VAR_LONGITUDE}}
+        units: metric
+        cache: 5
+    - datetime:
+        text_size: l
+        format:
+          timeStyle: short
+          dateStyle: short
+          hourCycle: h23
