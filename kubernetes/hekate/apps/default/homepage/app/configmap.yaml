@@ -113,15 +113,10 @@ data:
         columns: 3
         icon: mdi-download-circle
   widgets.yaml: |
-    - logo:
-        icon: https://raw.githubusercontent.com/joryirving/home-ops/main/docs/src/assets/icons/lds-transparent.png
     - search:
         provider: [duckduckgo, google]
         focus: false
         target: _blank
-    - greeting:
-        text_size: xl
-        text: "Howdy Hey!"
     - kubernetes:
         cluster:
           cpu: true
