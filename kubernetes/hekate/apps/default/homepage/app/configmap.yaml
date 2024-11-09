@@ -82,6 +82,13 @@ data:
               type: homeassistant
               url: {{HOMEPAGE_VAR_HASS_URL}}
               key: {{HOMEPAGE_VAR_HASS_TOKEN}}
+    - Media:
+        - Jellyfin:
+            href: {{HOMEPAGE_VAR_JELLYFIN_URL}}
+            icon: jellyfin.png
+        - Plex:
+            href: {{HOMEPAGE_VAR_PLEX_URL}}
+            icon: plex.png
   settings.yaml: |
     title: Dashboard
     favicon: https://raw.githubusercontent.com/walkxcode/dashboard-icons/refs/heads/main/png/heimdall.png
