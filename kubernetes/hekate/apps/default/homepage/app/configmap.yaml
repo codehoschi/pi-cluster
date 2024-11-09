@@ -43,6 +43,16 @@ data:
               password: {{HOMEPAGE_VAR_OMADA_PASSWORD}}
               site: {{HOMEPAGE_VAR_OMADA_SITE}}
     - Infrastructure:
+        - Proxmox:
+            href: {{HOMEPAGE_VAR_PROXMOX_URL}}
+            icon: portainer.png
+            description: Docker Container Management
+            widget:
+            type: proxmox
+            url: {{HOMEPAGE_VAR_PROXMOX_URL}}
+            username:{{HOMEPAGE_VAR_PROXMOX_API_USER}}
+            password: {{HOMEPAGE_VAR_PROXMOX_API_TOKEN}}
+            node: pve # optional
         - Portainer:
             href: {{HOMEPAGE_VAR_PORTAINER_URL}}
             icon: portainer.png
