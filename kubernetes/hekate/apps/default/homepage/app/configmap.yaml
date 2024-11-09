@@ -7,6 +7,16 @@ metadata:
     app.kubernetes.io/name: homepage
 data:
   bookmarks.yaml: |
+    - Younited:
+      - Website:
+          - icon: nginx.png
+            href: {{HOMEPAGE_VAR_YOUNITED_URL}}
+      - Website-Dev:
+          - icon: nginx.png
+            href: {{HOMEPAGE_VAR_YOUNITED_DEV_URL}}
+      - Mail:
+          - icon: nginx.png
+            href: {{HOMEPAGE_VAR_YOUNITED_MAIL_URL}}
     - Git:
       - Github:
           - icon: github.png
