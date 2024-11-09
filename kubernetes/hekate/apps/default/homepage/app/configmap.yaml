@@ -11,11 +11,14 @@ data:
       - Website:
           - icon: nginx.png
             href: {{HOMEPAGE_VAR_YOUNITED_URL}}
+      - Analytics:
+          - icon: matomo.png
+            href: {{HOMEPAGE_VAR_YOUNITED_ANALYTICS_URL}}
       - WebsiteDev:
           - icon: nginx.png
             href: {{HOMEPAGE_VAR_YOUNITED_DEV_URL}}
       - Mail:
-          - icon: nginx.png
+          - icon: mailcow.png
             href: {{HOMEPAGE_VAR_YOUNITED_MAIL_URL}}
     - Git:
       - Github:
