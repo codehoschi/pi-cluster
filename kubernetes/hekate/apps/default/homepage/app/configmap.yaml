@@ -45,12 +45,12 @@ data:
     - Infrastructure:
         - Proxmox:
             href: {{HOMEPAGE_VAR_PROXMOX_URL}}
-            icon: portainer.png
+            icon: proxmox.png
             description: Docker Container Management
             widget:
               type: proxmox
               url: {{HOMEPAGE_VAR_PROXMOX_URL}}
-              username:{{HOMEPAGE_VAR_PROXMOX_API_USER}}
+              username: {{HOMEPAGE_VAR_PROXMOX_API_USER}}
               password: {{HOMEPAGE_VAR_PROXMOX_API_TOKEN}}
               node: pve # optional
         - Portainer:
