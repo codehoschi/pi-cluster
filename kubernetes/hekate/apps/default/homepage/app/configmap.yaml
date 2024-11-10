@@ -69,6 +69,11 @@ data:
             href: http://${NAS_IP}
             icon: synology.png
             description: Synology NAS
+            widget:
+              type: diskstation
+              url: http://${NAS_IP}
+              username: {{HOMEPAGE_VAR_SYNNAS_API_USER}}
+              password: {{HOMEPAGE_VAR_SYNNAS_API_USER_SECRET}}
         - Truenas:
             href: http://${TRUENAS_IP}
             icon: unraid.png
