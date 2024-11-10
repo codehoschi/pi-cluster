@@ -55,7 +55,7 @@ data:
               url: {{HOMEPAGE_VAR_PROXMOX_URL}}
               username: {{HOMEPAGE_VAR_PROXMOX_API_USER}}
               password: {{HOMEPAGE_VAR_PROXMOX_API_TOKEN}}
-              node: pve # optional
+              node: pve
         - Portainer:
             href: {{HOMEPAGE_VAR_PORTAINER_URL}}
             icon: portainer.png
@@ -73,6 +73,12 @@ data:
             href: http://${TRUENAS_IP}
             icon: unraid.png
             description: Truenas NAS
+            widget:
+              type: truenas
+              url: http://${TRUENAS_IP}
+              key: {{HOMEPAGE_VAR_TRUENAS_TOKEN}}
+              enablePools: true
+              nasType: scale
     - Home:
         - Home-Assistant:
             href: {{HOMEPAGE_VAR_HASS_URL}}
@@ -90,11 +96,11 @@ data:
               type: jellyfin
               url: {{HOMEPAGE_VAR_JELLYFIN_URL}}
               key: {{HOMEPAGE_VAR_JELLYFIN_TOKEN}}
-              enableBlocks: true # optional, defaults to false
-              enableNowPlaying: true # optional, defaults to true
-              enableUser: true # optional, defaults to false
-              showEpisodeNumber: true # optional, defaults to false
-              expandOneStreamToTwoRows: false # optional, defaults to true
+              enableBlocks: true
+              enableNowPlaying: true
+              enableUser: true
+              showEpisodeNumber: true
+              expandOneStreamToTwoRows: false
         - Plex:
             href: {{HOMEPAGE_VAR_PLEX_URL}}
             icon: plex.png
