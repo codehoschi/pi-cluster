@@ -67,7 +67,7 @@ data:
               key: {{HOMEPAGE_VAR_PORTAINER_TOKEN}}
         - Synology:
             href: http://${NAS_IP}
-            icon: synology.png
+            icon: synology-dsm.png
             description: Synology NAS
             widget:
               type: diskstation
