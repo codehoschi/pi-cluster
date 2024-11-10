@@ -71,7 +71,7 @@ data:
             description: Synology NAS
             widget:
               type: diskstation
-              url: http://${NAS_IP}
+              url: http://${NAS_IP}:5000
               username: {{HOMEPAGE_VAR_SYNNAS_API_USER}}
               password: {{HOMEPAGE_VAR_SYNNAS_API_USER_SECRET}}
         - Truenas:
