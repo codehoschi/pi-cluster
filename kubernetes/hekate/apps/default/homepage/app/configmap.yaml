@@ -69,12 +69,6 @@ data:
             href: http://${NAS_IP}
             icon: synology-dsm.png
             description: Synology NAS
-            widget:
-              type: diskstation
-              url: http://${NAS_IP}:5000
-              username: {{HOMEPAGE_VAR_SYNNAS_API_USER}}
-              password: {{HOMEPAGE_VAR_SYNNAS_API_USER_SECRET}}
-              volume: volume_1 # optional
         - Truenas:
             href: http://${TRUENAS_IP}
             icon: unraid.png
