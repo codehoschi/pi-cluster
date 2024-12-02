@@ -1,7 +1,6 @@
 ---
-- hosts:
-    - master
-    - worker
+- name: Cluster Installation
+  hosts: kubernates
   become: true
   gather_facts: true
   any_errors_fatal: true
@@ -22,11 +21,10 @@
       ansible.builtin.set_fact:
         k3s_server_manifests_templates: []
         k3s_server_manifests_urls: []
-    # - name: Set manifest facts
-    #   ansible.builtin.set_fact:
-    #     k3s_server_manifests_templates: []
-    #     k3s_server_manifests_urls: []
-    #   when: k3s_check_installed.stat.exists
+
+    - name: Prevent downgrades
+      when: k3s_installed.stat.exists
+      ansible.builtin.include_tasks: tasks/version-check.yaml
 
     - name: Install Kubernetes
       ansible.builtin.include_role:
@@ -37,6 +35,8 @@
 
     - name: Kubeconfig
       ansible.builtin.include_tasks: tasks/kubeconfig.yaml
+      vars:
+        repository_base: "{{ lookup('ansible.builtin.pipe', 'git rev-parse --show-toplevel') }}"
 
     - name: Wait for custom manifests to rollout
       when:
